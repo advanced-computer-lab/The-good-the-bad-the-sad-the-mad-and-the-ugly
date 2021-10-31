@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://airline-dev:J2IlNRDR42vMhY65@cluster0.zvcv3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+}
