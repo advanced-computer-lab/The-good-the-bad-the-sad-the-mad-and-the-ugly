@@ -1,12 +1,12 @@
 const express = require('express');
 const connectDB = require('./config/db');
-
 const app = express();
+const {port} = require('./config/config');
+
 
 // Connect Database
-connectDB();
+connectDB().then(() => console.log('Connected to MongoDB'));
 
 app.get('/', (req, res) => res.send('Hello world!'));
-const port = process.env.PORT || 8082;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
