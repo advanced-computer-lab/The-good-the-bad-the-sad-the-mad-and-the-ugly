@@ -8,16 +8,16 @@ class CreateFlight extends Component {
     constructor() {
         super();
         this.state = {
-            FlightNumber: '',
-            DepartureAirport: '',
-            ArrivalAirport: '',
-            Departure: '',
-            Arrival: '',
-            To: '',
-            From: '',
-            Economy: '',
-            Business: '',
-            First: ''
+            flightNumber: '',
+            departureAirport: '',
+            arrivalAirport: '',
+            departure: '',
+            arrival: '',
+            to: '',
+            from: '',
+            economy: '',
+            business: '',
+            first: ''
         };
     }
 
@@ -26,21 +26,20 @@ class CreateFlight extends Component {
     };
 
     onSubmit = e => {
-        console.log("hello");
         e.preventDefault();
 
         const data = {
-            FlightNumber: this.state.FlightNumber,
-            DepartureAirport: this.state.DepartureAirport,
-            ArrivalAirport: this.state.ArrivalAirport,
-            Departure: this.state.Departure,
-            Arrival: this.state.Arrival,
-            To: this.state.To,
-            From: this.state.From,
-            AvailableSeats: {
-                Economy: this.state.Economy,
-                Business: this.state.Business,
-                First: this.state.First
+            flightNumber: this.state.flightNumber,
+            departureAirport: this.state.departureAirport,
+            arrivalAirport: this.state.arrivalAirport,
+            departure: this.state.departure,
+            arrival: this.state.arrival,
+            to: this.state.to,
+            from: this.state.from,
+            availableSeats: {
+                economy: this.state.economy,
+                business: this.state.business,
+                first: this.state.first
             }
         };
         console.log(data);
@@ -48,16 +47,16 @@ class CreateFlight extends Component {
             .post('http://localhost:8000/flight/', data)
             .then(res => {
                 this.setState({
-                    FlightNumber: '',
-                    DepartureAirport: '',
-                    ArrivalAirport: '',
-                    Departure: '',
-                    Arrival: '',
-                    To: '',
-                    From: '',
-                    Economy: '',
-                    Business: '',
-                    First: ''
+                    flightNumber: '',
+                    departureAirport: '',
+                    arrivalAirport: '',
+                    departure: '',
+                    arrival: '',
+                    to: '',
+                    from: '',
+                    economy: '',
+                    business: '',
+                    first: ''
                 })
                 this.props.history.push('/');
             })
@@ -100,9 +99,9 @@ class CreateFlight extends Component {
                                                 <input
                                                     type='text'
                                                     placeholder='Number of the flight'
-                                                    name='FlightNumber'
+                                                    name='flightNumber'
                                                     className='form-control'
-                                                    value={this.state.FlightNumber}
+                                                    value={this.state.flightNumber}
                                                     onChange={this.onChange}
                                                 />
                                             </div>
@@ -114,9 +113,9 @@ class CreateFlight extends Component {
                                                     <input
                                                         type='text'
                                                         placeholder='City'
-                                                        name='From'
+                                                        name='from'
                                                         className='form-control'
-                                                        value={this.state.From}
+                                                        value={this.state.from}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
@@ -127,9 +126,9 @@ class CreateFlight extends Component {
                                                     <input
                                                         type='text'
                                                         placeholder='City'
-                                                        name='To'
+                                                        name='to'
                                                         className='form-control'
-                                                        value={this.state.To}
+                                                        value={this.state.to}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
@@ -142,9 +141,9 @@ class CreateFlight extends Component {
                                                     <input
                                                         type='text'
                                                         placeholder='Departure Airport'
-                                                        name='DepartureAirport'
+                                                        name='departureAirport'
                                                         className='form-control'
-                                                        value={this.state.DepartureAirport}
+                                                        value={this.state.departureAirport}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
@@ -155,9 +154,9 @@ class CreateFlight extends Component {
                                                     <input
                                                         type='text'
                                                         placeholder='Arrival Airport'
-                                                        name='ArrivalAirport'
+                                                        name='arrivalAirport'
                                                         className='form-control'
-                                                        value={this.state.ArrivalAirport}
+                                                        value={this.state.arrivalAirport}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
@@ -170,9 +169,9 @@ class CreateFlight extends Component {
                                                 <input
                                                     type='datetime-local'
                                                     placeholder='Departure Date'
-                                                    name='Departure'
+                                                    name='departure'
                                                     className='form-control'
-                                                    value={this.state.Departure}
+                                                    value={this.state.departure}
                                                     onChange={this.onChange}
                                                 />
                                             </div>
@@ -185,9 +184,9 @@ class CreateFlight extends Component {
                                                 <input
                                                     type='datetime-local'
                                                     placeholder='Arrival time'
-                                                    name='Arrival'
+                                                    name='arrival'
                                                     className='form-control'
-                                                    value={this.state.Arrival}
+                                                    value={this.state.arrival}
                                                     onChange={this.onChange}
                                                 />
                                             </div>
@@ -200,9 +199,9 @@ class CreateFlight extends Component {
                                                         <input
                                                             type='number'
                                                             placeholder='Economy Seats'
-                                                            name='Economy'
+                                                            name='economy'
                                                             className='form-control'
-                                                            value={this.state.Economy}
+                                                            value={this.state.economy}
                                                             onChange={this.onChange}
                                                             id="eco"
                                                         />
@@ -217,9 +216,9 @@ class CreateFlight extends Component {
                                                         <input
                                                             type='number'
                                                             placeholder='Business Seats'
-                                                            name='Business'
+                                                            name='business'
                                                             className='form-control'
-                                                            value={this.state.Business}
+                                                            value={this.state.business}
                                                             onChange={this.onChange}
                                                         />
 
@@ -233,9 +232,9 @@ class CreateFlight extends Component {
                                                         <input
                                                             type='number'
                                                             placeholder='First Class Seats'
-                                                            name='First'
+                                                            name='first'
                                                             className='form-control'
-                                                            value={this.state.First}
+                                                            value={this.state.first}
                                                             onChange={this.onChange}
                                                         />
 
