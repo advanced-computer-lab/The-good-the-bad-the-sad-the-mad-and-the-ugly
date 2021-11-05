@@ -13,6 +13,7 @@
     "mongoose": "^6.0.12"
   },
   "devDependencies": {
-    "config": "^3.3.6"
+    "config": "^3.3.6",
+    "cors": "^2.8.5"
   }
 }
