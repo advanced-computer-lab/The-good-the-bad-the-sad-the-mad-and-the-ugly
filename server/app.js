@@ -3,7 +3,6 @@ const connectDB = require('./config/db');
 const app = express();
 const {port} = require('./config/config');
 
-const connectDB = require('./config/db');
 const cors = require('cors');
 
 
@@ -12,7 +11,7 @@ const cors = require('cors');
 const flightRouter = require('./routes/flightController')
 
 // Connect Database
-connectDB().then(() => console.log('Connected to MongoDB'));
+connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
 
 // giving the frontend the permission to access the back-end server
 app.use(cors());

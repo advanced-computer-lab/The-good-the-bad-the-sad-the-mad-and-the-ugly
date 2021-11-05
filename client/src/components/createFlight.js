@@ -8,13 +8,16 @@ class CreateFlight extends Component {
     constructor() {
         super();
         this.state = {
-            flightNumber: '',
-            departure: '',
-            arrival: '',
-            date: '',
-            economySeats: '',
-            businessSeats: '',
-            airport: ''
+            FlightNumber: '',
+            DepartureAirport: '',
+            ArrivalAirport: '',
+            Departure: '',
+            Arrival: '',
+            To: '',
+            From: '',
+            Economy: '',
+            Business: '',
+            First: ''
         };
     }
 
@@ -27,26 +30,34 @@ class CreateFlight extends Component {
         e.preventDefault();
 
         const data = {
-            flightNumber: this.state.flightNumber,
-            departure: this.state.departure,
-            arrival: this.state.arrival,
-            date: this.state.departure,
-            economySeats: this.state.economySeats,
-            businessSeats: this.state.businessSeats,
-            airport: this.state.airport
+            FlightNumber: this.state.FlightNumber,
+            DepartureAirport: this.state.DepartureAirport,
+            ArrivalAirport: this.state.ArrivalAirport,
+            Departure: this.state.Departure,
+            Arrival: this.state.Arrival,
+            To: this.state.To,
+            From: this.state.From,
+            AvailableSeats: {
+                Economy: this.state.Economy,
+                Business: this.state.Business,
+                First: this.state.First
+            }
         };
         console.log(data);
         axios
-            .post('http://localhost:8082/flight/', data)
+            .post('http://localhost:8000/flight/', data)
             .then(res => {
                 this.setState({
-                    flightNumber: '',
-                    departure: '',
-                    arrival: '',
-                    date: '',
-                    economySeats: '',
-                    businessSeats: '',
-                    airport: ''
+                    FlightNumber: '',
+                    DepartureAirport: '',
+                    ArrivalAirport: '',
+                    Departure: '',
+                    Arrival: '',
+                    To: '',
+                    From: '',
+                    Economy: '',
+                    Business: '',
+                    First: ''
                 })
                 this.props.history.push('/');
             })
@@ -80,32 +91,73 @@ class CreateFlight extends Component {
                                 <div className="card">
                                     <div className="card-header">
                                         <strong>Flight</strong>
-                                        <small>  enter valid information</small>
+                                        <small> enter valid information</small>
                                     </div>
                                     <div className="card-body">
+                                        <div className="form-group row">
+                                            <label className="col-3 col-form-label">Flight Number</label>
+                                            <div className="col-9">
+                                                <input
+                                                    type='text'
+                                                    placeholder='Number of the flight'
+                                                    name='FlightNumber'
+                                                    className='form-control'
+                                                    value={this.state.FlightNumber}
+                                                    onChange={this.onChange}
+                                                />
+                                            </div>
+                                        </div>
                                         <div className="row">
                                             <div className="col-sm-6">
                                                 <div className="form-group">
-                                                    <label>Flight number</label>
+                                                    <label>From</label>
                                                     <input
-                                                        type='number'
-                                                        placeholder='Number of the flight'
-                                                        name='flightNumber'
+                                                        type='text'
+                                                        placeholder='City'
+                                                        name='From'
                                                         className='form-control'
-                                                        value={this.state.flightNumber}
+                                                        value={this.state.From}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
                                             </div>
                                             <div className="col-sm-6">
                                                 <div className="form-group">
-                                                    <label>Airport</label>
+                                                    <label>To</label>
+                                                    <input
+                                                        type='text'
+                                                        placeholder='City'
+                                                        name='To'
+                                                        className='form-control'
+                                                        value={this.state.To}
+                                                        onChange={this.onChange}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-sm-6">
+                                                <div className="form-group">
+                                                    <label>Departure Airport</label>
                                                     <input
                                                         type='text'
                                                         placeholder='Departure Airport'
-                                                        name='airport'
+                                                        name='DepartureAirport'
                                                         className='form-control'
-                                                        value={this.state.airport}
+                                                        value={this.state.DepartureAirport}
+                                                        onChange={this.onChange}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-6">
+                                                <div className="form-group">
+                                                    <label>Arrival Airport</label>
+                                                    <input
+                                                        type='text'
+                                                        placeholder='Arrival Airport'
+                                                        name='ArrivalAirport'
+                                                        className='form-control'
+                                                        value={this.state.ArrivalAirport}
                                                         onChange={this.onChange}
                                                     />
                                                 </div>
@@ -117,10 +169,10 @@ class CreateFlight extends Component {
                                             <div className="col-10">
                                                 <input
                                                     type='datetime-local'
-                                                    placeholder='Departure time'
-                                                    name='departure'
+                                                    placeholder='Departure Date'
+                                                    name='Departure'
                                                     className='form-control'
-                                                    value={this.state.departure}
+                                                    value={this.state.Departure}
                                                     onChange={this.onChange}
                                                 />
                                             </div>
@@ -133,24 +185,24 @@ class CreateFlight extends Component {
                                                 <input
                                                     type='datetime-local'
                                                     placeholder='Arrival time'
-                                                    name='arrival'
+                                                    name='Arrival'
                                                     className='form-control'
-                                                    value={this.state.arrival}
+                                                    value={this.state.Arrival}
                                                     onChange={this.onChange}
                                                 />
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-sm-6">
+                                            <div className="col-sm-4">
                                                 <div className="form-group">
-                                                    <label htmlFor="eco">Economy seats</label>
+                                                    <label htmlFor="eco">Economy</label>
                                                     <div className="input-group">
                                                         <input
                                                             type='number'
-                                                            placeholder='Number of Economy seats'
-                                                            name='economySeats'
+                                                            placeholder='Economy Seats'
+                                                            name='Economy'
                                                             className='form-control'
-                                                            value={this.state.economySeats}
+                                                            value={this.state.Economy}
                                                             onChange={this.onChange}
                                                             id="eco"
                                                         />
@@ -158,16 +210,32 @@ class CreateFlight extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="col-sm-6">
+                                            <div className="col-sm-4">
                                                 <div className="form-group">
-                                                    <label>Business seats</label>
+                                                    <label>Business</label>
                                                     <div className="input-group">
                                                         <input
                                                             type='number'
-                                                            placeholder='Number of Business seats'
-                                                            name='businessSeats'
+                                                            placeholder='Business Seats'
+                                                            name='Business'
                                                             className='form-control'
-                                                            value={this.state.businessSeats}
+                                                            value={this.state.Business}
+                                                            onChange={this.onChange}
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-4">
+                                                <div className="form-group">
+                                                    <label>First Class</label>
+                                                    <div className="input-group">
+                                                        <input
+                                                            type='number'
+                                                            placeholder='First Class Seats'
+                                                            name='First'
+                                                            className='form-control'
+                                                            value={this.state.First}
                                                             onChange={this.onChange}
                                                         />
 

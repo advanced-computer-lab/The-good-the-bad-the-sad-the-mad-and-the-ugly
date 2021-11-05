@@ -6,6 +6,14 @@ const FlightSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        DepartureAirport:{
+            type: String,
+            required: true
+        },
+        ArrivalAirport:{
+            type: String,
+            required: true
+        },
         From: {
             type: String,
             required: true
