@@ -26,24 +26,4 @@ loginRouter.post('/', (req, res,next) => {
 });
 
 
-// , passport.authenticate('local',
-//     {
-//         // failureRedirect: '/login',
-//         // msg:'Invalid username or password'
-//     }), (req, res) => {
-//     const userTobeLoggedIn = {username: req.body.username};
-//
-//     User.findOne(userTobeLoggedIn)
-//         .then(user => {
-//             if (user.isAdmin) {
-//                 res.json({success:true, direct:'/adminHomePage'});
-//             } else {
-//                 res.json({success:true, direct: '/homepage'});
-//             }
-//         }).catch(err => {
-//
-//     });
-//
-// }
-
 module.exports = loginRouter;
