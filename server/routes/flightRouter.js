@@ -9,11 +9,10 @@ flightRouter.use(express.urlencoded({extended: true}));
 //
 
 
-
-
 // @route GET /flight
 // @description add/save flight
 // @access Public
+
 flightRouter.post('/', (req, res) => {
     Flight.create(req.body)
         .then(flight => res.json({ msg: 'Flight added successfully' }))
