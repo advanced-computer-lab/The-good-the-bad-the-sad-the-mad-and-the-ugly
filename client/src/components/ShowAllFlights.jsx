@@ -27,25 +27,23 @@ class ShowAllFlights extends Component {
 
     render() {
         const flights = this.state.flights;
-        console.log("Flights: " + flights);
-    let flightList;
+        let flightList;
 
-    if(!flights) {
-      flightList = "there is no flight record!";
-    } else {
-      flightList = flights.map((flight, k) =>
-        <Flight flight={flight} idx={k} key={k} />
-      );
-    }
+        if (!flights) {
+            flightList = "there is no flight record!";
+        } else {
+            flightList = flights.map((flight, k) =>
+                <Flight flight={flight} idx={k} key={k} />
+            );
+        }
 
         return (
             <div>
-                        <table className="table table-hover">
-
-                <FlightHeading />
-                <tbody>
-                {flightList}
-                </tbody>
+                <table className="table table-hover">
+                    <FlightHeading />
+                    <tbody>
+                        {flightList}
+                    </tbody>
                 </table>
 
             </div>
