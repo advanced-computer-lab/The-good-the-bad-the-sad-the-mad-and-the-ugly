@@ -7,7 +7,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const flash = require('connect-flash')
+
 
 // Routes
 const flightRouter = require('./routes/flightRouter')
@@ -43,7 +43,7 @@ connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => conso
 
 // giving the frontend the permission to access the back-end server
 app.use(cors());
-app.use(flash());
+
 
 // defining Routes parent
 app.get('/', (req, res) => res.send('Hello world!'));

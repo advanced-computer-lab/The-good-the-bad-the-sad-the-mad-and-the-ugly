@@ -18,9 +18,10 @@ loginRouter.post('/', (req, res,next) => {
         }
         if(user.isAdmin)
         {
-            return res.json({sucess:true, redirect:'/adminHomePage'});
-        }else{
-            return res.json({sucess:true, redirect:'/homePage'});
+            return res.json({success:true, redirect:'/adminHomePage'});
+        }
+        else{
+            return res.json({success:true, redirect:'/homePage'});
         }
     })(req, res, next);
 });
