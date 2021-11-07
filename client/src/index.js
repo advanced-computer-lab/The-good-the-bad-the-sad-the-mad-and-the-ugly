@@ -14,7 +14,7 @@ ReactDOM.render(
               <Route path='/' element={<App/>}>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
-                  <Route path='showAllFlights' element={<ShowAllFlights/>}/>
+                  <Route path='' element={<ShowAllFlights/>}/>
                   <Route path='showFlights' element={<ShowFlights/>}/>
               </Route>
 
