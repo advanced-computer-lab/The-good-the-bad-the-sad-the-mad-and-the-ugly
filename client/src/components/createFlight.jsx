@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../App.css';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -39,7 +38,8 @@ class CreateFlight extends Component {
             economy: '',
             business: '',
             first: '',
-            arrivalErr: ''
+            arrivalErr: '',
+            negativeErr: ''
         };
     }
 
@@ -54,7 +54,15 @@ class CreateFlight extends Component {
         e.preventDefault();
         if (this.state.arrival <= this.state.departure){
             this.setState({
-                arrivalErr: "Arrival date must be after the departure date!"
+                arrivalErr: "Arrival date must be after the departure date!",
+                negativeErr: ''
+            });
+            return;
+        }
+        if (this.state.economy < 0 || this.state.first < 0 || this.state.business < 0){
+            this.setState({
+                negativeErr: "The number of seats can not be negative!",
+                arrivalErr: ''
             });
             return;
         }
@@ -88,7 +96,8 @@ class CreateFlight extends Component {
                     economy: '',
                     business: '',
                     first: '',
-                    arrivalErr:''
+                    arrivalErr:'',
+                    negativeErr: ''
                 })
                 this.props.history.push('/');
             })
@@ -175,8 +184,9 @@ class CreateFlight extends Component {
                                                 required
                                                 value={parseISO(this.state.departure)}
                                                 onChange={date => {
+                                                    console.log(date);
                                                     this.setState({
-                                                        "departure": formatISO(date)
+                                                        "departure": date !== null?formatISO(date):formatISO(Date.now())
                                                     });
                                                 }
                                                 }
@@ -196,7 +206,7 @@ class CreateFlight extends Component {
                                                 value={parseISO(this.state.arrival)}
                                                 onChange={date => {
                                                     this.setState({
-                                                        "arrival": formatISO(date)
+                                                        "arrival": date !== null?formatISO(date):formatISO(Date.now())
                                                     });
                                                 }
                                                 }
@@ -242,7 +252,9 @@ class CreateFlight extends Component {
                                             />
                                         </Grid>
 
-
+                                        <Grid item xs={12} sm={12}>
+                                            {this.state.negativeErr}
+                                        </Grid>
                                     </Grid>
                                 </LocalizationProvider>
 
