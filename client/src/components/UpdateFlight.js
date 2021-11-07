@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Grid, CardHeader, Card, TextField, Button} from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {DateTimePicker, MobileDateTimePicker} from "@mui/lab";
+import {MobileDateTimePicker} from "@mui/lab";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import parseISO from 'date-fns/parseISO'
