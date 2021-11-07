@@ -26,7 +26,7 @@ export default class Modal extends Component {
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                             <button onClick={(e)=>{
                                 this.props.deleteFunc(e)
-                            }} type="button"data-bs-toggle="modal" data-bs-target={"#a"+this.props.flightId} className="btn btn-outline-danger" name={this.props.flightId}>delete</button>
+                            }} type="button" data-bs-toggle="modal" data-bs-target={"#a"+this.props.flightId} className="btn btn-outline-danger" name={this.props.flightId}>delete</button>
                         </div>
                     </div>
                 </div>

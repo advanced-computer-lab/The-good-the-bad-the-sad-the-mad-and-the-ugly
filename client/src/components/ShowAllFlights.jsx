@@ -15,7 +15,7 @@ class ShowAllFlights extends Component {
 
     componentDidMount() {
         axios
-            .get('http://localhost:8082/flight/showAllFlights')
+            .get('http://localhost:8000/flight/showAllFlights')
             .then(res => {
                 this.setState({
                     flights: res.data
@@ -28,7 +28,7 @@ class ShowAllFlights extends Component {
 
     deleteFlight(event) {
         axios
-            .delete('http://localhost:8082/flight/delete/' + event.target.name)
+            .delete('http://localhost:8000/flight/delete/' + event.target.name)
             .then(res => {
                 let flightRemoved = res.data;
                 let newFlights = [];
