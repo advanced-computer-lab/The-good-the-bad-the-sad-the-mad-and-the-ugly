@@ -81,7 +81,7 @@ class CreateFlight extends Component {
                     {/*    Create new flight*/}
                     {/*</p>*/}
 
-                    <form noValidate onSubmit={this.onSubmit}>
+                    <form noValidate onSubmit={this.onSubmit} >
                         <div className="row">
                             <div className="col-2"></div>
 

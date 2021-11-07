@@ -1,23 +1,50 @@
-import React from 'react'
-import Modal from "./Modal";
+import React, {useState} from 'react'
+import {TableCell, TableRow, Button, tableCellClasses} from "@mui/material";
+import DeleteModal from "./DeleteModal";
+import { styled } from '@mui/material/styles';
+
 function Flight(props) {
    const flight = props.flight;
+   const [modalOpen, setModalOpen] = useState(false);
+   const handleOpen = () => setModalOpen(true);
+   const handleClose = () => setModalOpen(false);
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+        },
+    }));
+
+
     return (
-               <tr>
+               <StyledTableRow>
                    {/* <td scope="row">{flight.idx}</td> */}
-                   <td>{flight.flightNumber}</td>
-                   <td>{flight.departureAirport}</td>
-                   <td>{flight.arrivalAirport}</td>
-                   <td>{flight.from}</td>
-                   <td>{flight.to}</td>
-                   <td>{flight.departure}</td>
-                   <td>{flight.arrival}</td>
-                   <td>{flight.availableSeats.business}</td>
-                   <td>{flight.availableSeats.first}</td>
-                   <td>{flight.availableSeats.economy}</td>
-                   <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target={"#a"+flight._id}>delete</button>
-                   <Modal flightId={flight._id} deleteFunc={props.deleteFunction} flightNumber={flight.flightNumber}/>
-               </tr>
+                   <StyledTableCell>{flight.flightNumber}</StyledTableCell>
+                   <StyledTableCell>{flight.departureAirport}</StyledTableCell>
+                   <StyledTableCell>{flight.arrivalAirport}</StyledTableCell>
+                   <StyledTableCell>{flight.from}</StyledTableCell>
+                   <StyledTableCell>{flight.to}</StyledTableCell>
+                   <StyledTableCell>{flight.departure}</StyledTableCell>
+                   <StyledTableCell>{flight.arrival}</StyledTableCell>
+                   <StyledTableCell>{flight.availableSeats.business}</StyledTableCell>
+                   <StyledTableCell>{flight.availableSeats.first}</StyledTableCell>
+                   <StyledTableCell>{flight.availableSeats.economy}</StyledTableCell>
+                   <StyledTableCell><Button color={"error"} onClick={handleOpen}>delete</Button></StyledTableCell>
+                   <DeleteModal flightId={flight._id} deleteFunc={props.deleteFunction} flightNumber={flight.flightNumber} modalOpen={modalOpen} handleClose={handleClose}/>
+               </StyledTableRow>
 
     )
 }

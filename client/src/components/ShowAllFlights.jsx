@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import FlightHeading from './FlightHeading'
 import Flight from './Flight'
-import Modal from "./Modal";
+import DeleteModal from "./DeleteModal";
+import {Paper, Table, TableBody, TableContainer} from "@mui/material";
 
 class ShowAllFlights extends Component {
     constructor(props) {
@@ -56,14 +57,14 @@ class ShowAllFlights extends Component {
 
         return (
             <div>
-                <table className="table table-hover">
+                <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 650 }} className="table table-hover">
                     <FlightHeading/>
-                    <tbody>
+                    <TableBody>
                     {flightList}
-                    </tbody>
-                </table>
-
-
+                    </TableBody>
+                </Table>
+                </TableContainer>
             </div>
         );
     }

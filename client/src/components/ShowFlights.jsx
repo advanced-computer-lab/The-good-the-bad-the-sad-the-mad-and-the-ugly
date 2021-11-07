@@ -54,7 +54,7 @@ class ShowFlights extends Component {
 
 
         axios
-            .post('http://localhost:8082/flight/showFlights', data)
+            .post('http://localhost:8000/flight/showFlights', data)
             .then(res => {
                 this.setState({
                     flightNumber: '',
