@@ -98,6 +98,10 @@ router.post('/showFlights', (req, res) => {
 
 });
 
-
+router.delete('/delete/:id', (req, res) => {
+    Flight.findByIdAndRemove(req.params.id)
+        .then(flight => res.json(flight))
+        .catch(err => res.status(404).json({ error: 'No such flight' }));
+});
 
 module.exports = router;
