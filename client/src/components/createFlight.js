@@ -1,7 +1,29 @@
 import React, {Component} from 'react';
 import '../App.css';
 import axios from 'axios';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppBar from '@mui/material/AppBar';
+import Container from '@mui/material/Container';
+import Toolbar from '@mui/material/Toolbar';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import parseISO from "date-fns/parseISO";
+import formatISO from "date-fns/formatISO";
+import {LocalizationProvider, MobileDateTimePicker} from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import {FieldFeedback, FieldFeedbacks} from "react-form-with-constraints";
 
+
+const theme = createTheme();
 
 class CreateFlight extends Component {
     constructor() {
@@ -16,16 +38,26 @@ class CreateFlight extends Component {
             from: '',
             economy: '',
             business: '',
-            first: ''
+            first: '',
+            arrivalErr: ''
         };
     }
 
     onChange = e => {
+        if (e.target.name === "departure" || e.target.name === "arrival")
+            e.target.value = formatISO(e.target.value);
         this.setState({[e.target.name]: e.target.value});
     };
 
+
     onSubmit = e => {
         e.preventDefault();
+        if (this.state.arrival <= this.state.departure){
+            this.setState({
+                arrivalErr: "Arrival date must be after the departure date!"
+            });
+            return;
+        }
 
         const data = {
             flightNumber: this.state.flightNumber,
@@ -41,7 +73,7 @@ class CreateFlight extends Component {
                 first: this.state.first
             }
         };
-        console.log(data);
+
         axios
             .post('http://localhost:8000/flight/', data)
             .then(res => {
@@ -55,7 +87,8 @@ class CreateFlight extends Component {
                     from: '',
                     economy: '',
                     business: '',
-                    first: ''
+                    first: '',
+                    arrivalErr:''
                 })
                 this.props.history.push('/');
             })
@@ -66,200 +99,172 @@ class CreateFlight extends Component {
 
     render() {
         return (
-            <div className="jumbotron jumbotron-fluid">
-                <div className="container">
-                    {/*<div className="row">*/}
-                    {/*    <div className="col-md-8 m-auto">*/}
-                    {/*        <br />*/}
-                    {/*        /!*<Link to="/" className="btn btn-outline-warning float-left">*!/*/}
-                    {/*        /!*    Show flight List*!/*/}
-                    {/*        /!*</Link>*!/*/}
-                    {/*    </div>*/}
-                    {/*    <div className="col-md-8 m-auto">*/}
-                    <h1 className="display-4 text-center">Add Flight</h1>
-                    {/*<p className="lead text-center">*/}
-                    {/*    Create new flight*/}
-                    {/*</p>*/}
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <AppBar
+                    position="absolute"
+                    color="default"
+                    elevation={0}
+                    sx={{
+                        position: 'relative',
+                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                    }}
+                >
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit" noWrap>
+                            Airline System
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Container component="main" maxWidth="sm" sx={{mb: 4}}>
+                    <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
+                        <Typography component="h1" variant="h4" align="center">
+                            Create Flight
+                        </Typography>
+                        <React.Fragment>
+                            <form onSubmit={this.onSubmit}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-                    <form noValidate onSubmit={this.onSubmit} >
-                        <div className="row">
-                            <div className="col-2"></div>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} sm={12}>
 
-                            <div className="col-8">
-                                <div className="card">
-                                    <div className="card-header">
-                                        <strong>Flight</strong>
-                                        <small> enter valid information</small>
-                                    </div>
-                                    <div className="card-body">
-                                        <div className="form-group row">
-                                            <label className="col-3 col-form-label">Flight Number</label>
-                                            <div className="col-9">
-                                                <input
-                                                    type='text'
-                                                    placeholder='Number of the flight'
-                                                    name='flightNumber'
-                                                    className='form-control'
-                                                    value={this.state.flightNumber}
-                                                    onChange={this.onChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <label>From</label>
-                                                    <input
-                                                        type='text'
-                                                        placeholder='City'
-                                                        name='from'
-                                                        className='form-control'
-                                                        value={this.state.from}
-                                                        onChange={this.onChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <label>To</label>
-                                                    <input
-                                                        type='text'
-                                                        placeholder='City'
-                                                        name='to'
-                                                        className='form-control'
-                                                        value={this.state.to}
-                                                        onChange={this.onChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <label>Departure Airport</label>
-                                                    <input
-                                                        type='text'
-                                                        placeholder='Departure Airport'
-                                                        name='departureAirport'
-                                                        className='form-control'
-                                                        value={this.state.departureAirport}
-                                                        onChange={this.onChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-6">
-                                                <div className="form-group">
-                                                    <label>Arrival Airport</label>
-                                                    <input
-                                                        type='text'
-                                                        placeholder='Arrival Airport'
-                                                        name='arrivalAirport'
-                                                        className='form-control'
-                                                        value={this.state.arrivalAirport}
-                                                        onChange={this.onChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
+                                            <TextField
+                                                required
+                                                variant="standard" fullWidth label="Flight Number"
+                                                value={this.state.flightNumber}
+                                                onChange={this.onChange} name="flightNumber"/>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                required
+                                                fullWidth label="From" value={this.state.from}
+                                                onChange={this.onChange}
+                                                name="from"
+                                                variant="standard"
+                                            />
 
-                                        <div className="form-group row">
-                                            <label className="col-2 col-form-label">Departure</label>
-                                            <div className="col-10">
-                                                <input
-                                                    type='datetime-local'
-                                                    placeholder='Departure Date'
-                                                    name='departure'
-                                                    className='form-control'
-                                                    value={this.state.departure}
-                                                    onChange={this.onChange}
-                                                />
-                                            </div>
-                                        </div>
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField required fullWidth label="To" value={this.state.to}
+                                                       onChange={this.onChange}
+                                                       name="to"
+                                                       variant="standard"
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField required fullWidth label="Departure Airport"
+                                                       value={this.state.departureAirport}
+                                                       onChange={this.onChange}
+                                                       name="departureAirport"
+                                                       variant="standard"
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField required fullWidth label="Arrival Airport"
+                                                       value={this.state.arrivalAirport}
+                                                       onChange={this.onChange}
+                                                       name="arrivalAirport"
+                                                       variant="standard"
+                                            />
+
+                                        </Grid>
+                                        <Grid item xs={12} sm={12}>
+                                            <MobileDateTimePicker
+                                                required
+                                                value={parseISO(this.state.departure)}
+                                                onChange={date => {
+                                                    this.setState({
+                                                        "departure": formatISO(date)
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
+                                                               fullWidth
+                                                               name="departure"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Departure Date"
+                                                variant="standard"/>
+                                        </Grid>
+                                        <Grid item xs={12} sm={12}>
+                                            <MobileDateTimePicker
+                                                required
+                                                value={parseISO(this.state.arrival)}
+                                                onChange={date => {
+                                                    this.setState({
+                                                        "arrival": formatISO(date)
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
+                                                               fullWidth
+                                                               name="arrival"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Arrival Date"
+                                                variant="standard"/>
+                                        </Grid>
+                                        <Grid item xs={12} sm={12}>
+                                            {this.state.arrivalErr}
+                                        </Grid>
+
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField required
+                                                       fullWidth label="Economy" value={this.state.economy}
+                                                       onChange={this.onChange}
+                                                       name="economy"
+                                                       variant="standard"
+                                                       type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField required
+                                                       fullWidth label="Business" value={this.state.business}
+                                                       onChange={this.onChange}
+                                                       name="business"
+                                                       variant="standard"
+                                                       type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField required
+                                                       fullWidth label="First Class" value={this.state.first}
+                                                       onChange={this.onChange}
+                                                       name="first"
+                                                       variant="standard"
+                                                       type="number"
+                                            />
+                                        </Grid>
 
 
-                                        <div className="form-group row">
-                                            <label className="col-2 col-form-label">Arrival</label>
-                                            <div className="col-10">
-                                                <input
-                                                    type='datetime-local'
-                                                    placeholder='Arrival time'
-                                                    name='arrival'
-                                                    className='form-control'
-                                                    value={this.state.arrival}
-                                                    onChange={this.onChange}
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-sm-4">
-                                                <div className="form-group">
-                                                    <label htmlFor="eco">Economy</label>
-                                                    <div className="input-group">
-                                                        <input
-                                                            type='number'
-                                                            placeholder='Economy Seats'
-                                                            name='economy'
-                                                            className='form-control'
-                                                            value={this.state.economy}
-                                                            onChange={this.onChange}
-                                                            id="eco"
-                                                        />
+                                    </Grid>
+                                </LocalizationProvider>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-4">
-                                                <div className="form-group">
-                                                    <label>Business</label>
-                                                    <div className="input-group">
-                                                        <input
-                                                            type='number'
-                                                            placeholder='Business Seats'
-                                                            name='business'
-                                                            className='form-control'
-                                                            value={this.state.business}
-                                                            onChange={this.onChange}
-                                                        />
+                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-sm-4">
-                                                <div className="form-group">
-                                                    <label>First Class</label>
-                                                    <div className="input-group">
-                                                        <input
-                                                            type='number'
-                                                            placeholder='First Class Seats'
-                                                            name='first'
-                                                            className='form-control'
-                                                            value={this.state.first}
-                                                            onChange={this.onChange}
-                                                        />
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{mt: 3, ml: 1}}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Box>
+                            </form>
+                        </React.Fragment>
+                    </Paper>
+                </Container>
+            </ThemeProvider>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="card-footer">
-                                        <button type="submit"
-                                                className="btn btn-sm btn-success float-right">submit
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
         );
     }
 }
 
 export default CreateFlight;
-
-
 
