@@ -1,8 +1,19 @@
-
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import Flight from './Flight'
 import FlightHeading from './FlightHeading';
+import {Container, Grid, Paper, Table, TableBody, TableContainer, TextField, ThemeProvider} from "@mui/material";
+import {createTheme} from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import AppBar from "@mui/material/AppBar";
+import parseISO from "date-fns/parseISO";
+import formatISO from "date-fns/formatISO";
+import {LocalizationProvider, MobileDateTimePicker} from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 class ShowFlights extends Component {
 
@@ -16,10 +27,10 @@ class ShowFlights extends Component {
             arrivalAirport: '',
             from: '',
             to: '',
-            departure1: '',
-            departure2: '',
-            arrival1: '',
-            arrival2: '',
+            departure1: formatISO(new Date()),
+            departure2: formatISO(new Date()),
+            arrival1: formatISO(new Date()),
+            arrival2: formatISO(new Date()),
             economy: '',
             business: '',
             first: '',
@@ -29,7 +40,7 @@ class ShowFlights extends Component {
     }
 
     onChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     onSubmit = e => {
@@ -62,10 +73,10 @@ class ShowFlights extends Component {
                     arrivalAirport: '',
                     from: '',
                     to: '',
-                    departure1: '',
-                    departure2: '',
-                    arrival1: '',
-                    arrival2: '',
+                    departure1: formatISO(new Date()),
+                    departure2: formatISO(new Date()),
+                    arrival1: formatISO(new Date()),
+                    arrival2: formatISO(new Date()),
                     economy: '',
                     business: '',
                     first: '',
@@ -85,152 +96,234 @@ class ShowFlights extends Component {
             flightList = "there is no flight record!";
         } else {
             flightList = flights.map((flight, k) =>
-                <Flight flight={flight} idx={k} key={k} />
+                <Flight flight={flight} idx={k} key={k}/>
             );
         }
-
+        const theme = createTheme();
         return (
-            <div className="big">
-                <div className="col-md-8 m-auto">
-                    <form noValidate onSubmit={this.onSubmit}>
-                        <div className='form-group'>
-                            <input
-                                type='text'
-                                placeholder='Flight Number'
-                                name='flightNumber'
-                                className='form-control'
-                                value={this.state.flightNumber}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <br />
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <AppBar
+                    position="absolute"
+                    color="default"
+                    elevation={0}
+                    sx={{
+                        position: 'relative',
+                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
+                    }}
+                >
+                    <Toolbar>
+                        <Typography variant="h6" color="inherit" noWrap>
+                            Airline System
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <Container component="main" maxWidth="md" sx={{mb: 4}}>
+                    <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
+                        <Typography component="h1" variant="h4" align="center">
+                            Search Flights
+                        </Typography>
+                        <React.Fragment>
+                            <form noValidate onSubmit={this.onSubmit}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} sm={12}>
+                                            <TextField
+                                                variant="standard" fullWidth label="Flight Number"
+                                                value={this.state.flightNumber}
+                                                onChange={this.onChange} name="flightNumber"
+                                            />
+                                        </Grid>
 
-                        <div className='form-group'>
-                            <input
-                                type='text'
-                                placeholder='Departure Airport'
-                                name='departureAirport'
-                                className='form-control'
-                                value={this.state.departureAirport}
-                                onChange={this.onChange}
-                            />
-                        </div>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField fullWidth label="Departure Airport"
+                                                       value={this.state.departureAirport}
+                                                       onChange={this.onChange}
+                                                       name="departureAirport"
+                                                       variant="standard"
+                                            />
+                                        </Grid>
 
-                        <div className='form-group'>
-                            <input
-                                type='text'
-                                placeholder='Arrival Airport'
-                                name='arrivalAirport'
-                                className='form-control'
-                                value={this.state.arrivalAirport}
-                                onChange={this.onChange}
-                            />
-                        </div>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField fullWidth label="Arrival Airport"
+                                                       value={this.state.arrivalAirport}
+                                                       onChange={this.onChange}
+                                                       name="arrivalAirport"
+                                                       variant="standard"
+                                            />
+                                        </Grid>
 
-                        <div className='form-group'>
-                            <input
-                                type='text'
-                                placeholder='From'
-                                name='from'
-                                className='form-control'
-                                value={this.state.from}
-                                onChange={this.onChange}
-                            />
-                        </div>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField
+                                                label="From" value={this.state.from}
+                                                onChange={this.onChange}
+                                                name="from"
+                                                variant="standard"
+                                            />
+                                        </Grid>
 
-                        <div className='form-group'>
-                            <input
-                                type='text'
-                                placeholder='To'
-                                name='to'
-                                className='form-control'
-                                value={this.state.to}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='Date'
-                                placeholder='Departure1'
-                                name='departure1'
-                                className='form-control'
-                                value={this.state.departure1}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='Date'
-                                placeholder='Departure2'
-                                name='departure2'
-                                className='form-control'
-                                value={this.state.departure2}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='Date'
-                                placeholder='Arrival1'
-                                name='arrival1'
-                                className='form-control'
-                                value={this.state.arrival1}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='Date'
-                                placeholder='Arrival2'
-                                name='arrival2'
-                                className='form-control'
-                                value={this.state.arrival2}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='number'
-                                placeholder='Economy Seats'
-                                name='economy'
-                                className='form-control'
-                                value={this.state.economy}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='number'
-                                placeholder='Business Seats'
-                                name='business'
-                                className='form-control'
-                                value={this.state.business}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <div className='form-group'>
-                            <input
-                                type='number'
-                                placeholder='First Class Seats'
-                                name='first'
-                                className='form-control'
-                                value={this.state.first}
-                                onChange={this.onChange}
-                            />
-                        </div>
-                        <button type="submit">View Flights</button>
-                    </form>
-                </div>
-                <div className='container' style={{marginTop:"50px"}}>
-                    <table className="table table-hover">
-                        <FlightHeading />
-                        <tbody>
-                            {flightList}
-                        </tbody>
-                    </table>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField label="To" value={this.state.to}
+                                                       onChange={this.onChange}
+                                                       name="to"
+                                                       variant="standard"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <MobileDateTimePicker
+                                                type='Date'
+                                                placeholder='Departure1'
+                                                name='departure1'
+                                                className='form-control'
+                                                value={parseISO(this.state.departure1)}
+                                                onChange={date => {
+                                                    console.log(date);
+                                                    this.setState({
+                                                        "departure1": date !== null ? formatISO(date) : formatISO(Date.now())
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
 
-                </div>
-            </div>
+                                                               name="departure1"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Departure Date 1"
+                                                variant="standard"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <MobileDateTimePicker
+                                                type='Date'
+                                                placeholder='Departure2'
+                                                name='departure2'
+                                                className='form-control'
+                                                value={parseISO(this.state.departure2)}
+                                                onChange={date => {
+                                                    console.log(date);
+                                                    this.setState({
+                                                        "departure2": date !== null ? formatISO(date) : formatISO(Date.now())
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
+
+                                                               name="departure2"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Departure Date 2"
+                                                variant="standard"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <MobileDateTimePicker
+                                                type='Date'
+                                                placeholder='Arrival1'
+                                                name='arrival1'
+                                                className='form-control'
+                                                value={parseISO(this.state.arrival1)}
+                                                onChange={date => {
+                                                    console.log(date);
+                                                    this.setState({
+                                                        "arrival1": date !== null ? formatISO(date) : formatISO(Date.now())
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
+
+                                                               name="arrival1"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Arrival Date 1"
+                                                variant="standard"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <MobileDateTimePicker
+                                                type='Date'
+                                                placeholder='Arrival2'
+                                                name='arrival2'
+                                                className='form-control'
+                                                value={parseISO(this.state.arrival2)}
+                                                onChange={date => {
+                                                    console.log(date);
+                                                    this.setState({
+                                                        "arrival2": date !== null ? formatISO(date) : formatISO(Date.now())
+                                                    });
+                                                }
+                                                }
+                                                renderInput={(props) =>
+                                                    <TextField disabled
+
+                                                               name="arrival2"
+                                                               variant="standard"
+                                                               sx={{width: 350}} {...props}
+                                                    />}
+                                                label="Arrival Date 2"
+                                                variant="standard"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                label="Economy" value={this.state.economy}
+                                                onChange={this.onChange}
+                                                name="economy"
+                                                variant="standard"
+                                                type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                label="Business" value={this.state.business}
+                                                onChange={this.onChange}
+                                                name="business"
+                                                variant="standard"
+                                                type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <TextField
+                                                label="First Class" value={this.state.first}
+                                                onChange={this.onChange}
+                                                name="first"
+                                                variant="standard"
+                                                type="number"
+                                            />
+                                        </Grid>
+                                        {/*<button type="submit">View Flights</button>*/}
+                                    </Grid>
+                                </LocalizationProvider>
+                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{mt: 3, ml: 1}}
+                                    >
+                                        Search
+                                    </Button>
+                                </Box>
+                            </form>
+                        </React.Fragment>
+                    </Paper>
+                </Container>
+                <TableContainer component={Paper} sx={{mt: 3, mx: 1}}>
+                    <Table>
+                        <FlightHeading/>
+                        <TableBody>
+                        {flightList}
+                        </TableBody>
+                    </Table>
+
+                </TableContainer>
+
+            </ThemeProvider>
         );
 
     }
