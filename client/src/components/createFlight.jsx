@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import '../App.css';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
