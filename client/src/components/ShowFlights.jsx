@@ -36,7 +36,7 @@ class ShowFlights extends Component {
             first: '',
             flights: []
         };
-
+        this.deleteFlight = this.deleteFlight.bind(this)
     }
 
     onChange = e => {
@@ -89,6 +89,22 @@ class ShowFlights extends Component {
             })
     };
 
+    deleteFlight(event) {
+        axios
+            .delete('http://localhost:8000/flight/delete/' + event.target.name)
+            .then(res => {
+                let flightRemoved = res.data;
+                let newFlights = [];
+                this.state.flights.forEach(function (item) {
+                    if (item._id !== flightRemoved._id)
+                        newFlights.push(item);
+                })
+                this.setState({
+                    flights: newFlights
+                })
+            })
+    }
+
     render() {
         let flights = this.state.flights;
         let flightList;
@@ -96,7 +112,7 @@ class ShowFlights extends Component {
             flightList = "there is no flight record!";
         } else {
             flightList = flights.map((flight, k) =>
-                <Flight flight={flight} idx={k} key={k}/>
+                <Flight flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight}/>
             );
         }
         const theme = createTheme();
