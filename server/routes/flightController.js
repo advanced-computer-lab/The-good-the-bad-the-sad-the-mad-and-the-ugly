@@ -8,7 +8,18 @@ flightRouter.use(express.urlencoded({extended: true}));
 // get, read, delete and update methods:
 //
 
+flightRouter.get('/getFlightById/:id', (req, res) => {
+    Flight.findById(req.params.id)
+        .then(flight => res.json(flight))
+        .catch(err => res.status(400).json({error: 'Unable to get flight data'}));
+});
 
+flightRouter.put('/updateFlight/:id', (req, res) => {
+    Flight.findByIdAndUpdate(req.params.id, req.body)
+        .then(flight => res.json({msg: 'Updated successfully!'}))
+        .catch(err => res.status(400).json({ error: 'Unable to update the Database' })
+        );
+});
 
 
 // @route GET /flight

@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Routes, Route,} from 'react-router-dom';
+import {Outlet} from 'react-router-dom';
 
 import BaseLayer from './components/BaseLayer';
 import CreateFlight from './components/createFlight';
+import UpdateFlight from './components/UpdateFlight';
 
 
 class App extends Component {
     render() {
         return (
-            <Router>
-                <Routes>
-                        <Route path='/' element={<BaseLayer />} />
-                        <Route path='/create-flight' element={<CreateFlight />} />
-                </Routes>
-            </Router>
+            <div>
+                <Outlet/>
+            </div>
         );
     }
 }
