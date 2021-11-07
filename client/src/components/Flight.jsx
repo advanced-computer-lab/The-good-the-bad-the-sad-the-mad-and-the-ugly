@@ -43,6 +43,7 @@ function Flight(props) {
                    <StyledTableCell>{flight.availableSeats.first}</StyledTableCell>
                    <StyledTableCell>{flight.availableSeats.economy}</StyledTableCell>
                    <StyledTableCell><Button color={"error"} onClick={handleOpen}>delete</Button></StyledTableCell>
+                   <StyledTableCell><Button href={`/updateFlight/${flight._id}`}>edit</Button></StyledTableCell>
                    <DeleteModal flightId={flight._id} deleteFunc={props.deleteFunction} flightNumber={flight.flightNumber} modalOpen={modalOpen} handleClose={handleClose}/>
                </StyledTableRow>
 

@@ -87,7 +87,7 @@ function UpdateFlight() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Card sx={{
                 width: 1000,
-                height: 500,
+                height: 520,
                 backgroundColor: 'primary.light',
                 color: 'primary.main',
                 boxShadow: 7,
@@ -103,7 +103,6 @@ function UpdateFlight() {
                         color: 'primary.contrastText',
                         boxShadow: 5,
                         height: "15%",
-                        p: 2
                     }
                 } title={<h3>Update Flight Info</h3>}/>
                 <form onSubmit={updateFlight}>
@@ -185,8 +184,8 @@ function UpdateFlight() {
                     <CardHeader sx={{
                         backgroundColor: 'primary.dark',
                         color: 'primary.contrastText',
-                        height: "20%",
-                        alignItems: "flex-end"
+                        boxShadow: 5,
+                        height: "15%",
                     }} title={
                         <Button type={"submit"} variant={"contained"} color={"success"}>SUBMIT</Button>
                     }/>

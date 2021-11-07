@@ -28,6 +28,7 @@ function FlightHeading() {
                         <StyledTableCell>Available First Class Seats</StyledTableCell>
                         <StyledTableCell>Available Economy Seats</StyledTableCell>
                         <StyledTableCell>Delete</StyledTableCell>
+                        <StyledTableCell>Edit</StyledTableCell>
                     </TableRow>
                 </TableHead>
     )
