@@ -33,15 +33,18 @@ const FlightSchema = new mongoose.Schema({
         availableSeats:{
             economy:{
                 type: Number,
-                required: true
+                required: true,
+                min: 0
             },
             business:{
                 type: Number,
-                required: true
+                required: true,
+                min: 0
             },
             first: {
                 type: Number,
-                required: true
+                required: true,
+                min: 0
             }
         }
     }
