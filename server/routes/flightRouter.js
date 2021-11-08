@@ -32,22 +32,22 @@ flightRouter.post('/showFlights', (req, res) => {
     var fArrival = false;
 
     //1-Handling Dates of departure and arrival
-    if (departure1 != '') {
+    if (departure1 !== '') {
         data["departure"]["$gte"] = new Date(departure1);
         fDeparture = true;
     }
-    if (departure2 != '') {
+    if (departure2 !== '') {
         let secondDate = new Date(req.body.departure2);
         secondDate.setDate(secondDate.getDate() + 1);
         data["departure"]['$lte'] = new Date(secondDate);
         fDeparture = true;
     }
 
-    if (arrival1 != '') {
+    if (arrival1 !== '') {
         data["arrival"]["$gte"] = new Date(arrival1);
         fArrival = true;
     }
-    if (arrival2 != '') {
+    if (arrival2 !== '') {
         let secondDate = new Date(req.body.arrival2);
         secondDate.setDate(secondDate.getDate() + 1);
         data["arrival"]['$lte'] = new Date(secondDate);
