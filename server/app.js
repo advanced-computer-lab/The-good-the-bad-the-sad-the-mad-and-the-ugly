@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
-const {port} = require('./config/config');
+const {port,secret} = require('./config/config');
 const User = require('./models/User');
 const connectDB = require('./config/db');
 const cors = require('cors');
@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 //Setting sessions
 app.use(session({
-    secret: 'secret word',
+    secret: secret,
     resave: false,
     saveUninitialized: false
 }));
