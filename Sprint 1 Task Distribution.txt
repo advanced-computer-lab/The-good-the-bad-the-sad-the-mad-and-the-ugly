@@ -1,0 +1,13 @@
+﻿Mohamed Shetewi(46-13908): 
+* Flight Schema.
+* Handled Environment Variables.
+* Configured sessions + Register and Logging Backend using passport js + Hashing the passwords.
+Moamen Khaled Shoman (46-17050): 
+* Show all flights
+* Search for flights
+Mohammad Hossam (46-15833):
+* Update flight information.
+Mohammed Basion (46-15860)i:
+* Create flight.
+Ahmed Hossam (46-18379):
+* Delete flight.
