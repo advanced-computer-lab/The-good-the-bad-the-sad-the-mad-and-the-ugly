@@ -1,0 +1,26 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Airline System Server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "The Good, The Bad, The Sad, The Mad and The Ugly",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "mongoose": "^6.0.12",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.1.0"
+  },
+  "devDependencies": {
+    "config": "^3.3.6",
+    "cors": "^2.8.5"
+  }
+}
