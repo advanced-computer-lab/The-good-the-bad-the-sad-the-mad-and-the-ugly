@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 //Setting sessions
 app.use(session({
-    secret: 'Simpy Ahmad',
+    secret: 'secret word',
     resave: false,
     saveUninitialized: false
 }));
