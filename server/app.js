@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 const flightRouter = require('./routes/flightRouter')
 const registerRouter = require('./routes/registerRouter');
 const loginRouter = require('./routes/loginRouter');
+const reservationRouter = require('./routes/reservationRouter');
 
 app.use(bodyParser.json());
 
@@ -48,6 +49,7 @@ app.use(cors());
 // defining Routes parent
 app.get('/', (req, res) => res.send('Hello world!'));
 app.use("/flight", flightRouter);
+app.use("/reservation", reservationRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 
