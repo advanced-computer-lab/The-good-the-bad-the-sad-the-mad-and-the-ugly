@@ -12,6 +12,7 @@ export default class Seats extends Component {
             rows: []
         }
         let c = 1;
+        let rowNum = 1;
         for(let i = 0; i < props.availableSeats; i+=9){
             let row = Array(11);
             for (let j = 0; j < 11; j++){
@@ -20,7 +21,7 @@ export default class Seats extends Component {
                         id: c,
                         number: String.fromCharCode("A".charCodeAt(0) + j),
                         isSelected: false,
-                        isReserved: !this.props.reservedSeats.includes(`${String.fromCharCode("A".charCodeAt(0) + j)}${i + 1}`)
+                        isReserved: this.props.reservedSeats.includes(`${String.fromCharCode("A".charCodeAt(0) + j)}${rowNum}`)
                     }
                     c++;
                     if (c > this.props.availableSeats)
@@ -29,6 +30,7 @@ export default class Seats extends Component {
                     row[j] = null;
                 }
             }
+            rowNum++;
             this.state.rows.push(row);
         }
     }
