@@ -46,6 +46,20 @@ const FlightSchema = new mongoose.Schema({
                 required: true,
                 min: 0
             }
+        },
+        price: {
+            economy: {
+                adult: Number,
+                child: Number
+            },
+            business: {
+                adult: Number,
+                child: Number
+            },
+            first: {
+                adult: Number,
+                child: Number
+            }
         }
     }
 )

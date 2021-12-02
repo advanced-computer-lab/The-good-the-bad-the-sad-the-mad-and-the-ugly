@@ -8,34 +8,29 @@ const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 
-
 // Routes
 const flightRouter = require('./routes/flightRouter')
 const registerRouter = require('./routes/registerRouter');
 const loginRouter = require('./routes/loginRouter');
+const reservationRouter = require('./routes/reservationRouter');
 
 app.use(bodyParser.json());
 
 //Setting sessions
 app.use(session({
     secret: secret,
-    // resave: false,
-    // saveUninitialized: false
+    resave: false,
+    saveUninitialized: true
 }));
-
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-    done(null, user);
-});
-
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-const LocalStrategy = require('passport-local').Strategy;
+// passport.use(User.createStrategy());
 passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 
 // Connect Database
@@ -48,6 +43,7 @@ app.use(cors());
 // defining Routes parent
 app.get('/', (req, res) => res.send('Hello world!'));
 app.use("/flight", flightRouter);
+app.use("/reservation", reservationRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 
