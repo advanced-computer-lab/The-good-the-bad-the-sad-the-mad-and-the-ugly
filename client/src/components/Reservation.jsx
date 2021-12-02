@@ -50,30 +50,40 @@ class Reservation extends Component {
     };
 
     render() {
-        const depFlight=this.state.depFlight;
-        const retFlight=this.state.retFlight;
-        return (
-            <Card sx={{minWidth: 275}}>
+        const flight=this.state.depFlight;
+        const departureDate=new Date(flight.departure);
+        const arrivalDate=new Date(flight.arrival);
+        const card = (
+            <React.Fragment>
                 <CardContent>
-                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                        Flight Number: {flight.flightNumber}
                     </Typography>
                     <Typography variant="h5" component="div">
-                        be{bull}nev{bull}o{bull}lent
+                        From {flight.from}({flight.departureAirport}) To {flight.to}({flight.arrivalAirport})
                     </Typography>
-                    <Typography sx={{mb: 1.5}} color="text.secondary">
-                        adjective
-                    </Typography>
-                    <Typography variant="body2">
-                        well meaning and kindly.
-                        <br/>
-                        {'"a benevolent smile"'}
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+
+                        Departure Date: {departureDate.getFullYear() + '-' + (departureDate.getMonth() + 1) + '-' + departureDate.getDate()}
+                        <br />
+                        Departure Time: {(departureDate.getHours() <= 9 ? "0" + departureDate.getHours() : departureDate.getHours()) + ':' + (departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}
+                        <br />
+                        <br />
+                        Arrival Date : {arrivalDate.getFullYear() + '-' + (arrivalDate.getMonth() + 1) + '-' + arrivalDate.getDate()}
+                        <br />
+                        Arrival Time: {(arrivalDate.getHours() <= 9 ? "0" + arrivalDate.getHours() : arrivalDate.getHours()) + ':' + (arrivalDate.getMinutes() <= 9 ? "0" + arrivalDate.getMinutes() : arrivalDate.getMinutes())}
                     </Typography>
                 </CardContent>
+
                 <CardActions>
-                    <Button size="small">{}</Button>
+                    {/*<Button  onClick={handleClick} size="large"> {props.selected?"Booked!":"Book Now"} </Button>*/}
                 </CardActions>
-            </Card>
-        )
+            </React.Fragment>
+        );
+
+        return (<Box sx={{ minWidth: 275 }}>
+            <Card sx={{ bgcolor: 'text.disabled' }} variant="outlined">{card}</Card>
+        </Box>);
     }
 }
 export default Reservation;
