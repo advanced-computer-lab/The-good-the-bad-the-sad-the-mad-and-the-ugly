@@ -15,16 +15,11 @@ import {Autocomplete} from "@mui/material";
 import countryList from 'react-select-country-list'
 
 
-const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
+const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
 
-    // const countryNameList = [];
-    // // countryList().data.forEach(e => countryNameList.push(e));
+    const countryNameList = [];
+    // countryList().data.forEach(e => countryNameList.push(e));
 
-
-    const Next = e => {
-        e.preventDefault();
-        nextStep();
-    }
 
     const Prev = e => {
         e.preventDefault();
@@ -47,72 +42,49 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
                     <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Basic Info
+                        Contact Info
                     </Typography>
 
 
                     <Box component="form" noValidate
                          sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} >
                                 <TextField
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="mobileNumber"
                                     required
                                     fullWidth
-                                    id="firstname"
-                                    label="First Name"
+                                    id="mobile"
+                                    label="Mobile Number"
                                     autoFocus
-                                    onChange={handleChange('firstName')}
-                                    defaultValue={values.firstName}
+                                    onChange={handleChange('mobileNumber')}
+                                    defaultValue={values.mobileNumber}
                                 />
                             </Grid>
 
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="lastName"
-                                    required
-                                    fullWidth
-                                    id="lastname"
-                                    label="Last Name"
-                                    autoFocus
-                                    onChange={handleChange('lastName')}
-                                    defaultValue={values.lastName}
-                                />
-                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete="given-name"
-                                    name="country"
+                                    name="homeAddress"
                                     required
                                     fullWidth
-                                    id="country"
-                                    label="Country"
+                                    id="homeAddress"
+                                    label="Home Address"
                                     autoFocus
-                                    defaultValue={values.country}
-                                    onChange={handleChange('country')}
+                                    onChange={handleChange('homeAddress')}
+                                    defaultValue={values.homeAddress}
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="passport"
-                                    required
-                                    fullWidth
-                                    id="passport"
-                                    label="Passport Number"
-                                    autoFocus
-                                    defaultValue={values.passport}
-                                    onChange={handleChange('passportNumber')}
-                                />
+
                             </Grid>
                             <Grid item xs={12} >
 
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <Button
-                                    onClick={Prev}
+                                    onClick={prevStep}
                                     type="submit"
                                     fullWidth
                                     variant="contained"
@@ -122,24 +94,27 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
                                 </Button>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Button
-                                    onClick={Next}
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Next
-                                </Button>
+
                             </Grid>
                         </Grid>
                     </Box>
 
                 </Box>
+                <Grid>
+                    <Button
+                        onClick={onSubmit}
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                    >
+                        Create Account
+                    </Button>
+                </Grid>
             </Paper>
         </Container>
     )
 }
 
-export default BasicInfo;
+export default ContactInfo;
 

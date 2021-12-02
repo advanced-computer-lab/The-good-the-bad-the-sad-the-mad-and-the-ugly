@@ -9,8 +9,9 @@ import {Component} from "react";
 import AccountInfo from "./AccountInfo";
 import PersonalInfo from "./BasicInfo";
 import BasicInfo from "./BasicInfo";
+import ContactInfo from "./ContactInfo";
 
-const steps = ['Account', 'Personal', 'Create an ad'];
+const steps = ['Account', 'Personal', 'Contact'];
 
 export default class SignUp extends Component {
 
@@ -36,15 +37,14 @@ export default class SignUp extends Component {
     }
 
     prevStep = () => {
-        const {step} = this.state.curStep;
-        this.setState({curStep: step - 1});
+        let {curStep} = this.state;
+        this.setState({curStep: curStep - 1});
     }
 
     nextStep = () => {
 
         let {curStep} = this.state;
         this.setState({curStep: curStep + 1});
-        console.log(this.state.curStep);
     }
 
     handleChange = input => async e => {
@@ -52,6 +52,10 @@ export default class SignUp extends Component {
         if (input === 'confirmPassword' || input === 'password') {
             this.setState({'isMatch': this.state.confirmPassword === this.state.password});
         }
+    }
+
+    onSubmit = () =>{
+
     }
 
 
@@ -72,8 +76,8 @@ export default class SignUp extends Component {
 
         const accountInfo = (
             <AccountInfo values={this.state} handleChange={this.handleChange} nextStep={this.nextStep}/>);
-        const basicInfo = (<BasicInfo values={values} handleChange={this.handleChange} nextStep={this.nextStep}/>);
-        const contactInfo = (<BasicInfo/>);
+        const basicInfo = (<BasicInfo values={values} handleChange={this.handleChange} nextStep={this.nextStep} prevStep={this.prevStep}/>);
+        const contactInfo = (<ContactInfo values={values} handleChange={this.handleChange} prevStep={this.prevStep} onSubmit={this.onSubmit}/>);
         return (
             <Box sx={{width: '95%', marginTop: 8}}>
                 {stepper}

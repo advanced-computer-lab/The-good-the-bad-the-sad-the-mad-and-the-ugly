@@ -18,8 +18,10 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
 
 
     const Next = e => {
+
         e.preventDefault();
-        nextStep();
+        if (values.isMatch)
+            nextStep();
     }
 
 
