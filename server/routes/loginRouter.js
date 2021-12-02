@@ -42,7 +42,7 @@ loginRouter.get('/authorize', (req, res) => {
     if (req.user){
         return res.status(200).json({isAdmin: req.user.isAdmin});
     } else {
-        return res.status(401);
+        return res.sendStatus(401);
     }
 })
 
