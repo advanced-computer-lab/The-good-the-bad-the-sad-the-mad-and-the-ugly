@@ -3,13 +3,11 @@ import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepButton from '@mui/material/StepButton';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import {Component} from "react";
 import AccountInfo from "./AccountInfo";
-import PersonalInfo from "./BasicInfo";
 import BasicInfo from "./BasicInfo";
 import ContactInfo from "./ContactInfo";
+import axios from "axios";
 
 const steps = ['Account', 'Personal', 'Contact'];
 
@@ -28,7 +26,9 @@ export default class SignUp extends Component {
         country: '',
         passportNumber: '',
         homeAddress: '',
-        mobileNumber: ''
+        mobileNumber: '',
+        usernameList: [],
+        isUserNameRepeated: false
     }
 
 
@@ -52,17 +52,65 @@ export default class SignUp extends Component {
         if (input === 'confirmPassword' || input === 'password') {
             this.setState({'isMatch': this.state.confirmPassword === this.state.password});
         }
+        if (input === 'username')
+            this.setState({isUserNameRepeated: this.state.usernameList.includes(this.state.username)});
     }
 
-    onSubmit = () =>{
+    onSubmit = () => {
+        const data = {
+            email: this.state.email,
+            username: this.state.username,
+            password: this.state.password,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            country: this.state.country,
+            passportNumber: this.state.passportNumber,
+            homeAddress: this.state.homeAddress,
+            mobileNumber: this.state.mobileNumber
+        }
 
+        axios.post('http://localhost:8000/register', data)
+            .then((r) => {
+                this.state = {
+                    curStep: 0,
+                    email: '',
+                    username: '',
+                    password: '',
+                    confirmPassword: '',
+                    isMatch: true,
+                    firstName: '',
+                    lastName: '',
+                    country: '',
+                    passportNumber: '',
+                    homeAddress: '',
+                    mobileNumber: ''
+                }
+                // this.props.history.push('/login');
+            }).catch(err => console.log(err))
     }
 
 
     render() {
+
+        if (this.state.usernameList.length === 0) {
+            axios.get('http://localhost:8000/register/usernames')
+                .then(data => {
+                    data.data.forEach(e => this.state.usernameList.push(e.username));
+                })
+                .catch(err => console.log(err));
+        }
+
         const {curStep} = this.state;
-        const {email, username, password, firstName, lastName, country, levelOfEducation} = this.state;
-        const values = {email, username, password, firstName, lastName, country, levelOfEducation}
+        const {
+            email, username, password, confirmPassword,
+            firstName, lastName, country,
+            passportNumber, homeAddress, mobileNumber, usernameList
+        } = this.state;
+        const values = {
+            email, username, password, confirmPassword,
+            firstName, lastName, country,
+            passportNumber, homeAddress, mobileNumber, usernameList
+        }
 
         const stepper = (<Stepper nonLinear alternativeLabel activeStep={curStep}>
             {steps.map((label, index) => (
@@ -76,8 +124,10 @@ export default class SignUp extends Component {
 
         const accountInfo = (
             <AccountInfo values={this.state} handleChange={this.handleChange} nextStep={this.nextStep}/>);
-        const basicInfo = (<BasicInfo values={values} handleChange={this.handleChange} nextStep={this.nextStep} prevStep={this.prevStep}/>);
-        const contactInfo = (<ContactInfo values={values} handleChange={this.handleChange} prevStep={this.prevStep} onSubmit={this.onSubmit}/>);
+        const basicInfo = (<BasicInfo values={this.state} handleChange={this.handleChange} nextStep={this.nextStep}
+                                      prevStep={this.prevStep}/>);
+        const contactInfo = (<ContactInfo values={this.state} handleChange={this.handleChange} prevStep={this.prevStep}
+                                          onSubmit={this.onSubmit}/>);
         return (
             <Box sx={{width: '95%', marginTop: 8}}>
                 {stepper}

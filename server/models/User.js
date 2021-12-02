@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    lastName:{
+    lastName: {
         type: String,
         required: true
     },
@@ -22,8 +22,20 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    passportNumber:{
-        type:String,
+    passportNumber: {
+        type: String,
+        required: true
+    },
+    homeAddress: {
+        type: String,
+        required: true
+    },
+    mobileNumber: {
+        type: String,
+        required: true
+    },
+    country: {
+        type: String,
         required: true
     }
 });

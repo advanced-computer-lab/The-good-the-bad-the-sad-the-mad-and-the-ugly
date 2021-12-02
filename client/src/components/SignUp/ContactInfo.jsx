@@ -18,7 +18,7 @@ import countryList from 'react-select-country-list'
 const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
 
     const countryNameList = [];
-    // countryList().data.forEach(e => countryNameList.push(e));
+    countryList().data.forEach(e => countryNameList.push(e));
 
 
     const Prev = e => {
@@ -45,72 +45,70 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
                         Contact Info
                     </Typography>
 
+                    <form onSubmit={onSubmit}>
+                        <Box sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="mobileNumber"
+                                        required
+                                        fullWidth
+                                        id="mobile"
+                                        label="Mobile Number"
+                                        type={"tel"}
+                                        autoFocus
+                                        onChange={handleChange('mobileNumber')}
+                                        defaultValue={values.mobileNumber}
+                                    />
+                                </Grid>
 
-                    <Box component="form" noValidate
-                         sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} >
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="mobileNumber"
-                                    required
-                                    fullWidth
-                                    id="mobile"
-                                    label="Mobile Number"
-                                    autoFocus
-                                    onChange={handleChange('mobileNumber')}
-                                    defaultValue={values.mobileNumber}
-                                />
-                            </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="homeAddress"
+                                        required
+                                        fullWidth
+                                        id="homeAddress"
+                                        label="Home Address"
+                                        autoFocus
+                                        onChange={handleChange('homeAddress')}
+                                        defaultValue={values.homeAddress}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
 
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="homeAddress"
-                                    required
-                                    fullWidth
-                                    id="homeAddress"
-                                    label="Home Address"
-                                    autoFocus
-                                    onChange={handleChange('homeAddress')}
-                                    defaultValue={values.homeAddress}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
+                                </Grid>
+                                <Grid item xs={12}>
 
-                            </Grid>
-                            <Grid item xs={12} >
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Button
+                                        onClick={prevStep}
+                                        type="submit"
+                                        fullWidth
+                                        variant="outlined"
+                                        color="primary"
+                                    >
+                                        Previous
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
 
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Button
-                                    onClick={prevStep}
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Previous
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-
-                            </Grid>
-                        </Grid>
-                    </Box>
-
+                        </Box>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                        >
+                            Create Account
+                        </Button>
+                    </form>
                 </Box>
-                <Grid>
-                    <Button
-                        onClick={onSubmit}
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                    >
-                        Create Account
-                    </Button>
-                </Grid>
+
             </Paper>
         </Container>
     )

@@ -17,8 +17,8 @@ import countryList from 'react-select-country-list'
 
 const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
 
-    // const countryNameList = [];
-    // // countryList().data.forEach(e => countryNameList.push(e));
+    const countryNameList = []
+    countryList().data.forEach(e => countryNameList.push(e.label));
 
 
     const Next = e => {
@@ -29,6 +29,10 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
     const Prev = e => {
         e.preventDefault();
         prevStep();
+    }
+
+    const handleCountry = (e, v) => {
+        values.country = v;
     }
 
     return (
@@ -50,91 +54,86 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
                         Basic Info
                     </Typography>
 
+                    <form onSubmit={Next}>
+                        <Box sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="firstName"
+                                        required
+                                        fullWidth
+                                        id="firstname"
+                                        label="First Name"
+                                        autoFocus
+                                        onChange={handleChange('firstName')}
+                                        defaultValue={values.firstName}
+                                    />
+                                </Grid>
 
-                    <Box component="form" noValidate
-                         sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
-                                    required
-                                    fullWidth
-                                    id="firstname"
-                                    label="First Name"
-                                    autoFocus
-                                    onChange={handleChange('firstName')}
-                                    defaultValue={values.firstName}
-                                />
-                            </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="lastName"
+                                        required
+                                        fullWidth
+                                        id="lastname"
+                                        label="Last Name"
+                                        autoFocus
+                                        onChange={handleChange('lastName')}
+                                        defaultValue={values.lastName}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={countryNameList}
+                                        required
+                                        fullWidth
+                                        renderInput={(params) => <TextField {...params} label="Country"/>}
+                                        onChange={handleCountry}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        autoComplete="given-name"
+                                        name="passport"
+                                        required
+                                        fullWidth
+                                        id="passport"
+                                        label="Passport Number"
+                                        autoFocus
+                                        defaultValue={values.passportNumber}
+                                        onChange={handleChange('passportNumber')}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
 
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="lastName"
-                                    required
-                                    fullWidth
-                                    id="lastname"
-                                    label="Last Name"
-                                    autoFocus
-                                    onChange={handleChange('lastName')}
-                                    defaultValue={values.lastName}
-                                />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Button
+                                        onClick={Prev}
+                                        type="submit"
+                                        fullWidth
+                                        variant="outlined"
+                                        color="primary"
+                                    >
+                                        Previous
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="outlined"
+                                        color="primary"
+                                    >
+                                        Next
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="country"
-                                    required
-                                    fullWidth
-                                    id="country"
-                                    label="Country"
-                                    autoFocus
-                                    defaultValue={values.country}
-                                    onChange={handleChange('country')}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="given-name"
-                                    name="passport"
-                                    required
-                                    fullWidth
-                                    id="passport"
-                                    label="Passport Number"
-                                    autoFocus
-                                    defaultValue={values.passport}
-                                    onChange={handleChange('passportNumber')}
-                                />
-                            </Grid>
-                            <Grid item xs={12} >
-
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Button
-                                    onClick={Prev}
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Previous
-                                </Button>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <Button
-                                    onClick={Next}
-                                    type="submit"
-                                    fullWidth
-                                    variant="contained"
-                                    color="primary"
-                                >
-                                    Next
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Box>
-
+                        </Box>
+                    </form>
                 </Box>
             </Paper>
         </Container>

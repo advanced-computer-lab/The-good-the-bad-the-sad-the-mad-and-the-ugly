@@ -84,7 +84,7 @@ class CreateFlight extends Component {
 
         axios
             .post('http://localhost:8000/flight/', data)
-            .then(res => {
+            .then(() => {
                 this.setState({
                     flightNumber: '',
                     departureAirport: '',
@@ -98,7 +98,7 @@ class CreateFlight extends Component {
                     first: '',
                     arrivalErr:'',
                     negativeErr: ''
-                })
+                });
                 this.props.history.push('/');
             })
             .catch(err => {

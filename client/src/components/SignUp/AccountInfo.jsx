@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
     Container,
     Typography,
@@ -6,12 +6,11 @@ import {
     TextField,
     Button,
     CssBaseline,
-    FormControlLabel,
-    Checkbox, Paper, makeStyles, Card
+    Paper
 } from '@material-ui/core'
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import {Alert, AlertTitle} from "@mui/material";
+import {Alert} from "@mui/material";
 
 
 const AccountInfo = ({nextStep, handleChange, values}) => {
@@ -20,7 +19,7 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
     const Next = e => {
 
         e.preventDefault();
-        if (values.isMatch)
+        if (values.isMatch && !values.isUserNameRepeated)
             nextStep();
     }
 
@@ -45,15 +44,14 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
                     </Typography>
 
                     <form onSubmit={Next}>
-                        <Box
-                            sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
+                        <Box sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         autoComplete="given-name"
                                         name="username"
                                         required
-                                        fullWidth
+                                        sm={400}
                                         id="username"
                                         label="Username"
                                         autoFocus
@@ -107,12 +105,20 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
                                         <strong>Password is Mismatch!</strong>
                                     </Alert>)}
                                 </Grid>
+                                <Grid item xs={12}>
+                                    {values.isUserNameRepeated && (<Alert severity={'error'} variant={"outlined"}>
+                                        <strong>Username is already used!!</strong>
+                                    </Alert>)}
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+
+                                </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <Button
                                         type="submit"
                                         fullWidth
-                                        variant="contained"
                                         color="primary"
+                                        variant={"outlined"}
                                     >
                                         Next
                                     </Button>
