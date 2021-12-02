@@ -6,6 +6,7 @@ import CreateFlight from "./components/createFlight";
 import UpdateFlight from "./components/UpdateFlight";
 import ShowAllFlights from "./components/ShowAllFlights";
 import ShowFlights from "./components/ShowFlights";
+import Seats from "./components/Seats/Dashboard.js";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,6 +17,7 @@ ReactDOM.render(
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='' element={<ShowAllFlights/>}/>
                   <Route path='showFlights' element={<ShowFlights/>}/>
+                  <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfSeats/:cabinClass' element={<Seats/>}/>
               </Route>
 
           </Routes>
