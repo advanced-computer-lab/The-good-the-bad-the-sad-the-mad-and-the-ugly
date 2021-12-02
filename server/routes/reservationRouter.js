@@ -10,4 +10,10 @@ reservationRouter.post('/createReservation', (req, res) => {
         .catch(err => res.status(400).json({ error: 'Unable to add this reservation' }));
 });
 
+reservationRouter.get('/showAllReservations', (req, res) => {
+    Reservation.find()
+        .then(reservations => res.json(reservations))
+        .catch(err => res.json(err));
+});
+
 module.exports = reservationRouter;
