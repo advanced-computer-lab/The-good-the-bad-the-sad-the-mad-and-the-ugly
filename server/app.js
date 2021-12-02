@@ -19,8 +19,8 @@ app.use(bodyParser.json());
 //Setting sessions
 app.use(session({
     secret: secret,
-    resave: false,
-    saveUninitialized: false
+    // resave: false,
+    // saveUninitialized: false
 }));
 
 passport.serializeUser((user, done) => {
