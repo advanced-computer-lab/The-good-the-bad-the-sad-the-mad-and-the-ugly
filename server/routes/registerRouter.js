@@ -21,7 +21,6 @@ registerRouter.post('/', (req, res) => {
             passportNumber: req.body.passportNumber
         };
         let Users = new User(doc);
-        console.log(doc);
         User.register(Users, req.body.password, (err, user) => {
                 if (err) {
                     res.json({success: false, message: "Your account could not be saved. Error : ", err});
@@ -38,7 +37,6 @@ registerRouter.get('/usernames', ((req, res) => {
     User.find({}).select('username')
         .then(usernames => {
             res.json(usernames)
-            console.log(usernames)
         })
         .catch(err => console.log(err));
 }))
