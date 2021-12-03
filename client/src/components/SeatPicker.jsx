@@ -5,11 +5,12 @@ import SeatPicker from './SeatPicker/react-seat-picker'
 export default class Seats extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        // console.log(props);
 
         this.state = {
             maxSeats: props.maxSeats,
-            rows: []
+            rows: [],
+            chosenSeats: []
         }
         let c = 1;
         let rowNum = 1;
@@ -88,6 +89,13 @@ export default class Seats extends Component {
             const newTooltip = `tooltip for id-${id} added by callback`
             addCb(row, number, id, null)
             this.setState({loading: false})
+            this.state.chosenSeats.push(`${number}${row}`)
+            this.props.chosenSeatsCallback((prevState => {
+                return {
+                    ...prevState,
+                    [this.props.flightType]: this.state.chosenSeats
+                }
+            }))
         })
     }
 
@@ -112,12 +120,19 @@ export default class Seats extends Component {
         this.setState({
             loading: true
         }, async () => {
-            await new Promise(resolve => setTimeout(resolve, 1500))
+            await new Promise(resolve => setTimeout(resolve, 100))
             console.log(`Removed seat ${number}, row ${row}, id ${id}`)
             // A value of null will reset the tooltip to the original while '' will hide the tooltip
             const newTooltip = ['A', 'B', 'C'].includes(row) ? null : ''
             removeCb(row, number, null)
             this.setState({loading: false})
+            this.state.chosenSeats = this.state.chosenSeats.filter((element) => element !== `${number}${row}`);
+            this.props.chosenSeatsCallback((prevState => {
+                return {
+                    ...prevState,
+                    [this.props.flightType]: this.state.chosenSeats
+                }
+            }))
         })
     }
 

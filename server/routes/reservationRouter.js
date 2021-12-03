@@ -18,15 +18,15 @@ reservationRouter.get('/showAllReservations', (req, res) => {
         .catch(err => res.json(err));
 });
 
-reservationRouter.get('/getReservedSeatsInFlight/:flightId', (req, res) => {
+reservationRouter.get('/getReservedSeatsInFlight/:flightId/:cabinClass', (req, res) => {
     Reservation.aggregate([
-        {$match: {departureFlightId: mongoose.Types.ObjectId(req.params.flightId)}},
+        {$match: {departureFlightId: mongoose.Types.ObjectId(req.params.flightId), cabinClass: req.params.cabinClass}},
         {$project: {departureSeats: 1, _id: 0}},
         {
             $unionWith: {
                 coll: "reservations",
                 pipeline: [
-                    {$match: {returnFlightId: mongoose.Types.ObjectId(req.params.flightId)}},
+                    {$match: {returnFlightId: mongoose.Types.ObjectId(req.params.flightId), cabinClass: req.params.cabinClass}},
                     {$project: {returnSeats: 1, _id: 0}}]
             }
         }

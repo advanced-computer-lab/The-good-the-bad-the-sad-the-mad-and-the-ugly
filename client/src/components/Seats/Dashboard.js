@@ -26,6 +26,8 @@ import AppBar from "@mui/material/AppBar";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
+import {format, formatISO, parseISO} from "date-fns";
+import moment from "moment";
 
 function Copyright(props) {
     return (
@@ -50,23 +52,56 @@ function DashboardContent() {
 
     const [depSeats, handleDepSeats] = useState({availableSeats: 0, maxSeats: 0, reservedSeats: []});
     const [returnSeats, handleReturnSeats] = useState({availableSeats: 0, maxSeats: 0, reservedSeats: []});
-    const [isLoading, setLoading] = useState({dep: true, return: true});
+    const [isSeatsLoading, setSeatsLoading] = useState({dep: true, return: true});
+    const [isFlightsLoading, setFlightsLoading] = useState({dep: true, return: true});
+    const [flightsData, setFlightsData] = useState({
+        dep: {
+            fromCity: '',
+            fromAirport: '',
+            toCity: '',
+            toAirport: '',
+            departureTerminal: '',
+            arrivalTerminal: '',
+            departureTime: '',
+            arrivalTime: '',
+            flightPrice: {},
+            baggageAllowance: '',
+            flightNumber: ''
+        },
+        return: {
+            fromCity: '',
+            fromAirport: '',
+            toCity: '',
+            toAirport: '',
+            departureTerminal: '',
+            arrivalTerminal: '',
+            departureTime: '',
+            arrivalTime: '',
+            flightPrice: {},
+            baggageAllowance: '',
+            flightNumber: ''
+        }
+    });
+    const [chosenSeats, setChosenSeats] = useState({
+        dep: [],
+        return: [],
+    });
 
     useEffect(() => {
         axios.get(`http://localhost:8000/flight/getFlightById/${params.departureFlightId}`)
             .then(
                 res1 => {
-                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.departureFlightId}`)
+                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.departureFlightId}/${params.cabinClass}`)
                         .then(
                             res2 => {
                                 handleDepSeats(
                                     {
                                         availableSeats: res1.data.availableSeats[params.cabinClass],
-                                        maxSeats: params.noOfSeats,
+                                        maxSeats: parseInt(params.noOfAdults) + parseInt(params.noOfChildren),
                                         reservedSeats: res2.data
                                     }
                                 );
-                                setLoading((prevState => {
+                                setSeatsLoading((prevState => {
                                     return {
                                         ...prevState,
                                         dep: false,
@@ -87,17 +122,17 @@ function DashboardContent() {
         axios.get(`http://localhost:8000/flight/getFlightById/${params.returnFlightId}`)
             .then(
                 res1 => {
-                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.returnFlightId}`)
+                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.returnFlightId}/${params.cabinClass}`)
                         .then(
                             res2 => {
                                 handleReturnSeats(
                                     {
                                         availableSeats: res1.data.availableSeats[params.cabinClass],
-                                        maxSeats: params.noOfSeats,
+                                        maxSeats: parseInt(params.noOfAdults) + parseInt(params.noOfChildren),
                                         reservedSeats: res2.data
                                     }
                                 );
-                                setLoading((prevState => {
+                                setSeatsLoading((prevState => {
                                     return {
                                         ...prevState,
                                         return: false,
@@ -114,6 +149,73 @@ function DashboardContent() {
                     console.log(err);
                 }
             );
+
+        axios.get(`http://localhost:8000/flight/getFlightById/${params.departureFlightId}`)
+            .then(res => {
+                setFlightsData((prevState => {
+                    return {
+                        ...prevState,
+                        dep: {
+                            fromCity: res.data.from,
+                            fromAirport: res.data.departureAirport,
+                            toCity: res.data.to,
+                            toAirport: res.data.arrivalAirport,
+                            departureTerminal: res.data.departureTerminal,
+                            arrivalTerminal: res.data.arrivalTerminal,
+                            departureTime: res.data.departure,
+                            arrivalTime: res.data.arrival,
+                            flightPrice: res.data.price,
+                            baggageAllowance: res.data.baggageAllowance,
+                            flightNumber: res.data.flightNumber
+                        }
+                    }
+                }))
+
+                setFlightsLoading((prevState => {
+                    return {
+                        ...prevState,
+                        dep: false,
+                    }
+                }));
+
+                // console.log(flightsData.dep.flightPrice[params.cabinClass]['adult']);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        axios.get(`http://localhost:8000/flight/getFlightById/${params.returnFlightId}`)
+            .then(res => {
+                setFlightsData((prevState => {
+                    return {
+                        ...prevState,
+                        return: {
+                            fromCity: res.data.from,
+                            fromAirport: res.data.departureAirport,
+                            toCity: res.data.to,
+                            toAirport: res.data.arrivalAirport,
+                            departureTerminal: res.data.departureTerminal,
+                            arrivalTerminal: res.data.arrivalTerminal,
+                            departureTime: res.data.departure,
+                            arrivalTime: res.data.arrival,
+                            flightPrice: res.data.price,
+                            baggageAllowance: res.data.baggageAllowance,
+                            flightNumber: res.data.flightNumber
+                        }
+                    }
+                }))
+                // console.log(flightsData.return);
+                setFlightsLoading((prevState => {
+                    return {
+                        ...prevState,
+                        return: false,
+                    }
+                }));
+
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }, []);
 
     return (
@@ -156,7 +258,25 @@ function DashboardContent() {
                                             flexDirection: 'column'
                                         }}
                                     >
-                                        <Chart title="Departure Ticket"/>
+                                        {isFlightsLoading.dep ? null : <Chart
+                                            title="Departure Ticket"
+                                            fromCity={flightsData.dep.fromCity}
+                                            fromAirport={flightsData.dep.fromAirport}
+                                            toCity={flightsData.dep.toCity}
+                                            toAirport={flightsData.dep.toAirport}
+                                            departureTerminal={flightsData.dep.departureTerminal}
+                                            arrivalTerminal={flightsData.dep.arrivalTerminal}
+                                            departureTime={moment(flightsData.dep.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                            arrivalTime={moment(flightsData.dep.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                            cabinClass={params.cabinClass}
+                                            noOfAdults={params.noOfAdults}
+                                            noOfChildren={params.noOfChildren}
+                                            reservedSeats={chosenSeats.dep.reduce(((previousValue, currentValue, currentIndex) => {return currentIndex !== chosenSeats.dep.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`}), '')}
+                                            flightNumber={flightsData.dep.flightNumber}
+                                            flightPrice={parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                            + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)}
+                                            baggageAllowance={flightsData.dep.baggageAllowance}
+                                        />}
                                     </Paper>
                                 </Grid>
                                 {/* Recent Deposits */}
@@ -168,8 +288,8 @@ function DashboardContent() {
                                             flexDirection: 'column'
                                         }}
                                     >
-                                        {isLoading.dep ? null :
-                                            <Deposits title={"Departure Flight Seats"} seats={depSeats}/>}
+                                        {isSeatsLoading.dep ? null :
+                                            <Deposits title={"Departure Flight Seats"} seats={depSeats} flightType={'dep'} chosenSeatsCallback={setChosenSeats}/>}
                                     </Paper>
                                 </Grid>
                                 {/* Recent Orders */}
@@ -182,7 +302,7 @@ function DashboardContent() {
 
                             <Grid container spacing={3} style={{marginTop: 10}}>
                                 {/* Chart */}
-                                <Grid item xs={12} md={8} lg={7}>
+                                <Grid item xs={12} md={6} lg={7}>
                                     <Paper
                                         sx={{
                                             p: 2,
@@ -190,11 +310,29 @@ function DashboardContent() {
                                             flexDirection: 'column'
                                         }}
                                     >
-                                        <Chart title="Return Ticket"/>
+                                        {isFlightsLoading.return ? null :
+                                            <Chart title="Return Ticket"
+                                                   fromCity={flightsData.return.fromCity}
+                                                   fromAirport={flightsData.return.fromAirport}
+                                                   toCity={flightsData.return.toCity}
+                                                   toAirport={flightsData.return.toAirport}
+                                                   departureTerminal={flightsData.return.departureTerminal}
+                                                   arrivalTerminal={flightsData.return.arrivalTerminal}
+                                                   departureTime={moment(flightsData.return.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                                   arrivalTime={moment(flightsData.return.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                                   cabinClass={params.cabinClass}
+                                                   noOfAdults={params.noOfAdults}
+                                                   noOfChildren={params.noOfChildren}
+                                                   reservedSeats={chosenSeats.return.reduce(((previousValue, currentValue, currentIndex) => {return currentIndex !== chosenSeats.return.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`}), '')}
+                                                   flightNumber={flightsData.return.flightNumber}
+                                                   flightPrice={parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                                   + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)}
+                                                   baggageAllowance={flightsData.return.baggageAllowance}
+                                            />}
                                     </Paper>
                                 </Grid>
                                 {/* Recent Deposits */}
-                                <Grid item xs={12} md={4} lg={5}>
+                                <Grid item xs={12} md={6} lg={5}>
                                     <Paper
                                         sx={{
                                             p: 2,
@@ -202,8 +340,8 @@ function DashboardContent() {
                                             flexDirection: 'column'
                                         }}
                                     >
-                                        {isLoading.return ? null :
-                                            <Deposits title={"Return Flight Seats"} seats={returnSeats}/>}
+                                        {isSeatsLoading.return ? null :
+                                            <Deposits title={"Return Flight Seats"} seats={returnSeats} flightType={'return'} chosenSeatsCallback={setChosenSeats}/>}
                                     </Paper>
                                 </Grid>
                                 {/* Recent Orders */}

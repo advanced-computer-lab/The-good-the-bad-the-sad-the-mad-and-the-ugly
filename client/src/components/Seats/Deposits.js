@@ -13,7 +13,13 @@ export default function Deposits(props) {
   return (
     <React.Fragment>
       <Title>{props.title}</Title>
-      <Seats maxSeats={parseInt(props.seats.maxSeats)} availableSeats = {props.seats.availableSeats} reservedSeats = {props.seats.reservedSeats}/>
+      <Seats
+          maxSeats={parseInt(props.seats.maxSeats)}
+          availableSeats = {props.seats.availableSeats}
+          reservedSeats = {props.seats.reservedSeats}
+          flightType={props.flightType}
+          chosenSeatsCallback={props.chosenSeatsCallback}
+      />
     </React.Fragment>
   );
 }
