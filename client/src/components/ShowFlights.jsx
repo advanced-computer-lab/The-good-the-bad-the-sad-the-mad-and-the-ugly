@@ -116,6 +116,8 @@ class ShowFlights extends Component {
             );
         }
         const theme = createTheme();
+
+
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
@@ -193,7 +195,6 @@ class ShowFlights extends Component {
                                                 className='form-control'
                                                 value={parseISO(this.state.departure1)}
                                                 onChange={date => {
-                                                    console.log(date);
                                                     this.setState({
                                                         "departure1": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
@@ -218,7 +219,6 @@ class ShowFlights extends Component {
                                                 className='form-control'
                                                 value={parseISO(this.state.departure2)}
                                                 onChange={date => {
-                                                    console.log(date);
                                                     this.setState({
                                                         "departure2": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
@@ -243,7 +243,6 @@ class ShowFlights extends Component {
                                                 className='form-control'
                                                 value={parseISO(this.state.arrival1)}
                                                 onChange={date => {
-                                                    console.log(date);
                                                     this.setState({
                                                         "arrival1": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
@@ -268,7 +267,6 @@ class ShowFlights extends Component {
                                                 className='form-control'
                                                 value={parseISO(this.state.arrival2)}
                                                 onChange={date => {
-                                                    console.log(date);
                                                     this.setState({
                                                         "arrival2": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
@@ -332,9 +330,11 @@ class ShowFlights extends Component {
                 <TableContainer component={Paper} sx={{mt: 3, mx: 1}}>
                     <Table>
                         <FlightHeading/>
+
                         <TableBody>
                         {flightList}
                         </TableBody>
+                        
                     </Table>
 
                 </TableContainer>

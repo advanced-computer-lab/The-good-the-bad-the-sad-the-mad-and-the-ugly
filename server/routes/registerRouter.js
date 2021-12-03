@@ -30,6 +30,8 @@ registerRouter.post('/', (req, res) => {
                 }
             }
         );
+
+        //console.log(req);
     }
 );
 

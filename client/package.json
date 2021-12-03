@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.0.6",
@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "date-fns": "^2.25.0",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-country-region-selector": "^3.4.0",
     "react-dom": "^17.0.2",
@@ -19,6 +20,10 @@
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
     "react-select-country-list": "^2.2.3",
+    "react-seat-picker": "^1.5.3",
+    "react-tooltip": "^4.2.21",
+    "recharts": "^2.1.6",
+    "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

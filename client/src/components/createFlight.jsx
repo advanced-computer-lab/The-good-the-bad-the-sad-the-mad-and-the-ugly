@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -14,12 +14,12 @@ import Box from '@mui/material/Box';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import parseISO from "date-fns/parseISO";
 import formatISO from "date-fns/formatISO";
-import {LocalizationProvider, MobileDateTimePicker} from "@mui/lab";
+import { LocalizationProvider, MobileDateTimePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import {FieldFeedback, FieldFeedbacks} from "react-form-with-constraints";
+import { FieldFeedback, FieldFeedbacks } from "react-form-with-constraints";
 
 
 const theme = createTheme();
@@ -46,20 +46,20 @@ class CreateFlight extends Component {
     onChange = e => {
         if (e.target.name === "departure" || e.target.name === "arrival")
             e.target.value = formatISO(e.target.value);
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     };
 
 
     onSubmit = e => {
         e.preventDefault();
-        if (this.state.arrival <= this.state.departure){
+        if (this.state.arrival <= this.state.departure) {
             this.setState({
                 arrivalErr: "Arrival date must be after the departure date!",
                 negativeErr: ''
             });
             return;
         }
-        if (this.state.economy < 0 || this.state.first < 0 || this.state.business < 0){
+        if (this.state.economy < 0 || this.state.first < 0 || this.state.business < 0) {
             this.setState({
                 negativeErr: "The number of seats can not be negative!",
                 arrivalErr: ''
@@ -96,7 +96,7 @@ class CreateFlight extends Component {
                     economy: '',
                     business: '',
                     first: '',
-                    arrivalErr:'',
+                    arrivalErr: '',
                     negativeErr: ''
                 });
                 this.props.history.push('/');
@@ -109,7 +109,7 @@ class CreateFlight extends Component {
     render() {
         return (
             <ThemeProvider theme={theme}>
-                <CssBaseline/>
+                <CssBaseline />
                 <AppBar
                     position="absolute"
                     color="default"
@@ -125,8 +125,8 @@ class CreateFlight extends Component {
                         </Typography>
                     </Toolbar>
                 </AppBar>
-                <Container component="main" maxWidth="sm" sx={{mb: 4}}>
-                    <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
+                <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
+                    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                         <Typography component="h1" variant="h4" align="center">
                             Create Flight
                         </Typography>
@@ -141,7 +141,7 @@ class CreateFlight extends Component {
                                                 required
                                                 variant="standard" fullWidth label="Flight Number"
                                                 value={this.state.flightNumber}
-                                                onChange={this.onChange} name="flightNumber"/>
+                                                onChange={this.onChange} name="flightNumber" />
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <TextField
@@ -155,27 +155,27 @@ class CreateFlight extends Component {
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <TextField required fullWidth label="To" value={this.state.to}
-                                                       onChange={this.onChange}
-                                                       name="to"
-                                                       variant="standard"
+                                                onChange={this.onChange}
+                                                name="to"
+                                                variant="standard"
                                             />
 
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <TextField required fullWidth label="Departure Airport"
-                                                       value={this.state.departureAirport}
-                                                       onChange={this.onChange}
-                                                       name="departureAirport"
-                                                       variant="standard"
+                                                value={this.state.departureAirport}
+                                                onChange={this.onChange}
+                                                name="departureAirport"
+                                                variant="standard"
                                             />
 
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <TextField required fullWidth label="Arrival Airport"
-                                                       value={this.state.arrivalAirport}
-                                                       onChange={this.onChange}
-                                                       name="arrivalAirport"
-                                                       variant="standard"
+                                                value={this.state.arrivalAirport}
+                                                onChange={this.onChange}
+                                                name="arrivalAirport"
+                                                variant="standard"
                                             />
 
                                         </Grid>
@@ -186,19 +186,19 @@ class CreateFlight extends Component {
                                                 onChange={date => {
                                                     console.log(date);
                                                     this.setState({
-                                                        "departure": date !== null?formatISO(date):formatISO(Date.now())
+                                                        "departure": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
                                                 }
                                                 }
                                                 renderInput={(props) =>
                                                     <TextField disabled
-                                                               fullWidth
-                                                               name="departure"
-                                                               variant="standard"
-                                                               sx={{width: 350}} {...props}
+                                                        fullWidth
+                                                        name="departure"
+                                                        variant="standard"
+                                                        sx={{ width: 350 }} {...props}
                                                     />}
                                                 label="Departure Date"
-                                                variant="standard"/>
+                                                variant="standard" />
                                         </Grid>
                                         <Grid item xs={12} sm={12}>
                                             <MobileDateTimePicker
@@ -206,19 +206,19 @@ class CreateFlight extends Component {
                                                 value={parseISO(this.state.arrival)}
                                                 onChange={date => {
                                                     this.setState({
-                                                        "arrival": date !== null?formatISO(date):formatISO(Date.now())
+                                                        "arrival": date !== null ? formatISO(date) : formatISO(Date.now())
                                                     });
                                                 }
                                                 }
                                                 renderInput={(props) =>
                                                     <TextField disabled
-                                                               fullWidth
-                                                               name="arrival"
-                                                               variant="standard"
-                                                               sx={{width: 350}} {...props}
+                                                        fullWidth
+                                                        name="arrival"
+                                                        variant="standard"
+                                                        sx={{ width: 350 }} {...props}
                                                     />}
                                                 label="Arrival Date"
-                                                variant="standard"/>
+                                                variant="standard" />
                                         </Grid>
                                         <Grid item xs={12} sm={12}>
                                             {this.state.arrivalErr}
@@ -226,29 +226,29 @@ class CreateFlight extends Component {
 
                                         <Grid item xs={12} sm={4}>
                                             <TextField required
-                                                       fullWidth label="Economy" value={this.state.economy}
-                                                       onChange={this.onChange}
-                                                       name="economy"
-                                                       variant="standard"
-                                                       type="number"
+                                                fullWidth label="Economy" value={this.state.economy}
+                                                onChange={this.onChange}
+                                                name="economy"
+                                                variant="standard"
+                                                type="number"
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                             <TextField required
-                                                       fullWidth label="Business" value={this.state.business}
-                                                       onChange={this.onChange}
-                                                       name="business"
-                                                       variant="standard"
-                                                       type="number"
+                                                fullWidth label="Business" value={this.state.business}
+                                                onChange={this.onChange}
+                                                name="business"
+                                                variant="standard"
+                                                type="number"
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={4}>
                                             <TextField required
-                                                       fullWidth label="First Class" value={this.state.first}
-                                                       onChange={this.onChange}
-                                                       name="first"
-                                                       variant="standard"
-                                                       type="number"
+                                                fullWidth label="First Class" value={this.state.first}
+                                                onChange={this.onChange}
+                                                name="first"
+                                                variant="standard"
+                                                type="number"
                                             />
                                         </Grid>
 
@@ -258,12 +258,12 @@ class CreateFlight extends Component {
                                     </Grid>
                                 </LocalizationProvider>
 
-                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                                     <Button
                                         type="submit"
                                         variant="contained"
-                                        sx={{mt: 3, ml: 1}}
+                                        sx={{ mt: 3, ml: 1 }}
                                     >
                                         Submit
                                     </Button>

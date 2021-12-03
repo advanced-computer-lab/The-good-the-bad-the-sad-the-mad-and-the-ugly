@@ -8,6 +8,8 @@ import ShowAllFlights from "./components/ShowAllFlights";
 import ShowFlights from "./components/ShowFlights";
 import LoginSide from "./components/Login";
 import SignUp from "./components/SignUp/SignUp";
+import Seats from "./components/Seats/Dashboard.js";
+import UserShowFlights from "./components/UserShowFlights";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +22,8 @@ ReactDOM.render(
                   <Route path='showFlights' element={<ShowFlights/>}/>
                   <Route path='login' element={<LoginSide/>}/>
                   <Route path='signup' element={<SignUp/>}/>
+                  <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
+                  <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
               </Route>
 
           </Routes>
