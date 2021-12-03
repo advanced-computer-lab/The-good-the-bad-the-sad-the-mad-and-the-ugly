@@ -9,13 +9,15 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import background from '../Img/Flight2.jpg';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import background from '../Img/Flight2.jpg'
+import {useState} from "react";
+import {Alert} from "@mui/material";
+import axios from "axios";
 
-
-
-function Copyright(props) {
+function Copyright(props: any) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -30,22 +32,32 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+export default function SignInSide() {
 
-export default function LoginSide() {
-    const handleSubmit = (event) => {
+    const [isValidUser, setValidUser] = useState(true);
+
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const info = {username: data.get('username'), password: data.get('password')};
+        axios.post('http://localhost:8000/login', info)
+            .then(res => {
+                if (!res.data.success) {
+                    setValidUser(false);
+                } else {
+                    setValidUser(true);
+                }
+            }).catch(res => {
+            console.log(res)
+            });
+
     };
 
     return (
         <ThemeProvider theme={theme}>
-            <Grid container component="main" sx={{ height: '100vh' }}>
-                <CssBaseline />
+            <Grid container component="main" sx={{height: '100vh'}}>
+                <CssBaseline/>
                 <Grid
                     item
                     xs={false}
@@ -70,21 +82,21 @@ export default function LoginSide() {
                             alignItems: 'center',
                         }}
                     >
-                        {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
-                        {/*    <LockOutlinedIcon />*/}
-                        {/*</Avatar>*/}
+                        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                            <LockOutlinedIcon/>
+                        </Avatar>
                         <Typography component="h1" variant="h5">
                             Login
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoComplete="username"
                                 autoFocus
                             />
                             <TextField
@@ -98,16 +110,17 @@ export default function LoginSide() {
                                 autoComplete="current-password"
                             />
                             <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
+                                control={<Checkbox value="remember" color="primary"/>}
                                 label="Remember me"
                             />
+                            {(!isValidUser) && <Alert severity="error"> Invalid Email or Password </Alert>}
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{mt: 3, mb: 2}}
                             >
-                               Login
+                                login
                             </Button>
                             <Grid container>
                                 <Grid item xs>
@@ -116,12 +129,11 @@ export default function LoginSide() {
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link href="http://localhost:3000/signup" variant="body2">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{ mt: 5 }} />
                         </Box>
                     </Box>
                 </Grid>
