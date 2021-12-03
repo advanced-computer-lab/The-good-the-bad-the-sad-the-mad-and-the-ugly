@@ -86,6 +86,7 @@ function DashboardContent() {
         dep: [],
         return: [],
     });
+    const [missingSeats, setMissingSeats] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/flight/getFlightById/${params.departureFlightId}`)
@@ -218,13 +219,22 @@ function DashboardContent() {
             });
     }, []);
 
+    function handleSubmit() {
+        let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
+        if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats){
+            setMissingSeats(true);
+        }else {
+            setMissingSeats(false);
+        }
+    }
+
     return (
         <ThemeProvider theme={mdTheme}>
             <Box>
                 <CssBaseline/>
                 <div>
                     <Box sx={{flexGrow: 1}}>
-                        <AppBar position="static" sx={{flexGrow: 1, bgcolor: 'text.secondary'}}>
+                        <AppBar position={"static"} sx={{flexGrow: 1, bgcolor: 'text.secondary'}}>
                             <Toolbar>
                                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                                     Airline System
@@ -292,12 +302,8 @@ function DashboardContent() {
                                             <Deposits title={"Departure Flight Seats"} seats={depSeats} flightType={'dep'} chosenSeatsCallback={setChosenSeats}/>}
                                     </Paper>
                                 </Grid>
-                                {/* Recent Orders */}
-                                {/*<Grid item xs={12}>*/}
-                                {/*  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>*/}
-                                {/*    <Orders />*/}
-                                {/*  </Paper>*/}
-                                {/*</Grid>*/}
+
+
                             </Grid>
 
                             <Grid container spacing={3} style={{marginTop: 10}}>
@@ -344,12 +350,11 @@ function DashboardContent() {
                                             <Deposits title={"Return Flight Seats"} seats={returnSeats} flightType={'return'} chosenSeatsCallback={setChosenSeats}/>}
                                     </Paper>
                                 </Grid>
-                                {/* Recent Orders */}
-                                {/*<Grid item xs={12}>*/}
-                                {/*  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>*/}
-                                {/*    <Orders />*/}
-                                {/*  </Paper>*/}
-                                {/*</Grid>*/}
+                                <Grid item xs={12}>
+                                  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                                    <Orders missingSeats={missingSeats} handleSubmit={handleSubmit}/>
+                                  </Paper>
+                                </Grid>
                             </Grid>
                             <Copyright sx={{pt: 4}}/>
                         </Container>
