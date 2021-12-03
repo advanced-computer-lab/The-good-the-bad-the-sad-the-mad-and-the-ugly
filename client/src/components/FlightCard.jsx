@@ -10,24 +10,24 @@ function FlightCard(props) {
     const flight = props.flight;
     const departureDate = new Date(flight.departure);
     const arrivalDate = new Date(flight.arrival);
-
-    function handleClick(){
-                if (props.departure){
-                    if (props.selected){
-                        props.onBookingDepartureFunction(null);
-                    }
-                    else {
-                    props.onBookingDepartureFunction(flight._id);
-                    }
-                }
-                else {
-                    if (props.selected){
-                        props.onBookingReturningFunction(null);
-                    }
-                    else {
-                    props.onBookingReturningFunction(flight._id);
-                    }
-                }
+    const price = parseInt(props.adults)*parseInt(flight.price[props.seatClass]["adult"]) +  parseInt(props.children)*parseInt(flight.price[props.seatClass]["child"]);
+    function handleClick() {
+        if (props.departure) {
+            if (props.selected) {
+                props.onBookingDepartureFunction(null);
+            }
+            else {
+                props.onBookingDepartureFunction(flight._id);
+            }
+        }
+        else {
+            if (props.selected) {
+                props.onBookingReturningFunction(null);
+            }
+            else {
+                props.onBookingReturningFunction(flight._id);
+            }
+        }
     }
     const card = (
         <React.Fragment>
@@ -49,10 +49,15 @@ function FlightCard(props) {
                     <br />
                     Arrival Time: {(arrivalDate.getHours() <= 9 ? "0" + arrivalDate.getHours() : arrivalDate.getHours()) + ':' + (arrivalDate.getMinutes() <= 9 ? "0" + arrivalDate.getMinutes() : arrivalDate.getMinutes())}
                 </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Price: {parseInt(price)} EGP
+                    <br />
+                    Baggage Allowance: {flight.baggageAllowance} Kg
+                </Typography>
             </CardContent>
 
             <CardActions>
-                <Button  onClick={handleClick} size="large"> {props.selected?"Booked!":"Book Now"} </Button>
+                <Button onClick={handleClick} size="large"> {props.selected ? "Booked!" : "Book Now"} </Button>
             </CardActions>
         </React.Fragment>
     );

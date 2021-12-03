@@ -35,13 +35,14 @@ class UserShowFlights extends Component {
     constructor() {
 
         super();
-
+        var adults = 0;
+        var children =0;
         this.state = {
             from: '',
             to: '',
             departure: formatISO(new Date()),
             returning: formatISO(new Date()),
-            seatClass: 'Economy',
+            seatClass: 'economy',
             adultSeats: '',
             childrenSeats: '',
             arrivalErr: '',
@@ -80,7 +81,13 @@ class UserShowFlights extends Component {
 
         if (this.state.returning < this.state.departure) {
             this.setState({
-                arrivalErr: "Returning date must be after the departure date!",
+                arrivalErr: "Returning date must be after the departure date!"
+            });
+            return;
+        }
+        if (parseInt(this.state.adultSeats) <= 0 || parseInt(this.state.adultSeats) + parseInt(this.state.childrenSeats) <= 0) {
+            this.setState({
+                arrivalErr: "There has to be at least one adult!"
             });
             return;
         }
@@ -99,14 +106,17 @@ class UserShowFlights extends Component {
         axios
             .post('http://localhost:8000/flight/userShowFlights', data)
             .then(res => {
+
+                this.adults = parseInt(this.state.adultSeats);
+                this.children = parseInt(this.state.childrenSeats);
                 this.setState({
                     from: '',
                     to: '',
                     departure: formatISO(new Date()),
                     returning: formatISO(new Date()),
+                    arrivalErr: '',
                     adultSeats: '',
                     childrenSeats: '',
-                    arrivalErr: '',
                     selectionErr: '',
                     flights: res.data
                 })
@@ -119,14 +129,16 @@ class UserShowFlights extends Component {
 
     };
 
+
     handleClick = () => {
         if (this.state.selectedDeparture == null || this.state.selectedReturning == null) {
             this.setState({
                 selectionErr: 'Please select a departure and a returning flights to continue'
             });
-        }else{
-            const seats = parseInt(this.state.adultSeats) + parseInt(this.state.childrenSeats);
-            window.location.href='http://localhost:3000/seats/'+this.state.selectedDeparture+'/'+this.state.selectedReturning+'/'+seats+'/'+this.state.seatClass;
+
+        } else {
+            console.log(this.state);
+            window.location.href = 'http://localhost:3000/seats/' + this.state.selectedDeparture + '/' + this.state.selectedReturning + '/' + this.adults+ '/' + this.children + '/' + this.state.seatClass;
         }
     };
 
@@ -149,7 +161,11 @@ class UserShowFlights extends Component {
                     <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
                         onBookingReturningFunction={this.onBookingReturning}
                         departure={true}
-                        selected={flight._id === this.state.selectedDeparture} />
+                        selected={flight._id === this.state.selectedDeparture} 
+                        seatClass = {this.state.seatClass}
+                        adults = {this.adults}
+                        children = {this.children}
+                        />
                 </Grid>
             );
 
@@ -158,7 +174,10 @@ class UserShowFlights extends Component {
                     <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
                         onBookingReturningFunction={this.onBookingReturning}
                         departure={false}
-                        selected={flight._id === this.state.selectedReturning} />
+                        selected={flight._id === this.state.selectedReturning}
+                        seatClass = {this.state.seatClass}
+                        adults = {this.adults}
+                        children = {this.children} />
                 </Grid>
             );
         }
@@ -265,13 +284,13 @@ class UserShowFlights extends Component {
                                                 <RadioGroup
                                                     name="seatClass"
                                                     aria-label="seatClass"
-                                                    defaultValue="Economy"
+                                                    defaultValue="economy"
                                                     value={this.state.seatClass}
                                                     onChange={this.onChange}
                                                 >
-                                                    <FormControlLabel value="Economy" control={<Radio />} label="Economy" />
-                                                    <FormControlLabel value="Business" control={<Radio />} label="Business" />
-                                                    <FormControlLabel value="First Class" control={<Radio />} label="First Class" />
+                                                    <FormControlLabel value="economy" control={<Radio />} label="Economy" />
+                                                    <FormControlLabel value="business" control={<Radio />} label="Business" />
+                                                    <FormControlLabel value="first" control={<Radio />} label="First Class" />
                                                 </RadioGroup>
                                             </FormControl>
                                         </Grid>

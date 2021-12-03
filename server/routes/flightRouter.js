@@ -147,15 +147,15 @@ flightRouter.post('/userShowFlights', (req, res) => {
 
     //2-Handling available seats
     switch (seatClass) {
-        case 'Economy':
+        case 'economy':
             departureData['availableSeats.economy'] = { $gte: seats };
             returningData['availableSeats.economy'] = { $gte: seats };
             break;
-        case 'First Class':
+        case 'first':
             departureData['availableSeats.first'] = { $gte: seats };
             returningData['availableSeats.first'] = { $gte: seats };
             break;
-        case 'Business':
+        case 'business':
             departureData['availableSeats.business'] = { $gte: seats };
             returningData['availableSeats.business'] = { $gte: seats };
             break;
