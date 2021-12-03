@@ -138,7 +138,7 @@ class UserShowFlights extends Component {
 
         } else {
             console.log(this.state);
-            window.location.href = 'http://localhost:3000/seats/' + this.state.selectedDeparture + '/' + this.state.selectedReturning + '/' + this.adults+ '/' + this.children + '/' + this.state.seatClass;
+            window.location.href = 'http://localhost:3000/selectSeats/' + this.state.selectedDeparture + '/' + this.state.selectedReturning + '/' + this.adults+ '/' + this.children + '/' + this.state.seatClass;
         }
     };
 
