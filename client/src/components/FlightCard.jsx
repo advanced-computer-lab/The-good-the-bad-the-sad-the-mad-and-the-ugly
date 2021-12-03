@@ -49,10 +49,14 @@ function FlightCard(props) {
                     <br />
                     Departure Time: {(departureDate.getHours() <= 9 ? "0" + departureDate.getHours() : departureDate.getHours()) + ':' + (departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}
                     <br />
+                    Departure Terminal: {flight.departureTerminal}
+                    <br />
                     <br />
                     Arrival Date : {arrivalDate.getFullYear() + '-' + (arrivalDate.getMonth() + 1) + '-' + arrivalDate.getDate()}
                     <br />
                     Arrival Time: {(arrivalDate.getHours() <= 9 ? "0" + arrivalDate.getHours() : arrivalDate.getHours()) + ':' + (arrivalDate.getMinutes() <= 9 ? "0" + arrivalDate.getMinutes() : arrivalDate.getMinutes())}
+                    <br />
+                    Arrival Terminal: {flight.arrivalTerminal}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     Flight Duration: {(diffHours <= 9 ? "0" + diffHours : diffHours) + ':' + (diffMinutes <= 9 ? "0" + diffMinutes : diffMinutes)}
@@ -64,7 +68,7 @@ function FlightCard(props) {
             </CardContent>
 
             <CardActions>
-                <Button onClick={handleClick} size="large"> {props.selected ? "Booked!" : "Book Now"} </Button>
+                <Button variant="contained" color={props.selected ?"success":"primary"} onClick={handleClick} size="large"> {props.selected ? "Booked!" : "Book Now"} </Button>
             </CardActions>
         </React.Fragment>
     );
