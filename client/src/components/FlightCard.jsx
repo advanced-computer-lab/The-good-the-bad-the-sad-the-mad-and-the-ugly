@@ -10,7 +10,13 @@ function FlightCard(props) {
     const flight = props.flight;
     const departureDate = new Date(flight.departure);
     const arrivalDate = new Date(flight.arrival);
-    const price = parseInt(props.adults)*parseInt(flight.price[props.seatClass]["adult"]) +  parseInt(props.children)*parseInt(flight.price[props.seatClass]["child"]);
+    const duration = Math.abs(arrivalDate - departureDate);
+    const diff = Math.ceil(duration / (1000 * 60));
+    const diffHours = Math.ceil(diff/60);
+    const diffMinutes = diff%60;
+
+    const price = parseInt(props.adults) * parseInt(flight.price[props.seatClass]["adult"]) + parseInt(props.children) * parseInt(flight.price[props.seatClass]["child"]);
+
     function handleClick() {
         if (props.departure) {
             if (props.selected) {
@@ -39,7 +45,6 @@ function FlightCard(props) {
                     From {flight.from}({flight.departureAirport}) To {flight.to}({flight.arrivalAirport})
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-
                     Departure Date: {departureDate.getFullYear() + '-' + (departureDate.getMonth() + 1) + '-' + departureDate.getDate()}
                     <br />
                     Departure Time: {(departureDate.getHours() <= 9 ? "0" + departureDate.getHours() : departureDate.getHours()) + ':' + (departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}
@@ -50,6 +55,8 @@ function FlightCard(props) {
                     Arrival Time: {(arrivalDate.getHours() <= 9 ? "0" + arrivalDate.getHours() : arrivalDate.getHours()) + ':' + (arrivalDate.getMinutes() <= 9 ? "0" + arrivalDate.getMinutes() : arrivalDate.getMinutes())}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    Flight Duration: {(diffHours <= 9 ? "0" + diffHours : diffHours) + ':' + (diffMinutes <= 9 ? "0" + diffMinutes : diffMinutes)}
+                    <br />
                     Price: {parseInt(price)} EGP
                     <br />
                     Baggage Allowance: {flight.baggageAllowance} Kg
