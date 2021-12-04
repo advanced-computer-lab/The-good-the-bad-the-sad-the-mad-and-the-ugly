@@ -16,26 +16,17 @@ import background from '../Img/Flight2.jpg'
 import {useState} from "react";
 import {Alert} from "@mui/material";
 import axios from "axios";
+import {useNavigate,  useLocation} from 'react-router-dom';
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+
 
 const theme = createTheme();
 
 export default function SignInSide() {
 
     const [isValidUser, setValidUser] = useState(true);
-
+    // const navigate = useNavigate();
+    // const location = useLocation();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

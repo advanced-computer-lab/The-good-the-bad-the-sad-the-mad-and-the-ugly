@@ -10,7 +10,11 @@ const User = require('../models/User');
 
 userProfileRouter.post('/editProfile', async (req, res) => {
 
+    if (!req.user)
+        res.redirect('/login')
+
     const username = req.user.username;
+
     let userDocument = await User.findOne({username: username})
         .catch(err => console.log(err));
 
@@ -22,19 +26,21 @@ userProfileRouter.post('/editProfile', async (req, res) => {
     });
 
     await userDocument.save();
-    res.sendStatus(200)
+    res.sendStatus(200);
 });
 
 
 userProfileRouter.get('/', (req, res) => {
     const userReq = req.user;
-
     if (!userReq) {
         res.json({success: false, message: 'Not logged in'});
     } else {
         const q = {username: userReq.username};
         User.find(q)
-            .then(result => res.json({success: true, result}))
+            .then(result => {
+                console.log(result);
+                res.json({success: true, result})
+            })
             .catch(err => console.log(err));
     }
 });

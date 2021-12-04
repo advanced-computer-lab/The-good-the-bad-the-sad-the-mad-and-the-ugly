@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
-const {port,secret} = require('./config/config');
+const {port, secret} = require('./config/config');
 const User = require('./models/User');
 const connectDB = require('./config/db');
 const cors = require('cors');
@@ -22,12 +22,12 @@ app.use(session({
     secret: secret,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge : 3600000 }
+    cookie: {maxAge: 3600000}
 }));
 
 connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 
 app.use(passport.session());
@@ -35,12 +35,16 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 
 
-
 passport.deserializeUser(User.deserializeUser());
 // Connect Database
 
 // giving the frontend the permission to access the back-end server
-app.use(cors());
+app.use(cors(
+    {
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }
+));
 
 
 // defining Routes parent
