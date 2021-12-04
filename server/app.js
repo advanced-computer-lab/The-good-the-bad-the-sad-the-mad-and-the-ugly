@@ -24,18 +24,20 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge : 3600000 }
 }));
+
+connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-app.use(passport.session());
 
+app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
+
+
+
 passport.deserializeUser(User.deserializeUser());
-
-
-
 // Connect Database
-connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
 
 // giving the frontend the permission to access the back-end server
 app.use(cors());
