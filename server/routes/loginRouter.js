@@ -12,7 +12,6 @@ loginRouter.use(express.urlencoded({extended: true}));
 loginRouter.post('/', passport.authenticate('local', {session: true} ),
     (req, res, next) => {
         const user = req.user;
-        console.log(req.user);
         if (user.isAdmin) {
             return res.json({success: true, redirect: '/adminHomePage'});
         } else {

@@ -13,6 +13,7 @@ const flightRouter = require('./routes/flightRouter')
 const registerRouter = require('./routes/registerRouter');
 const loginRouter = require('./routes/loginRouter');
 const reservationRouter = require('./routes/reservationRouter');
+const userProfile = require('./routes/UserProfileRouter');
 
 app.use(bodyParser.json());
 
@@ -20,7 +21,8 @@ app.use(bodyParser.json());
 app.use(session({
     secret: secret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge : 3600000 }
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
@@ -45,6 +47,7 @@ app.use("/flight", flightRouter);
 app.use("/reservation", reservationRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
+app.use("/profile", userProfile);
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
