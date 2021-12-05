@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {Box, Button, Container, Modal, Typography} from "@mui/material";
+import {Box, Button,  Modal, Typography} from "@mui/material";
 
 export default class DeleteModal extends Component {
     constructor(props) {

@@ -3,18 +3,30 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
     "@material-ui/icons": "^4.11.2",
+    "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.0.6",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "classnames": "^2.3.1",
     "date-fns": "^2.25.0",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.0.3",
+    "react-country-region-selector": "^3.4.0",
     "react-dom": "^17.0.2",
     "react-form-with-constraints": "^0.18.0",
+    "react-helmet": "^6.1.0",
     "react-scripts": "4.0.3",
+    "react-seat-picker": "^1.5.3",
+    "react-select": "^5.2.1",
+    "react-select-country-list": "^2.2.3",
+    "react-tooltip": "^4.2.21",
+    "recharts": "^2.1.6",
+    "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
@@ -42,8 +54,10 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/core": "^4.12.3",
     "@mui/lab": "^5.0.0-alpha.53",
     "axios": "^0.24.0",
+    "prop-types": "^15.7.2",
     "react-router-dom": "^6.0.0"
   }
 }

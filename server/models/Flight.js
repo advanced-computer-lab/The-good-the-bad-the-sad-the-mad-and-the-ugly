@@ -6,11 +6,11 @@ const FlightSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        departureAirport:{
+        departureAirport: {
             type: String,
             required: true
         },
-        arrivalAirport:{
+        arrivalAirport: {
             type: String,
             required: true
         },
@@ -26,17 +26,17 @@ const FlightSchema = new mongoose.Schema({
             type: Date,
             required: true
         },
-        arrival:{
+        arrival: {
             type: Date,
             required: true
         },
-        availableSeats:{
-            economy:{
+        availableSeats: {
+            economy: {
                 type: Number,
                 required: true,
                 min: 0
             },
-            business:{
+            business: {
                 type: Number,
                 required: true,
                 min: 0
@@ -46,6 +46,49 @@ const FlightSchema = new mongoose.Schema({
                 required: true,
                 min: 0
             }
+        },
+        maxSeats: {
+            economy: {
+                type: Number,
+                required: true,
+                min: 0
+            },
+            business: {
+                type: Number,
+                required: true,
+                min: 0
+            },
+            first: {
+                type: Number,
+                required: true,
+                min: 0
+            }
+        },
+        price: {
+            economy: {
+                adult: Number,
+                child: Number
+            },
+            business: {
+                adult: Number,
+                child: Number
+            },
+            first: {
+                adult: Number,
+                child: Number
+            }
+        },
+        departureTerminal: {
+            type: Number,
+            required: true
+        },
+        arrivalTerminal: {
+            type: Number,
+            required: true
+        },
+        baggageAllowance: {
+            type: Number,
+            required: true
         }
     }
 )
