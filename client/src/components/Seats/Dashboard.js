@@ -281,7 +281,11 @@ function DashboardContent(props) {
                 cabinClass: params.cabinClass,
                 departureSeats: chosenSeats.dep,
                 returnSeats: chosenSeats.return,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                totalPrice: parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                    + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                    + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                    + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
             }
             axios.get('http://localhost:8000/login/authorize')
                 .then(res => {
@@ -289,7 +293,8 @@ function DashboardContent(props) {
                         reservation.confirmed = true;
                         reservation.userId = res.data.userId;
                         if (params.reservationId) {
-                            reservation.userId = res.data.userId;
+                            // reservation.userId = res.data.userId;
+                            console.log(reservation);
                             axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
                                 .then(res => {
                                     // console.log(res.data);

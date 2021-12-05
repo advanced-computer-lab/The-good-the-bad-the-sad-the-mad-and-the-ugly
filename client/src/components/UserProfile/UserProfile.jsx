@@ -15,6 +15,7 @@ import {LocalizationProvider, MobileDateTimePicker} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Avatar from "@mui/material/Avatar";
 import {Helmet} from 'react-helmet';
+import {useNavigate} from "react-router-dom";
 
 
 const theme = createTheme({
@@ -26,7 +27,7 @@ const theme = createTheme({
 });
 
 export default function UserProfile() {
-
+    const navigate = useNavigate();
     const [isDisabled, setDisable] = useState(true);
     const [userData, setUserData] = useState({
         email: '',
@@ -39,22 +40,32 @@ export default function UserProfile() {
     });
 
     useEffect(() => {
-        axios.get('http://localhost:8000/profile')
-            .then(res => {
-                const data = res.data.result[0];
-                setUserData({
-                    email: data.email,
-                    firstName: data.firstName,
-                    lastName: data.lastName,
-                    country: data.country,
-                    passportNumber: data.passportNumber,
-                    homeAddress: data.homeAddress,
-                    mobileNumber: data.mobileNumber
-                });
-            })
-            .catch(err => {
-                console.log(err)
-            });
+        axios.get('http://localhost:8000/login/authorize')
+            .then(
+                res => {
+                    if (res.data.success){
+                        axios.get('http://localhost:8000/profile')
+                            .then(res => {
+                                const data = res.data.result[0];
+                                setUserData({
+                                    email: data.email,
+                                    firstName: data.firstName,
+                                    lastName: data.lastName,
+                                    country: data.country,
+                                    passportNumber: data.passportNumber,
+                                    homeAddress: data.homeAddress,
+                                    mobileNumber: data.mobileNumber
+                                });
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            });
+                    } else {
+                        navigate('/login');
+                    }
+                }
+            )
+
     }, []);
 
 
@@ -74,9 +85,13 @@ export default function UserProfile() {
         }));
     };
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
         axios.post('http://localhost:8000/profile/editProfile', userData)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res);
+                setDisable(true);
+            })
             .catch(err => console.log(err));
     };
 
@@ -218,6 +233,7 @@ export default function UserProfile() {
                                             type="submit"
                                             variant="contained"
                                             sx={{mt: 3, ml: 1}}
+                                            disabled={isDisabled}
                                         >
                                             Submit
                                         </Button>

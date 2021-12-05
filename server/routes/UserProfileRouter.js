@@ -10,6 +10,9 @@ const User = require('../models/User');
 
 userProfileRouter.post('/editProfile', async (req, res) => {
 
+
+    console.log(req.body);
+    console.log(req.user);
     if (!req.user)
         res.redirect('/login')
 
@@ -19,11 +22,12 @@ userProfileRouter.post('/editProfile', async (req, res) => {
         .catch(err => console.log(err));
 
     Object.keys(req.body).forEach(key => {
-        if (userDocument[key] && key !== 'isAdmin') {
+        // if (userDocument[key] && key !== 'isAdmin') {
             userDocument[key] = req.body[key];
-        }
+        // }
 
     });
+    console.log(userDocument)
 
     await userDocument.save();
     res.sendStatus(200);
@@ -38,7 +42,7 @@ userProfileRouter.get('/', (req, res) => {
         const q = {username: userReq.username};
         User.find(q)
             .then(result => {
-                console.log(result);
+                //console.log(result);
                 res.json({success: true, result})
             })
             .catch(err => console.log(err));

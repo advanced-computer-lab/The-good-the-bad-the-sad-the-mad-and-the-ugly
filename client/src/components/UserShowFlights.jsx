@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import parseISO from "date-fns/parseISO";
 import formatISO from "date-fns/formatISO";
-import {LocalizationProvider, DatePicker} from "@mui/lab";
+import {LocalizationProvider, DatePicker, Alert} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -87,9 +87,15 @@ class UserShowFlights extends Component {
             });
             return;
         }
-        if (parseInt(this.state.adultSeats) <= 0 || parseInt(this.state.adultSeats) + parseInt(this.state.childrenSeats) <= 0) {
+        if (parseInt(this.state.adultSeats) <= 0) {
             this.setState({
                 arrivalErr: "There has to be at least one adult!"
+            });
+            return;
+        }
+        if(parseInt(this.state.childrenSeats) < 0){
+            this.setState({
+                arrivalErr: "There cannot be negative number of passengers!"
             });
             return;
         }
@@ -285,8 +291,8 @@ class UserShowFlights extends Component {
                                                 }
                                                 }
                                                 renderInput={(props) =>
-                                                    <TextField disabled
-
+                                                    <TextField
+                                                        disabled
                                                                name="departure"
                                                                variant="standard"
                                                                sx={{width: 350}} {...props}
@@ -309,8 +315,8 @@ class UserShowFlights extends Component {
                                                 }
                                                 }
                                                 renderInput={(props) =>
-                                                    <TextField disabled
-
+                                                    <TextField
+                                                            disabled
                                                                name="returning"
                                                                variant="standard"
                                                                sx={{width: 350}} {...props}
@@ -363,7 +369,7 @@ class UserShowFlights extends Component {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
-                                        {this.state.arrivalErr}
+                                        {this.state.arrivalErr.length > 0 && <Alert severity={"error"}> {this.state.arrivalErr}</Alert>}
                                     </Grid>
                                 </LocalizationProvider>
                                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -393,7 +399,7 @@ class UserShowFlights extends Component {
                             Next
                         </Button>
                         <Grid item xs={12} sm={12}>
-                            {this.state.selectionErr}
+                            {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
                         </Grid>
                     </Box>
                     <TabContext value={this.state.value}>

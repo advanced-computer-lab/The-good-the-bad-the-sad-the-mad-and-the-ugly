@@ -53,6 +53,11 @@ const ReservationSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         required: true
+    },
+
+    totalPrice: {
+        type: Number,
+        required: true
     }
 });
 

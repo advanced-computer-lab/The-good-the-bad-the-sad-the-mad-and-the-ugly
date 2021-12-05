@@ -12,9 +12,10 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import Seats from "./components/Seats/Dashboard.js";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
+import ShowAllUserReservations from "./components/ShowAllUserReservations";
 
 axios.defaults.withCredentials = true;
-import ShowAllUserReservations from "./components/ShowAllUserReservations";
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -31,7 +32,7 @@ ReactDOM.render(
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='userprofile' element={<UserProfile/>}/>
-                  <Route path='show' element={<ShowAllUserReservations/>}/>
+                  <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
               </Route>
 
           </Routes>

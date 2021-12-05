@@ -4,7 +4,6 @@ const Reservation = require('../models/Reservation');
 const Flight = require('../models/Flight');
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const {Mongoose} = require("mongoose");
 reservationRouter.use(express.json());
 reservationRouter.use(express.urlencoded({extended: true}));
 
@@ -33,6 +32,18 @@ reservationRouter.get('/showAllReservations', (req, res) => {
     Reservation.find()
         .then(reservations => res.json(reservations))
         .catch(err => res.json(err));
+});
+
+reservationRouter.get('/getUserReservations/:userId', (req, res) => {
+    Reservation.find({userId: req.params.userId})
+        .then(reservations => {
+            res.json(reservations);
+        })
+        .catch(
+            err => {
+                res.json(err);
+            }
+        )
 });
 
 reservationRouter.get('/getReservationById/:id', (req, res) => {
@@ -114,6 +125,7 @@ reservationRouter.put('/updateReservation/:id', (req, res) => {
     // updateQuery['$project'] = {sessionId: 0};
     req.body.departureFlightId = mongoose.Types.ObjectId(req.body.departureFlightId);
     req.body.returnFlightId = mongoose.Types.ObjectId(req.body.returnFlightId);
+    req.body.userId = mongoose.Types.ObjectId(req.body.userId);
     // req.body.timestamp = new Date(req.body.timestamp);
     Reservation.findByIdAndUpdate(req.params.id, [{$set: req.body}, {$project: {sessionId: 0}}])
         .then(reservation => {
@@ -126,7 +138,17 @@ reservationRouter.put('/updateReservation/:id', (req, res) => {
 
 reservationRouter.delete('/delete/:id', (req, res) => {
     Reservation.findByIdAndRemove(req.params.id)
-        .then(flight => res.json(flight))
+        .then(deletedReservation => {
+            Flight.findByIdAndUpdate(deletedReservation.departureFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
+                .then(res1 => {
+                    console.log('successful departure flight update');
+                })
+            Flight.findByIdAndUpdate(deletedReservation.returnFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
+                .then(res1 => {
+                    console.log('successful return flight update');
+                })
+            res.json(deletedReservation)
+        })
         .catch(err => res.status(404).json({ error: 'No such Reservation' }));
 });
 

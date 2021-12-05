@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import background from '../Img/Flight2.jpg'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
@@ -21,10 +21,19 @@ import {useNavigate, useParams} from "react-router-dom";
 const theme = createTheme();
 
 export default function SignInSide() {
-    let params = useParams();
     const navigate = useNavigate();
     const [isValidUser, setValidUser] = useState(true);
 
+    useEffect(() => {
+        axios.get('http://localhost:8000/login/authorize')
+            .then(
+                res => {
+                    if (res.data.success){
+                        navigate('/userShowFlights')
+                    }
+                }
+            )
+    })
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

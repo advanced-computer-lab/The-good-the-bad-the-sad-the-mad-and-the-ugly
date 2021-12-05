@@ -10,6 +10,7 @@ import { styled } from '@mui/material/styles';
 import axios from "axios";
 import FlightCard from "./FlightCard";
 import DeleteModal2 from "./DeleteModal2";
+import UserFlightCard from "./UserFlightCard";
 const bull = (
     <Box
         component="span"
@@ -102,25 +103,27 @@ class Reservation extends Component {
         return (
             <Box sx={{ minWidth: 200 }}>
                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    <strong>Adults :</strong> {this.props.reservation.noOfAdults}
+                    <strong>Adults:</strong> {this.props.reservation.noOfAdults}
                     <br/>
-                    <strong>Children : </strong>{this.props.reservation.noOfChildren}
+                    <strong>Children: </strong>{this.props.reservation.noOfChildren}
                     <br/>
-                    <strong>Cabin Class : </strong>{this.props.reservation.cabinClass}
+                    <strong>Cabin Class: </strong>{this.props.reservation.cabinClass}
+                    <br/>
+                    <strong>Total Price: </strong>{this.props.reservation.totalPrice}
                 </Typography>
                 <Button variant="outlined" onClick={this.handleExpandClick}>Departure Flight</Button>
                 <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-                <FlightCard flight={this.state.depFlight} reservation={this.props.reservation}></FlightCard>
+                <UserFlightCard flight={this.state.depFlight} reservation={this.props.reservation}/>
                 </Collapse>
                 <br/>
                 <br/>
                 <Button variant="outlined" onClick={this.handleExpandClick2}>Return Flight</Button>
                 <Collapse in={this.state.expanded2} timeout="auto" unmountOnExit>
-                <FlightCard flight={this.state.retFlight} reservation={this.props.reservation}></FlightCard>
+                <UserFlightCard flight={this.state.retFlight} reservation={this.props.reservation}/>
                 </Collapse>
                 <br/>
                 <styledTableRow>
-                <StyledTableCell><Button color={"error"} onClick={this.handleOpen}>delete</Button></StyledTableCell>
+                <StyledTableCell><Button color={"error"} onClick={this.handleOpen}>Cancel Reservation</Button></StyledTableCell>
                     <DeleteModal2 ReservationId={this.props.reservation._id} deleteFunc={this.props.deleteFunction} modalOpen={this.state.modalOpen} handleClose={this.handleClose}/>
                 </styledTableRow>
         </Box>);
