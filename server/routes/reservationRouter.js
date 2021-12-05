@@ -124,4 +124,10 @@ reservationRouter.put('/updateReservation/:id', (req, res) => {
         })
 });
 
+reservationRouter.delete('/delete/:id', (req, res) => {
+    Reservation.findByIdAndRemove(req.params.id)
+        .then(flight => res.json(flight))
+        .catch(err => res.status(404).json({ error: 'No such Reservation' }));
+});
+
 module.exports = reservationRouter;
