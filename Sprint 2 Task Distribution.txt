@@ -1,0 +1,16 @@
+Sprint 2 Task Distribution:
+
+Mohamed Shetewi:
+	- Edit Profile.
+	- Sign Up.
+	- Login.
+Moamen Shoman:
+	- Search Flights.
+Mohammed Basioni:
+	- Picking Seats.
+Mohammad Hossam:
+	- Reservation Schema.
+	- DB Queries.
+Ahmed Hossam:
+	- Show user reservations.
+	- Cancel reservations.
