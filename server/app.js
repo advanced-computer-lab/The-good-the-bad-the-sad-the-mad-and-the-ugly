@@ -1,19 +1,19 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
-const {port,secret} = require('./config/config');
+const {port, secret} = require('./config/config');
 const User = require('./models/User');
 const connectDB = require('./config/db');
 const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const nodemailer = require('nodemailer');
 
 // Routes
 const flightRouter = require('./routes/flightRouter')
 const registerRouter = require('./routes/registerRouter');
 const loginRouter = require('./routes/loginRouter');
 const reservationRouter = require('./routes/reservationRouter');
+const userProfile = require('./routes/UserProfileRouter');
 
 app.use(bodyParser.json());
 
@@ -26,13 +26,12 @@ app.use(session({
 
 connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 
 app.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
-
 
 
 passport.deserializeUser(User.deserializeUser());
@@ -53,6 +52,7 @@ app.use("/flight", flightRouter);
 app.use("/reservation", reservationRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
+app.use("/profile", userProfile);
 
 // var transporter = nodemailer.createTransport({
 //     service: 'gmail',

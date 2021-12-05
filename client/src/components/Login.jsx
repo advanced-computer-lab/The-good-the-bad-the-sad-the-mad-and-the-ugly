@@ -36,9 +36,6 @@ export default function SignInSide() {
                     setValidUser(false);
                 } else {
                     setValidUser(true);
-                    // if (params.reservationId){
-                    //     navigate(`/selectSeats/${params.reservationId}`);
-                    // }
                 }
                 navigate('/userShowFlights');
             }).catch(res => {

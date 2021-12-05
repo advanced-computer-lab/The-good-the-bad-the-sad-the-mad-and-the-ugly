@@ -85,7 +85,7 @@ export default class SignUp extends Component {
                     homeAddress: '',
                     mobileNumber: ''
                 }
-                // this.props.history.push('/login');
+                    // history.push('/login');
             }).catch(err => console.log(err))
     }
 
