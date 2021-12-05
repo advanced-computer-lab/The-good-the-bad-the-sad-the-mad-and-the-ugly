@@ -112,10 +112,10 @@ class ShowAllUserReservations extends Component {
                 >
                     <Toolbar>
                         <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
-                            Airline System
+                            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>
                         </Typography>
                         <Typography>
-                            Hello, {this.state.userFirstName}!
+                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
                         </Typography>
 
                     </Toolbar>

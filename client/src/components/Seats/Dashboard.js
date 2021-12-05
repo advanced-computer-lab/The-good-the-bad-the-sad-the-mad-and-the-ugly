@@ -392,8 +392,9 @@ function DashboardContent(props) {
                         <AppBar position={"static"} sx={{flexGrow: 1}}>
                             <Toolbar>
                                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                                    Airline System
+                                <a style={{textDecoration: "none", color: "white"}} href={'/userShowFlights'}>Airline System</a>
                                 </Typography>
+
                                 {loggedIn ? null :
                                     <Button
                                         href={'/login'}
@@ -402,7 +403,7 @@ function DashboardContent(props) {
                                         Login
                                     </Button>}
                                 {loggedIn ? <Typography>
-                                    Hello, {userFirstName}!
+                                    <a style={{textDecoration: "none", color: "white"}} href={'/showUserReservations'}>Hello, {userFirstName}!</a>
                                 </Typography> : null}
                             </Toolbar>
                         </AppBar>

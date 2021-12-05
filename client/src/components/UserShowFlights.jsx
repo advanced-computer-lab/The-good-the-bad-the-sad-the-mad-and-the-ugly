@@ -239,7 +239,7 @@ class UserShowFlights extends Component {
                                 Login
                             </Button>}
                         {this.state.loggedIn ? <Typography>
-                            Hello, {this.state.userFirstName}!
+                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
                         </Typography> : null}
                         {this.state.hasIncompleteReservation ?
                             <Button
