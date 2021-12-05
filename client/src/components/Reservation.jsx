@@ -4,10 +4,12 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React, {Component, useState} from 'react'
-import {TableCell, TableRow, Button, tableCellClasses} from "@mui/material";
+import {TableCell, TableRow, Button, tableCellClasses, Collapse} from "@mui/material";
 import DeleteModal from "./DeleteModal";
 import { styled } from '@mui/material/styles';
 import axios from "axios";
+import FlightCard from "./FlightCard";
+import DeleteModal2 from "./DeleteModal2";
 const bull = (
     <Box
         component="span"
@@ -21,7 +23,10 @@ class Reservation extends Component {
         super(props);
         this.state = {
             depFlight:[],
-            retFlight:[]
+            retFlight:[],
+            expanded:false,
+            expanded2:false,
+            modalOpen: false
         };
     }
 
@@ -48,41 +53,76 @@ class Reservation extends Component {
                 console.log('Error in showAllFLights');
             })
     };
-
+    handleExpandClick = () => {
+        const current=this.state.expanded;
+        this.setState({
+            expanded:!current
+    })
+    };
+    handleExpandClick2 = () => {
+        const current = this.state.expanded2;
+        this.setState({
+            expanded2: !current
+        })
+    };
+    handleOpen = () => {
+        this.setState({
+            modalOpen:true
+        })
+    };
+    handleClose = () => {
+        this.setState({
+            modalOpen:false
+        })
+    };
     render() {
-        const flight=this.state.depFlight;
-        const departureDate=new Date(flight.departure);
-        const arrivalDate=new Date(flight.arrival);
         const card = (
             <React.Fragment>
-                <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        Flight Number: {flight.flightNumber}
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                        From {flight.from}({flight.departureAirport}) To {flight.to}({flight.arrivalAirport})
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-
-                        Departure Date: {departureDate.getFullYear() + '-' + (departureDate.getMonth() + 1) + '-' + departureDate.getDate()}
-                        <br />
-                        Departure Time: {(departureDate.getHours() <= 9 ? "0" + departureDate.getHours() : departureDate.getHours()) + ':' + (departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}
-                        <br />
-                        <br />
-                        Arrival Date : {arrivalDate.getFullYear() + '-' + (arrivalDate.getMonth() + 1) + '-' + arrivalDate.getDate()}
-                        <br />
-                        Arrival Time: {(arrivalDate.getHours() <= 9 ? "0" + arrivalDate.getHours() : arrivalDate.getHours()) + ':' + (arrivalDate.getMinutes() <= 9 ? "0" + arrivalDate.getMinutes() : arrivalDate.getMinutes())}
-                    </Typography>
-                </CardContent>
-
-                <CardActions>
-                    {/*<Button  onClick={handleClick} size="large"> {props.selected?"Booked!":"Book Now"} </Button>*/}
-                </CardActions>
             </React.Fragment>
         );
+        const StyledTableCell = styled(TableCell)(({ theme }) => ({
+            [`&.${tableCellClasses.head}`]: {
+                backgroundColor: theme.palette.common.black,
+                color: theme.palette.common.white,
+            },
+            [`&.${tableCellClasses.body}`]: {
+                fontSize: 14,
+            },
+        }));
 
-        return (<Box sx={{ minWidth: 275 }}>
-            <Card sx={{ bgcolor: 'text.disabled' }} variant="outlined">{card}</Card>
+        const StyledTableRow = styled(TableRow)(({ theme }) => ({
+            '&:nth-of-type(odd)': {
+                backgroundColor: theme.palette.action.hover,
+            },
+            // hide last border
+            '&:last-child td, &:last-child th': {
+                border: 0,
+            },
+        }));
+        return (
+            <Box sx={{ minWidth: 200 }}>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    <strong>Adults :</strong> {this.props.reservation.noOfAdults}
+                    <br/>
+                    <strong>Children : </strong>{this.props.reservation.noOfChildren}
+                    <br/>
+                    <strong>Cabin Class : </strong>{this.props.reservation.cabinClass}
+                </Typography>
+                <Button variant="outlined" onClick={this.handleExpandClick}>Departure Flight</Button>
+                <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+                <FlightCard flight={this.state.depFlight} reservation={this.props.reservation}></FlightCard>
+                </Collapse>
+                <br/>
+                <br/>
+                <Button variant="outlined" onClick={this.handleExpandClick2}>Return Flight</Button>
+                <Collapse in={this.state.expanded2} timeout="auto" unmountOnExit>
+                <FlightCard flight={this.state.retFlight} reservation={this.props.reservation}></FlightCard>
+                </Collapse>
+                <br/>
+                <styledTableRow>
+                <StyledTableCell><Button color={"error"} onClick={this.handleOpen}>delete</Button></StyledTableCell>
+                    <DeleteModal2 ReservationId={this.props.reservation._id} deleteFunc={this.props.deleteFunction} modalOpen={this.state.modalOpen} handleClose={this.handleClose}/>
+                </styledTableRow>
         </Box>);
     }
 }

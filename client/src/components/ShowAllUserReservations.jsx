@@ -5,6 +5,7 @@ import { Paper, Table, TableBody, TableContainer, Toolbar, Typography } from "@m
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Reservation from "./Reservation";
+import Grid from "@mui/material/Grid";
 
 
 class ShowAllUserReservations extends Component {
@@ -34,6 +35,7 @@ class ShowAllUserReservations extends Component {
             .delete('http://localhost:8000/reservation/delete/' + event.target.name)
             .then(res => {
                 let reservationRemoved = res.data;
+                console.log(reservationRemoved);
                 let newReservations = [];
                 this.state.reservations.forEach(function (item) {
                     if (item._id !== reservationRemoved._id)
@@ -53,33 +55,17 @@ class ShowAllUserReservations extends Component {
         if (!reservations) {
             reservationList = "there is no flight record!";
         } else {
-            reservationList = reservations.map((reservation, k) =>
-                <Reservation reservation={reservation} idx={k} key={k} deleteFunction={this.deleteReservation} />
-            );
+            reservationList = reservations.map((reservation) =>
+                <Grid item xs={2} sm={4} md={4} key={reservation._id}>
+                    <Reservation reservation={reservation} key={reservation._id} deleteFunction={this.deleteReservation}/>
+                </Grid>)
         }
 
         return (
-            <div>
-
-                <Box sx={{ flexGrow: 1}}>
-                    <AppBar position="static" sx={{ flexGrow: 1, bgcolor: 'text.secondary' }}>
-                        <Toolbar>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Airline System
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
-
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} className="table table-hover">
-                        <TableBody>
-                            {reservationList}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-        );
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {reservationList}
+            </Grid>
+        )
     }
 }
 
