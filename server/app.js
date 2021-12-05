@@ -7,6 +7,7 @@ const connectDB = require('./config/db');
 const cors = require('cors');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 
 // Routes
 const flightRouter = require('./routes/flightRouter')
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use(session({
     secret: secret,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
 
 connectDB().then(() => console.log('Connected to MongoDB')).catch((err) => console.log(err));
@@ -38,7 +39,12 @@ passport.deserializeUser(User.deserializeUser());
 // Connect Database
 
 // giving the frontend the permission to access the back-end server
-app.use(cors());
+app.use(cors(
+    {
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }
+));
 
 
 // defining Routes parent
@@ -48,5 +54,27 @@ app.use("/reservation", reservationRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 
+// var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'airguc@gmail.com',
+//         pass: '46-airguc'
+//     }
+// });
+//
+// var mailOptions = {
+//     from: 'airguc@gmail.com',
+//     to: 'mabubeih@gmail.com',
+//     subject: 'Sending Email using Node.js',
+//     text: 'That was easy!'
+// };
+//
+// transporter.sendMail(mailOptions, function(error, info){
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         console.log('Email sent: ' + info.response);
+//     }
+// });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

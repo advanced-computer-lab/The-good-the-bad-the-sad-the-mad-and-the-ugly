@@ -24,7 +24,7 @@ import Orders from './Orders';
 import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {format, formatISO, parseISO} from "date-fns";
 import moment from "moment";
@@ -42,8 +42,9 @@ const drawerWidth = 240;
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+function DashboardContent(props) {
     let params = useParams();
+    const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(true);
     const toggleDrawer = () => {
@@ -87,18 +88,63 @@ function DashboardContent() {
         return: [],
     });
     const [missingSeats, setMissingSeats] = useState(false);
+    const [successfulSubmit, setSuccessfulSubmit] = useState(false);
+    const [reservationId, setReservationId] = useState('');
+    const [seatsVisible, setSeatsVisible] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [userFirstName, setUserFirstName] = useState('');
+    const [seatsNotAvailable, setSeatsNotAvailable] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/flight/getFlightById/${params.departureFlightId}`)
+        if (params.reservationId) {
+            axios.get(`http://localhost:8000/reservation/getReservationById/${params.reservationId}`)
+                .then(
+                    res => {
+                        console.log(params.reservationId);
+                        params.departureFlightId = res.data.departureFlightId;
+                        params.returnFlightId = res.data.returnFlightId;
+                        params.noOfAdults = res.data.noOfAdults;
+                        params.noOfChildren = res.data.noOfChildren;
+                        params.cabinClass = res.data.cabinClass;
+                        setChosenSeats({
+                            dep: res.data.departureSeats,
+                            return: res.data.returnSeats
+                        });
+                        fetchData(res.data.departureFlightId, res.data.returnFlightId, res.data.cabinClass, res.data.noOfAdults, res.data.noOfChildren);
+                    }
+                )
+        } else {
+            fetchData(params.departureFlightId, params.returnFlightId, params.cabinClass, params.noOfAdults, params.noOfChildren);
+        }
+
+        axios.get('http://localhost:8000/login/authorize')
+            .then(
+                res => {
+                    if (res.data.success) {
+                        setLoggedIn(true);
+                        setUserFirstName(res.data.firstName);
+                    }
+                }
+            )
+            .catch(
+                err => {
+                    console.log(err);
+                }
+            )
+
+    }, []);
+
+    function fetchData(departureFlightId, returnFlightId, cabinClass, noOfAdults, noOfChildren) {
+        axios.get(`http://localhost:8000/flight/getFlightById/${departureFlightId}`)
             .then(
                 res1 => {
-                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.departureFlightId}/${params.cabinClass}`)
+                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${departureFlightId}/${cabinClass}`)
                         .then(
                             res2 => {
                                 handleDepSeats(
                                     {
-                                        availableSeats: res1.data.availableSeats[params.cabinClass],
-                                        maxSeats: parseInt(params.noOfAdults) + parseInt(params.noOfChildren),
+                                        availableSeats: res1.data.maxSeats[cabinClass],
+                                        maxSeats: params.reservationId ? 0 : parseInt(noOfAdults) + parseInt(noOfChildren),
                                         reservedSeats: res2.data
                                     }
                                 );
@@ -120,16 +166,16 @@ function DashboardContent() {
                 }
             );
 
-        axios.get(`http://localhost:8000/flight/getFlightById/${params.returnFlightId}`)
+        axios.get(`http://localhost:8000/flight/getFlightById/${returnFlightId}`)
             .then(
                 res1 => {
-                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${params.returnFlightId}/${params.cabinClass}`)
+                    axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${returnFlightId}/${cabinClass}`)
                         .then(
                             res2 => {
                                 handleReturnSeats(
                                     {
-                                        availableSeats: res1.data.availableSeats[params.cabinClass],
-                                        maxSeats: parseInt(params.noOfAdults) + parseInt(params.noOfChildren),
+                                        availableSeats: res1.data.maxSeats[cabinClass],
+                                        maxSeats: params.reservationId ? 0 : parseInt(noOfAdults) + parseInt(noOfChildren),
                                         reservedSeats: res2.data
                                     }
                                 );
@@ -151,8 +197,10 @@ function DashboardContent() {
                 }
             );
 
-        axios.get(`http://localhost:8000/flight/getFlightById/${params.departureFlightId}`)
+        axios.get(`http://localhost:8000/flight/getFlightById/${departureFlightId}`)
             .then(res => {
+                // console.log(moment.utc(res.data.departure, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ+00:00'));
+                // console.log(moment.utc(res.data.departure, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ+00:00').format('hh:mm MMM, Do YYYY'));
                 setFlightsData((prevState => {
                     return {
                         ...prevState,
@@ -185,7 +233,7 @@ function DashboardContent() {
                 console.log(err);
             });
 
-        axios.get(`http://localhost:8000/flight/getFlightById/${params.returnFlightId}`)
+        axios.get(`http://localhost:8000/flight/getFlightById/${returnFlightId}`)
             .then(res => {
                 setFlightsData((prevState => {
                     return {
@@ -217,14 +265,116 @@ function DashboardContent() {
             .catch(err => {
                 console.log(err);
             });
-    }, []);
+    }
 
     function handleSubmit() {
         let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
-        if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats){
+        if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats) {
             setMissingSeats(true);
-        }else {
+        } else {
             setMissingSeats(false);
+            let reservation = {
+                departureFlightId: params.departureFlightId,
+                returnFlightId: params.returnFlightId,
+                noOfAdults: params.noOfAdults,
+                noOfChildren: params.noOfChildren,
+                cabinClass: params.cabinClass,
+                departureSeats: chosenSeats.dep,
+                returnSeats: chosenSeats.return,
+                timestamp: Date.now()
+            }
+            axios.get('http://localhost:8000/login/authorize')
+                .then(res => {
+                    if (res.data.success) {
+                        reservation.confirmed = true;
+                        reservation.userId = res.data.userId;
+                        if (params.reservationId) {
+                            reservation.userId = res.data.userId;
+                            axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
+                                .then(res => {
+                                    // console.log(res.data);
+                                    setReservationId(params.reservationId);
+                                    setSuccessfulSubmit((prevState => {
+                                        setSeatsVisible(true);
+                                        return true;
+                                    }));
+                                })
+                        } else {
+                            axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.departureFlightId}/${reservation.cabinClass}`)
+                                .then(
+                                    res => {
+                                        reservation.departureSeats = reservation.departureSeats.filter((element) => !res.data.includes(element));
+                                        if (reservation.departureSeats.length < requiredSeats) {
+                                            setSeatsNotAvailable(true);
+                                        } else {
+                                            axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.returnFlightId}/${reservation.cabinClass}`)
+                                                .then(
+                                                    res1 => {
+                                                        reservation.returnSeats = reservation.returnSeats.filter((element) => !res1.data.includes(element));
+                                                        if (reservation.returnSeats.length < requiredSeats) {
+                                                            setSeatsNotAvailable(true);
+                                                        } else {
+                                                            axios.post('http://localhost:8000/reservation/createReservation', reservation)
+                                                                .then(res => {
+                                                                    console.log('Reservation successful');
+                                                                    // console.log(res.data);
+                                                                    setReservationId(res.data.reservationId);
+                                                                    setSuccessfulSubmit((prevState => {
+                                                                        setSeatsVisible(true);
+                                                                        return true;
+                                                                    }));
+                                                                })
+                                                                .catch(err => {
+                                                                    console.log(err);
+                                                                });
+                                                        }
+                                                    }
+                                                )
+                                        }
+                                    }
+                                )
+
+                        }
+                    } else {
+                        reservation.confirmed = false;
+                        // console.log(reservation);
+                        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.departureFlightId}/${reservation.cabinClass}`)
+                            .then(
+                                res => {
+                                    reservation.departureSeats = reservation.departureSeats.filter((element) => !res.data.includes(element));
+                                    if (reservation.departureSeats.length < requiredSeats) {
+                                        setSeatsNotAvailable(true);
+                                    } else {
+                                        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.returnFlightId}/${reservation.cabinClass}`)
+                                            .then(
+                                                res1 => {
+                                                    reservation.returnSeats = reservation.returnSeats.filter((element) => !res1.data.includes(element));
+                                                    if (reservation.returnSeats.length < requiredSeats) {
+                                                        setSeatsNotAvailable(true);
+                                                    } else {
+                                                        axios.post('http://localhost:8000/reservation/createReservation', reservation)
+                                                            .then(res => {
+                                                                console.log('Reservation unconfirmed');
+                                                                // console.log(res.data);
+                                                                // setReservationId(res.data.reservationId);
+                                                                // setSuccessfulSubmit((prevState => {
+                                                                //     setSeatsVisible(true);
+                                                                //     return true;
+                                                                // }));
+                                                                navigate('/login');
+                                                            })
+                                                            .catch(err => {
+                                                                console.log(err);
+                                                            });
+                                                    }
+                                                }
+                                            )
+                                    }
+                                }
+                            )
+
+                    }
+                })
         }
     }
 
@@ -234,12 +384,21 @@ function DashboardContent() {
                 <CssBaseline/>
                 <div>
                     <Box sx={{flexGrow: 1}}>
-                        <AppBar position={"static"} sx={{flexGrow: 1, bgcolor: 'text.secondary'}}>
+                        <AppBar position={"static"} sx={{flexGrow: 1}}>
                             <Toolbar>
                                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
                                     Airline System
                                 </Typography>
-
+                                {loggedIn ? null :
+                                    <Button
+                                        href={'/login'}
+                                        color={"inherit"}
+                                    >
+                                        Login
+                                    </Button>}
+                                {loggedIn ? <Typography>
+                                    Hello, {userFirstName}!
+                                </Typography> : null}
                             </Toolbar>
                         </AppBar>
                     </Box>
@@ -276,12 +435,14 @@ function DashboardContent() {
                                             toAirport={flightsData.dep.toAirport}
                                             departureTerminal={flightsData.dep.departureTerminal}
                                             arrivalTerminal={flightsData.dep.arrivalTerminal}
-                                            departureTime={moment(flightsData.dep.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
-                                            arrivalTime={moment(flightsData.dep.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                            departureTime={moment.utc(flightsData.dep.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
+                                            arrivalTime={moment.utc(flightsData.dep.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
                                             cabinClass={params.cabinClass}
                                             noOfAdults={params.noOfAdults}
                                             noOfChildren={params.noOfChildren}
-                                            reservedSeats={chosenSeats.dep.reduce(((previousValue, currentValue, currentIndex) => {return currentIndex !== chosenSeats.dep.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`}), '')}
+                                            reservedSeats={chosenSeats.dep.reduce(((previousValue, currentValue, currentIndex) => {
+                                                return currentIndex !== chosenSeats.dep.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`
+                                            }), '')}
                                             flightNumber={flightsData.dep.flightNumber}
                                             flightPrice={parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
                                             + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)}
@@ -299,7 +460,9 @@ function DashboardContent() {
                                         }}
                                     >
                                         {isSeatsLoading.dep ? null :
-                                            <Deposits title={"Departure Flight Seats"} seats={depSeats} flightType={'dep'} chosenSeatsCallback={setChosenSeats}/>}
+                                            <Deposits title={"Departure Flight Seats"} seats={depSeats}
+                                                      flightType={'dep'} chosenSeatsCallback={setChosenSeats}
+                                                      visible={seatsVisible}/>}
                                     </Paper>
                                 </Grid>
 
@@ -324,12 +487,14 @@ function DashboardContent() {
                                                    toAirport={flightsData.return.toAirport}
                                                    departureTerminal={flightsData.return.departureTerminal}
                                                    arrivalTerminal={flightsData.return.arrivalTerminal}
-                                                   departureTime={moment(flightsData.return.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
-                                                   arrivalTime={moment(flightsData.return.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, do YYYY')}
+                                                   departureTime={moment.utc(flightsData.return.departureTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
+                                                   arrivalTime={moment.utc(flightsData.return.arrivalTime, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
                                                    cabinClass={params.cabinClass}
                                                    noOfAdults={params.noOfAdults}
                                                    noOfChildren={params.noOfChildren}
-                                                   reservedSeats={chosenSeats.return.reduce(((previousValue, currentValue, currentIndex) => {return currentIndex !== chosenSeats.return.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`}), '')}
+                                                   reservedSeats={chosenSeats.return.reduce(((previousValue, currentValue, currentIndex) => {
+                                                       return currentIndex !== chosenSeats.return.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`
+                                                   }), '')}
                                                    flightNumber={flightsData.return.flightNumber}
                                                    flightPrice={parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
                                                    + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)}
@@ -347,13 +512,25 @@ function DashboardContent() {
                                         }}
                                     >
                                         {isSeatsLoading.return ? null :
-                                            <Deposits title={"Return Flight Seats"} seats={returnSeats} flightType={'return'} chosenSeatsCallback={setChosenSeats}/>}
+                                            <Deposits title={"Return Flight Seats"} seats={returnSeats}
+                                                      flightType={'return'} chosenSeatsCallback={setChosenSeats}
+                                                      visible={seatsVisible}/>}
                                     </Paper>
                                 </Grid>
                                 <Grid item xs={12}>
-                                  <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                    <Orders missingSeats={missingSeats} handleSubmit={handleSubmit}/>
-                                  </Paper>
+                                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                                        {isFlightsLoading.dep || isFlightsLoading.return ? null :
+                                            <Orders successfulSubmit={successfulSubmit} missingSeats={missingSeats}
+                                                    handleSubmit={handleSubmit} totalPrice={
+                                                parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                                + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                                                + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                                + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                                            }
+                                                    reservationId={reservationId}
+                                                    seatsNotAvailable={seatsNotAvailable}
+                                            />}
+                                    </Paper>
                                 </Grid>
                             </Grid>
                             <Copyright sx={{pt: 4}}/>

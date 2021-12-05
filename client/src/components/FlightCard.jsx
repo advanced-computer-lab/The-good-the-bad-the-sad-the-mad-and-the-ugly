@@ -74,7 +74,7 @@ function FlightCard(props) {
     );
 
     return (<Box sx={{ minWidth: 275 }}>
-        <Card sx={{ bgcolor: 'text.disabled' }} variant="outlined">{card}</Card>
+        <Card variant="outlined">{card}</Card>
     </Box>);
 }
 export default FlightCard;

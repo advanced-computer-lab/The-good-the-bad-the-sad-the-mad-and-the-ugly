@@ -37,11 +37,11 @@ loginRouter.get('/loginFailure', ((req, res) => {
 }));
 
 loginRouter.get('/authorize', (req, res) => {
-    // console.log(req);
+    console.log(req.isAuthenticated());
     if (req.isAuthenticated()){
-        return res.status(200).json({isAdmin: req.user.isAdmin});
+        return res.status(200).json({success: true, isAdmin: req.user.isAdmin, userId: req.user._id, firstName: req.user.firstName});
     } else {
-        return res.sendStatus(401);
+        return res.json({success: false});
     }
 })
 

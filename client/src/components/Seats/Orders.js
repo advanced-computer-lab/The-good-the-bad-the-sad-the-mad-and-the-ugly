@@ -17,6 +17,8 @@ export default function Orders(props) {
             <Title>Summary</Title>
             <Box>
                 {props.missingSeats? <Alert severity={"error"} sx={{mb: 3}}>You must choose all your seats.</Alert> : null}
+                {props.seatsNotAvailable? <Alert severity={"error"} sx={{mb: 3}}>The seats you chose are no longer available.</Alert> : null}
+                {props.successfulSubmit? <Alert severity={"success"} sx={{mb: 3}}>Reservation submitted successfully. Your Booking ID: {props.reservationId}</Alert> : null}
                 <Grid container>
                     <Grid item xs={6}>
                         <Grid container>
@@ -24,7 +26,7 @@ export default function Orders(props) {
                                 <h4>Total Price: </h4>
                             </Grid>
                             <Grid item xs={7}>
-                                <p>6533 EGP</p>
+                                <p>{props.totalPrice} EGP</p>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -36,8 +38,9 @@ export default function Orders(props) {
                             type="submit"
                             variant="contained"
                             onClick={props.handleSubmit}
+                            disabled={props.successfulSubmit}
                         >
-                            Next
+                            Confirm
                         </Button>
                         </Box>
                     </Grid>

@@ -47,6 +47,23 @@ const FlightSchema = new mongoose.Schema({
                 min: 0
             }
         },
+        maxSeats: {
+            economy: {
+                type: Number,
+                required: true,
+                min: 0
+            },
+            business: {
+                type: Number,
+                required: true,
+                min: 0
+            },
+            first: {
+                type: Number,
+                required: true,
+                min: 0
+            }
+        },
         price: {
             economy: {
                 adult: Number,

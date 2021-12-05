@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 const ReservationSchema = new mongoose.Schema({
     userId: {
         type: 'ObjectId',
-        required: true
+        // required: true
+    },
+
+    sessionId: {
+        type: String,
     },
 
     departureFlightId: {
@@ -38,6 +42,16 @@ const ReservationSchema = new mongoose.Schema({
 
     returnSeats: {
         type: [String],
+        required: true
+    },
+
+    confirmed: {
+        type: Boolean,
+        required: true
+    },
+
+    timestamp: {
+        type: Date,
         required: true
     }
 });

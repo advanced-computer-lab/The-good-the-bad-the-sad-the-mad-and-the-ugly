@@ -16,24 +16,13 @@ import background from '../Img/Flight2.jpg'
 import {useState} from "react";
 import {Alert} from "@mui/material";
 import axios from "axios";
-
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import {useNavigate, useParams} from "react-router-dom";
 
 const theme = createTheme();
 
 export default function SignInSide() {
-
+    let params = useParams();
+    const navigate = useNavigate();
     const [isValidUser, setValidUser] = useState(true);
 
 
@@ -47,7 +36,11 @@ export default function SignInSide() {
                     setValidUser(false);
                 } else {
                     setValidUser(true);
+                    // if (params.reservationId){
+                    //     navigate(`/selectSeats/${params.reservationId}`);
+                    // }
                 }
+                navigate('/userShowFlights');
             }).catch(res => {
             console.log(res)
             });

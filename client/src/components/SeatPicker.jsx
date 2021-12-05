@@ -149,7 +149,7 @@ export default class Seats extends Component {
                         alpha
                         visible
                         selectedByDefault
-                        loading={loading}
+                        loading={this.props.loading}
                         tooltipProps={{multiline: true}}
                     />
                 </div>
