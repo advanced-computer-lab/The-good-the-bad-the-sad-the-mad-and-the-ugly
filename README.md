@@ -21,9 +21,13 @@ The following are the objectives of this project:
 - Learn the process of following a given set of System Requirements to develop a software. 
 
 ## Tools and Frameworks
-This project is fully implemented using the **MERN Stack**. MERN stands for *MongoDB*, *Express*, *React*, *Node*, after the four key technologies that make up the stack.
+![MERN Stack](https://user-images.githubusercontent.com/60584447/146457684-e9f0bb67-605f-48ae-908e-590405719e85.png)
+This project is fully implemented using the **MERN Stack**. *MERN* stands for *MongoDB*, *Express*, *React*, *Node*, after the four key technologies that make up the stack.
 - *MongoDB* is an open source NoSQL database management program. NoSQL is used as an alternative to traditional relational databases. NoSQL databases are quite useful for working with large sets of distributed data. MongoDB is a tool that can manage document-oriented information, store or retrieve information.
--
+- *Express* is a Node. js web application server framework, designed for building single-page, multi-page, and hybrid web applications. It is the de facto standard server framework for node.
+- *ReactJS* is an open-source JavaScript library that is used for building user interfaces specifically for single-page applications. It's used for handling the view layer for web and mobile apps. React also allows us to create reusable UI components.
+- *NodeJS* is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.
+
 ## Coding Style
 This project is divided into two main parts, frontend and backend. Our backend 
 
