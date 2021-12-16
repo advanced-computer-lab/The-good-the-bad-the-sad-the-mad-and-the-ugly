@@ -11,7 +11,7 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Coding Style](#coding-style)
 - [Features](#features)
-- 
+
 
 ## Motivation
 The following are the objectives of this project:
