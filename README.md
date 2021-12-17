@@ -47,11 +47,10 @@ Our backend is divided into the following routes, each route has a set of *APIs*
 
 
 ### Register
-Route `/register`
-#### Registering new user
-* Route `/`
-* Request Body 
-* Request Type `POST`
+1. ***Registering new user***
+ - Route `/register/`
+ - Request Type `POST`
+ - Request Body 
 ``` 
 {
    username: 'toxin',
@@ -64,7 +63,7 @@ Route `/register`
   passportNumber: 'af6435434as'
 }
 ```
-* Response Body
+ - Response Body
 ``` 
 {   
     success: false,
@@ -77,8 +76,198 @@ or
     message: "Your account has been saved"
 }
 ```
+2. ***Get All usernames***
+ This API get all the usernames in the database in order to avoid having two users with the same username
+  - Route `/register/usernames`
+  - Request type `GET`
+  - Response Body 
+  ```
+  {
+   {
+        "_id": "61aa0d35045140ad2b40654c",
+        "username": "Moamen"
+    },
+    {
+        "_id": "61abcae7d71d27e6af883bed",
+        "username": "toxin"
+    },
+    {
+        "_id": "61bb2cf1abe020dd466c9d97",
+        "username": "MohamedA"
+    }
+  }
+  ```
+  
 ### Login
 ### Flight
+1- ***Show all the available flights***
+ - Route `flight/showAllFlights`
+ - Request type `GET`
+ - Response Body
+```
+{
+   {
+        "availableSeats": {
+            "economy": 47,
+            "business": 25,
+            "first": 29
+        },
+        "maxSeats": {
+            "economy": 50,
+            "business": 29,
+            "first": 29
+        },
+        "price": {
+            "economy": {
+                "adult": 3000,
+                "child": 2700
+            },
+            "business": {
+                "adult": 5000,
+                "child": 4500
+            },
+            "first": {
+                "adult": 7000,
+                "child": 6000
+            }
+        },
+        "_id": "618814bd746c8cd22374a747",
+        "flightNumber": "1234",
+        "departureAirport": "Cairo",
+        "arrivalAirport": "DMT",
+        "from": "Cairo",
+        "to": "Rome",
+        "departure": "2021-11-16T10:00:46.000Z",
+        "arrival": "2021-11-17T10:00:52.000Z",
+        "__v": 0,
+        "arrivalTerminal": 2,
+        "baggageAllowance": 30,
+        "departureTerminal": 3
+    },
+   // All the available flights in the database
+}
+```
+2- ***Show flights using search criteria***
+ - Route `/flight/showFlights`
+ - Request Type `POST`
+ - Request Body
+ ```
+ {
+    {
+            flightNumber: 'A53',
+            departureAirport: 'CAI',
+            arrivalAirport: 'POI',
+            from: "Egypt",
+            to: "Italy",
+            departure1: //Departure date 1 ,
+            departure2: //Departure date 2,
+            arrival1: // Arrival Date 1 ,
+            arrival2: // Arrival Date 2,
+            availableSeats: {
+                economy: #of seats,
+                business: #of seats ,
+                first: #of seats,
+            }
+     }
+ }
+ // Note: All the fields are optional. i.e. Any field can be null.
+ ```
+ - Response Body
+ ```
+{
+   {    "_id": "618814bd746c8cd22374a747",
+        "flightNumber": "1234",
+        "availableSeats": {
+            "economy": 47,
+            "business": 25,
+            "first": 29
+        },
+        "maxSeats": {
+            "economy": 50,
+            "business": 29,
+            "first": 29
+        },
+        "price": {
+            "economy": {
+                "adult": 3000,
+                "child": 2700
+            },
+            "business": {
+                "adult": 5000,
+                "child": 4500
+            },
+            "first": {
+                "adult": 7000,
+                "child": 6000
+            }
+        },
+        "departureAirport": "Cairo",
+        "arrivalAirport": "DMT",
+        "from": "Cairo",
+        "to": "Rome",
+        "departure": "2021-11-16T10:00:46.000Z",
+        "arrival": "2021-11-17T10:00:52.000Z",
+        "__v": 0,
+        "arrivalTerminal": 2,
+        "baggageAllowance": 30,
+        "departureTerminal": 3
+    },
+   // All the available flights with the provided search criteria in the request
+}
+```
+3- ***User show flights***
+
+4- ***Delete Flight using its id***
+ - Route `flight/getFlightById/:id`
+ - Request Type `DELETE`
+ - Parameters: `id`, The id of a flight
+ - Response Body
+ ```
+ {
+   //the data of the deleted flight
+   or
+    {
+      error: 'Unable to get flight data'
+    }
+ }
+ ```
+ 5- ***Update Flight using its id***
+ - Route `flight/updateFlight/:id`
+ - Request Type `PUT`
+ - Parameters: `id`, The id of a flight
+ - Request Body
+ ```
+ {
+    {
+            flightNumber: 'A53',
+            departureAirport: 'CAI',
+            arrivalAirport: 'POI',
+            from: "Egypt",
+            to: "Italy",
+            departure1: //Departure date 1 ,
+            departure2: //Departure date 2,
+            arrival1: // Arrival Date 1 ,
+            arrival2: // Arrival Date 2,
+            availableSeats: {
+                economy: #of seats,
+                business: #of seats ,
+                first: #of seats,
+            }
+     }
+ }
+ // Note: All the fields are optional. i.e. Any field can be null.
+ ```
+ - Response Body
+ ```
+ {
+   msg: 'Updated successfully!'
+   
+   //or
+   
+   error: 'Unable to update the Database'
+ }
+ ```
+ 
 ### Reservation
 ### User Profile
 ### Email
