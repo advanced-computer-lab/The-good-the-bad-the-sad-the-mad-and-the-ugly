@@ -420,10 +420,12 @@ or
         "noOfChildren": 0,
         "cabinClass": "economy",
         "departureSeats": [
-            "C3"
+            "C3",
+            // List of reserved Seats
         ],
         "returnSeats": [
-            "B1"
+            "B1",
+            // List of reserved Seats
         ],
         "confirmed": true,
         "timestamp": "2021-12-05T21:22:30.129Z",
@@ -432,5 +434,91 @@ or
     }
 }
 ```
+5- ***Get a reservation by session ID***
+6- ***Get the reserved seats in a flight***
+ - Route `/reservation/getReservedSeatsInFlight/:flightId/:cabinClass`
+ - Request Type `GET`
+ - 
+7- ***Update Reservation***
+ - Route `/reservation/updateReservation/:id`
+ - Request Type `PUT`
+ - Parameters: id, ID of the reservation to be updated.
+ - Request Body
+ ```
+{
+       departureFlightId: 'A556',
+       returnFlightId: '5ALD',
+       noOfAdults: // Number of Adults in the reservation,
+       noOfChildren: // Number of Adults in the reservation,
+       cabinClass: // Economy, Business or First,
+       departureSeats: [List of the selected seats in the departure],
+       returnSeats: [List of the selected seats in the return],
+       timestamp: // The time the reservvation took place,
+       totalPrice: // The total Price of the reservation in EGP
+ }
+ ```
+ - Response Body
+```
+{
+  success: true
+}
+```
+
+8- ***Delete reservarion***
+- Route `/reservation/delete/:id`
+- Request Type `Delete`
+- Parameters: id, ID of the reservation to be updated.
+- Response Body
+```
+{
+  //Data of the deleted Reservation
+  
+  or 
+  
+  error: 'No such Reservation'
+}
+```
+
 ### User Profile
+1- ***Edit User Profile***
+ - Route `/profile/editProfile`
+ - Request Type `POST`
+ - Request Body 
+ ```
+ {
+        email: 'toxin@hotmail.com' ,
+        firstName:'Ahmed',
+        lastName: 'Hossam',
+        country: 'UK',
+        passportNumber: 'A65DG69DD',
+        homeAddress: 'London',
+        mobileNumber: '+28484613',
+        
+        // All Parameters are optional
+ }
+ ```
+ 2- ***Get the User Info***
+ - Route `/profile`
+ - Request Type `GET`
+ - Response Body
+```
+
+  {success: false, message: 'Not logged in'}, //if user is not logged in
+  
+  //or
+  
+  {
+     success: true,
+     {
+       email: 'toxin@hotmail.com' ,
+       firstName:'Ahmed',
+       lastName: 'Hossam',
+       country: 'UK',
+       passportNumber: 'A65DG69DD',
+       homeAddress: 'London',
+       mobileNumber: '+28484613',
+     }  
+  }
+```
+
 ### Email
