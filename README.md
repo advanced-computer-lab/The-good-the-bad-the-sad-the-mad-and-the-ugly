@@ -317,5 +317,120 @@ or
  }
 ```
 ### Reservation
+1- ***Create Reservation***
+ - Route `/reservation/createReservation`
+ - Request Type `POST`
+ - Request Body
+ ```
+{
+       departureFlightId: 'A556',
+       returnFlightId: '5ALD',
+       noOfAdults: // Number of Adults in the reservation,
+       noOfChildren: // Number of Adults in the reservation,
+       cabinClass: // Economy, Business, First,
+       departureSeats: [List of the selected seats in the departure],
+       returnSeats: [List of the selected seats in the return],
+       timestamp: // The time the reservvation took place,
+       totalPrice: // The total Price of the reservation in EGP
+ }
+ ```
+ - Response Body
+```
+{
+   {msg: 'Reservation added successfully', reservationId: reservation._id}
+   
+   or 
+   
+   {error: 'Unable to add this reservation'}
+}
+```
+2- ***Show All reservations***
+ - Route `/reservation/showAllReservations`
+ - Request Type `GET`
+ - Response Body
+```
+{
+   {
+        "_id": "61ad2d97ff1733537acb3a94",
+        "userId": "61a896121b1252c35c475680",
+        "departureFlightId": "618814bd746c8cd22374a747",
+        "returnFlightId": "61a7e58487d5e59b88a5a736",
+        "noOfAdults": 1,
+        "noOfChildren": 0,
+        "cabinClass": "economy",
+        "departureSeats": [
+            "C3"
+        ],
+        "returnSeats": [
+            "B1"
+        ],
+        "confirmed": true,
+        "timestamp": "2021-12-05T21:22:30.129Z",
+        "totalPrice": 4000,
+        "__v": 0
+    },
+    
+    // List of All reservations in the Database
+}
+```
+3- ***Get the reservations of a specific user using user's ID***
+ - Route `reservation/getUserReservations/:userId`
+ - Request Type `GET`
+ - Parameters: userId, the ID of the user.
+ - Response Body
+```
+{
+   {
+        "_id": "61ad2d97ff1733537acb3a94",
+        "userId": "61a896121b1252c35c475680",
+        "departureFlightId": "618814bd746c8cd22374a747",
+        "returnFlightId": "61a7e58487d5e59b88a5a736",
+        "noOfAdults": 1,
+        "noOfChildren": 0,
+        "cabinClass": "economy",
+        "departureSeats": [
+            "C3"
+        ],
+        "returnSeats": [
+            "B1"
+        ],
+        "confirmed": true,
+        "timestamp": "2021-12-05T21:22:30.129Z",
+        "totalPrice": 4000,
+        "__v": 0
+    },
+    
+    // List of All reservations in the Database
+}
+```
+4- ***Get a specific reservation by its ID***
+- Route `/reservation/getReservationById/:id`
+- Request Type `GET`
+- Parameters: id, the id of the reservation we want to retrieve.
+- Response Body
+```
+// For Example
+{
+   {
+        "_id": "61ad2d97ff1733537acb3a94",
+        "userId": "61a896121b1252c35c475680",
+        "departureFlightId": "618814bd746c8cd22374a747",
+        "returnFlightId": "61a7e58487d5e59b88a5a736",
+        "noOfAdults": 1,
+        "noOfChildren": 0,
+        "cabinClass": "economy",
+        "departureSeats": [
+            "C3"
+        ],
+        "returnSeats": [
+            "B1"
+        ],
+        "confirmed": true,
+        "timestamp": "2021-12-05T21:22:30.129Z",
+        "totalPrice": 4000,
+        "__v": 0
+    }
+}
+```
 ### User Profile
 ### Email
