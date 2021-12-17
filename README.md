@@ -435,14 +435,51 @@ or
 }
 ```
 5- ***Get a reservation by session ID***
-6- ***Get the reserved seats in a flight***
+ - Route `/reservation/getReservationBySessionId`
+ - Request Type `GET`
+ - Response Body
+```
+{
+       "_id": 61b8fafe289d550e0a02f00c,
+       "sessionId":"jxa5eZfO3NC1xekq-53wyqwikGP-YBk2",
+       "departureFlightId":618814bd746c8cd22374a747,
+       "returnFlightId": "61a7e58487d5e59b88a5a736,
+       "noOfAdults":1,
+       "noOfChildren":1,
+       "cabinClass":"business",
+       "departureSeats":[
+             "B1",
+             "C1"
+       ],
+       "returnSeats":[
+             "A1",
+             "F1"
+       ],
+       "confirmed":false,
+       "timestamp":{"$date":"2021-12-14T20:13:50.082Z"},
+       "totalPrice":12500
+}
+```
+
+
+6- ***Get the reserved seats in a flight of a specific class***
  - Route `/reservation/getReservedSeatsInFlight/:flightId/:cabinClass`
  - Request Type `GET`
- - 
+ - Parameters: 
+   + id: ID of the reservation to be updated.
+   + cabinClass: The class of the cabin (Economy, Business or First)
+ - Response Body
+ ```
+ {
+    [ //List of reserved seats in the flight]
+ }
+ ```
+  
 7- ***Update Reservation***
  - Route `/reservation/updateReservation/:id`
  - Request Type `PUT`
- - Parameters: id, ID of the reservation to be updated.
+ - Parameters: 
+   + id: ID of the reservation to be updated.
  - Request Body
  ```
 {
