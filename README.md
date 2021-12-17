@@ -522,3 +522,16 @@ or
 ```
 
 ### Email
+1- ***Sending Email***
+ - Route `/email/sendEmail`
+ - Request Type `POST`
+ - Request Body
+```
+   {
+     userEmail: 'toxin@hotmail.com',
+     mailSubject: 'Hello, World!',
+     mailContent: //Some Lengthy Text
+   }
+```
+
+
