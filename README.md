@@ -327,7 +327,7 @@ or
        returnFlightId: '5ALD',
        noOfAdults: // Number of Adults in the reservation,
        noOfChildren: // Number of Adults in the reservation,
-       cabinClass: // Economy, Business, First,
+       cabinClass: // Economy, Business or First,
        departureSeats: [List of the selected seats in the departure],
        returnSeats: [List of the selected seats in the return],
        timestamp: // The time the reservvation took place,
