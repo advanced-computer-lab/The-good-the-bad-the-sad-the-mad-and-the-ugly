@@ -267,7 +267,54 @@ or
    error: 'Unable to update the Database'
  }
  ```
- 
+6- ***Create flight***
+- Route `/flight/`
+- Request Type `POST`
+- Request Body
+ ```
+ {
+    {
+            flightNumber: 'A53',
+            departureAirport: 'CAI',
+            arrivalAirport: 'POI',
+            from: "Egypt",
+            to: "Italy",
+            departure1: //Departure date 1 ,
+            departure2: //Departure date 2,
+            arrival1: // Arrival Date 1 ,
+            arrival2: // Arrival Date 2,
+            availableSeats: {
+                economy: #of seats,
+                business: #of seats ,
+                first: #of seats,
+            }
+     }
+ }
+ // Note: All the fields are required.
+ ```
+- Response Body
+```
+{
+  msg: 'Flight added successfully'
+  
+  //or
+  
+  error: 'Unable to add this flight'
+}
+```
+7- ***Get flight by id***
+- Route `/getFlightById/:id`
+- Request Type `GET`
+- Parameters: `id`, Id of a specific flight
+- Response Body
+ ```
+ {
+   //the data of the flight
+   or
+    
+   error: 'Unable to get flight data'
+    
+ }
 ### Reservation
 ### User Profile
 ### Email
