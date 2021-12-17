@@ -12,6 +12,14 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
 - [Coding Style](#coding-style)
 - [Features](#features)
 - [API References](#api-references)
+  * [Register](#register)
+  * [Login](#login)
+  * [Flight](#flight)
+  * [Reseravtion](#reservation)
+  * [User Profile](#user-profile)
+  * [Email](#email)
+
+  
 
 
 ## Motivation
@@ -35,3 +43,42 @@ This project is divided into two main parts, frontend and backend. Our backend
 ## Features
 
 ## API References
+Our backend is divided into the following routes, each route has a set of *APIs* with different functionalities.
+
+
+### Register
+Route `/register`
+#### Registering new user
+* Route `/`
+* Request Body 
+* Request Type `POST`
+``` 
+{
+   username: 'toxin',
+  firstName: 'Ahmed',
+  lastName: 'Hossam',
+  email: 'ahmedHosssam@hotmail.com',
+  mobileNumber: '+268768768',
+  homeAddress: 'Cairo',
+  country: 'Egypt',
+  passportNumber: 'af6435434as'
+}
+```
+* Response Body
+``` 
+{   
+    success: false,
+    message: "Your account could not be saved. Error : ", 
+    err
+}
+or 
+{   
+    success:  true,
+    message: "Your account has been saved"
+}
+```
+### Login
+### Flight
+### Reservation
+### User Profile
+### Email
