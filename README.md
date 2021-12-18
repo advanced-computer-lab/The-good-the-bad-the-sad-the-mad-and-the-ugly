@@ -99,6 +99,55 @@ or
   ```
   
 ### Login
+1- ***Login***
+ - Route `/login/`
+ - Request Type `POST`
+ - Request Body
+```
+{
+    username:'toxin',
+    password: ABC96
+}
+```
+- Redirects to `/login/loginFailure` if the login fails
+- Response Body
+```
+{
+    success: true,
+    isAdmin: //if the user is Admin
+}
+```
+2- ***login Failure***
+ - Route `/login/loginFailure`
+ - Request Type `GET`
+ - Note: This request is done if the login fails.
+ - Response Body
+```
+{
+   success: false
+}
+```
+3- ***Check if the user is Authorized***
+- Route `/login/authorize`
+- Request Type `GET`
+- Response Body
+```
+{
+       success: true,
+       isAdmin: //true or false,
+       userId: // userID,
+       firstName: 'Mohamed',
+       email: 'mabubeih@hotmail.com',
+       lastName: 'Abubeih',
+       passportNumber: A5697SS
+}
+
+// or
+
+{
+       success: false
+}
+```
 ### Flight
 1- ***Show all the available flights***
  - Route `flight/showAllFlights`
@@ -216,6 +265,21 @@ or
 }
 ```
 3- ***User show flights***
+ - Route `flight/userShowFlights`
+ - Request Type `POST`
+ - Request Body
+ ```
+   {
+       from: //Departure ,
+       to: // Destination,
+       departure: // Departure Date,
+       returning: // Returning Date,
+       seatClass: // economy, business or first,
+       adultSeats: // # of seats for adults,
+       childrenSeats: // # of seats for chidlren
+   
+   }
+ ```
 
 4- ***Delete Flight using its id***
  - Route `flight/getFlightById/:id`
