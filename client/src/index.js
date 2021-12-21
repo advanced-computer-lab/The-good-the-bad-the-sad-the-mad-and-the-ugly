@@ -13,6 +13,7 @@ import Seats from "./components/Seats/Dashboard.js";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
+import CustomizedTabs from "./components/UserProfile/Tab";
 
 axios.defaults.withCredentials = true;
 
@@ -33,6 +34,7 @@ ReactDOM.render(
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='userprofile' element={<UserProfile/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
+                  <Route path='tab' element={<CustomizedTabs/>}/>
               </Route>
 
           </Routes>

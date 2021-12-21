@@ -76,14 +76,7 @@ reservationRouter.get('/getReservationBySessionId', (req, res) => {
 });
 
 reservationRouter.get('/getReservedSeatsInFlight/:flightId/:cabinClass', (req, res) => {
-    // let now = Date.now();
-    // console.log(now);
-    // Reservation.find({ timestamp: { $gt: now + 60000 }, confirmed: false })
-    //     .then(reservations => {
-    //         console.log(reservations);
-    //     });
-    // Reservation.deleteMany({timestamp: {$lt: now - 600000}, confirmed: false})
-    //     .then(deleted => {
+
     Reservation.aggregate([
         {
             $match: {

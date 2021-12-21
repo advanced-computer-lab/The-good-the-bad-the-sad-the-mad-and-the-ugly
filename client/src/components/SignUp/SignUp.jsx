@@ -48,6 +48,7 @@ export default class SignUp extends Component {
     }
 
     handleChange = input => async e => {
+        e.preventDefault();
         await this.setState({[input]: e.target.value});
         if (input === 'confirmPassword' || input === 'password') {
             this.setState({'isMatch': this.state.confirmPassword === this.state.password});

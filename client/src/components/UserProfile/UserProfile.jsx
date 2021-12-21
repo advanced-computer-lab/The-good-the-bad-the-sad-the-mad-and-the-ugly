@@ -19,11 +19,7 @@ import {useNavigate} from "react-router-dom";
 
 
 const theme = createTheme({
-    palette: {
-        background: {
-            main: '#19323C'
-        }
-    }
+
 });
 
 export default function UserProfile() {
@@ -97,45 +93,15 @@ export default function UserProfile() {
 
     return (
         <div>
-                <Helmet bodyAttributes={{style: 'background-color : #EDF4F7'}}/>
-
-
                 <ThemeProvider theme={theme}>
                     <CssBaseline/>
-                    <AppBar
-                        position="absolute"
-                        color="secondary"
-                        elevation={0}
-                        sx={{
-                            position: 'relative',
-                            borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                            bgcolor: 'background.main'
-                        }}
 
-                    >
-                        <Toolbar>
-                            <Typography variant="h6" color="inherit" noWrap>
-                                Airline System
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
                     <Container component="main" maxWidth="sm" sx={{mb: 4}}>
-                        <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3},borderRadius:4,boxShadow: 2,}}>
-                            <Grid container spacing={2} >
-                                <Grid item xs={5}></Grid>
-                                <Grid item xs={2}>
-                                    <Avatar
-                                        sx={{width: 70, height: 70}}
-                                    />
-                                </Grid>
-                                <Grid item xs={5}></Grid>
-                            </Grid>
+
 
                             <Grid container spacing={2}>
                                 <Grid item xs={8}>
-                                    <Typography component="h1" variant="h4" align="left">
-                                        Profile
-                                    </Typography>
+
                                 </Grid>
                                 <Grid item xs={2}></Grid>
                                 <Grid item xs={2}>
@@ -240,10 +206,9 @@ export default function UserProfile() {
                                     </Box>
                                 </form>
                             </React.Fragment>
-                        </Paper>
+
                     </Container>
                 </ThemeProvider>
-
         </div>
     );
 }

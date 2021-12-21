@@ -322,7 +322,6 @@ function DashboardContent(props) {
                                                             axios.post('http://localhost:8000/reservation/createReservation', reservation)
                                                                 .then(res => {
                                                                     console.log('Reservation successful');
-                                                                    // console.log(res.data);
                                                                     setReservationId(res.data.reservationId);
                                                                     setSuccessfulSubmit((prevState => {
                                                                         setSeatsVisible(true);
