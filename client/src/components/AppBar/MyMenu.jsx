@@ -36,9 +36,9 @@ export default function MyMenu(props) {
             anchorEl={anchorElUser}
             open={Boolean(anchorElUser)}
             onClose={handleCloseUserMenu}
-            // MenuListProps={{
-            //     'aria-labelledby': 'basic-button',
-            // }}
+            MenuListProps={{
+                'aria-labelledby': 'basic-button',
+            }}
         >
             {options.map((option) => (
                 <MenuItem key={option} onClick={handleCloseUserMenu}>
