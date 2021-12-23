@@ -31,7 +31,7 @@ export default function UpdatePassword() {
                         setOldPassMatch(false);
                     }
                     setBuffering(false);
-                });
+                })
 
         }
     };

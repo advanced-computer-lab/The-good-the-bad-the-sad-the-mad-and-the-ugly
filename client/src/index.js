@@ -14,6 +14,7 @@ import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
 import CustomizedTabs from "./components/UserProfile/Tab";
+import AppBar from "./components/AppBar/appBar";
 
 axios.defaults.withCredentials = true;
 
@@ -35,6 +36,7 @@ ReactDOM.render(
                   <Route path='userprofile' element={<UserProfile/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
                   <Route path='tab' element={<CustomizedTabs/>}/>
+                  <Route path='bar' element={<AppBar/>}/>
               </Route>
 
           </Routes>
