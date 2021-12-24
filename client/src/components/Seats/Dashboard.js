@@ -267,6 +267,53 @@ function DashboardContent(props) {
             });
     }
 
+    function validate() {
+        let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
+        if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats) {
+            setMissingSeats(true);
+            return false;
+        }
+        setMissingSeats(false);
+        let reservation = {
+            departureFlightId: params.departureFlightId,
+            returnFlightId: params.returnFlightId,
+            noOfAdults: params.noOfAdults,
+            noOfChildren: params.noOfChildren,
+            cabinClass: params.cabinClass,
+            departureSeats: chosenSeats.dep,
+            returnSeats: chosenSeats.return,
+            timestamp: Date.now(),
+            totalPrice: parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+        }
+        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.departureFlightId}/${reservation.cabinClass}`)
+            .then(
+                res => {
+                    reservation.departureSeats = reservation.departureSeats.filter((element) => !res.data.includes(element));
+                    if (reservation.departureSeats.length < requiredSeats) {
+                        setSeatsNotAvailable(true);
+                        return false;
+                    } else {
+                        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.returnFlightId}/${reservation.cabinClass}`)
+                            .then(
+                                res1 => {
+                                    reservation.returnSeats = reservation.returnSeats.filter((element) => !res1.data.includes(element));
+                                    if (reservation.returnSeats.length < requiredSeats) {
+                                        setSeatsNotAvailable(true);
+                                        return false;
+                                    } else {
+
+                                    }
+                                }
+                            )
+                    }
+                }
+            )
+        return true;
+    }
+
     function handleSubmit() {
         let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
         if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats) {
