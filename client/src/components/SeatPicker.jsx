@@ -14,7 +14,7 @@ export default class Seats extends Component {
         }
         let c = 1;
         let rowNum = 1;
-        console.log(this.props.reservedSeats);
+        // console.log(this.props.reservedSeats);
         for (let i = 0; i < props.availableSeats; i += 9) {
             let row = Array(11);
             for (let j = 0; j < 11; j++) {
@@ -26,20 +26,19 @@ export default class Seats extends Component {
                         isReserved: this.props.reservedSeats.includes(`${String.fromCharCode("A".charCodeAt(0) + j)}${rowNum}`)
                     }
                     // console.log(`${row[j].number}${i / 9 + 1}`)
-                    if (this.props.editableSeats.includes(`${row[j].number}${i / 9 + 1}`)) {
-
+                    if (this.props.editableSeats && this.props.editableSeats.includes(`${row[j].number}${i / 9 + 1}`)) {
 
 
                         row[j] = {
                             id: c,
                             number: String.fromCharCode("A".charCodeAt(0) + j),
-                            isSelected: true,
+                            // isSelected: true,
                             isReserved: false
                         }
 
                         //row[j].isSelected = true;
                         //row[j].isReserved = false;
-                        console.log(row[j]);
+                        // console.log(row[j]);
                     }
                     c++;
                     if (c > this.props.availableSeats)
@@ -126,7 +125,7 @@ export default class Seats extends Component {
             addCb(row, number, id, null)
             this.setState({loading: false})
             this.state.chosenSeats.push(`${number}${row}`)
-            if (this.state.flightType) {
+            if (this.props.flightType) {
                 this.props.chosenSeatsCallback((prevState => {
                     return {
                         ...prevState,
@@ -134,9 +133,13 @@ export default class Seats extends Component {
                     }
                 }))
             } else {
-                this.props.chosenSeatsCallback((prevState => {
-                    return this.state.chosenSeats
-                }))
+                this.props.chosenSeatsCallback(
+                    (prevState) => {
+                        // console.log(this.state.chosenSeats.clone());
+                        return [...this.state.chosenSeats];
+                        // return ["F2", "A3", 'B1']
+                    }
+                )
             }
         })
     }
@@ -175,7 +178,7 @@ export default class Seats extends Component {
             //         [this.props.flightType]: this.state.chosenSeats
             //     }
             // }))
-            if (this.state.flightType) {
+            if (this.props.flightType) {
                 this.props.chosenSeatsCallback((prevState => {
                     return {
                         ...prevState,
@@ -183,9 +186,12 @@ export default class Seats extends Component {
                     }
                 }))
             } else {
-                this.props.chosenSeatsCallback((prevState => {
-                    return this.state.chosenSeats
-                }))
+                this.props.chosenSeatsCallback(
+                    (prevState) => {
+                        // console.log(prevState);
+                        return this.state.chosenSeats;
+                    }
+                )
             }
         })
     }
@@ -196,7 +202,7 @@ export default class Seats extends Component {
             <div>
                 <div>
                     {
-                        console.log(this.state.rows)
+                        // console.log(this.state.rows)
                     }
                     <SeatPicker
                         addSeatCallback={this.addSeatCallback}
