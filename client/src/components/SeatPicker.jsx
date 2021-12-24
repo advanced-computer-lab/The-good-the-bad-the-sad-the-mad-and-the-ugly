@@ -14,26 +14,62 @@ export default class Seats extends Component {
         }
         let c = 1;
         let rowNum = 1;
-        for(let i = 0; i < props.availableSeats; i+=9){
+        console.log(this.props.reservedSeats);
+        for (let i = 0; i < props.availableSeats; i += 9) {
             let row = Array(11);
-            for (let j = 0; j < 11; j++){
-                if (j !== 3  && j !== 7){
+            for (let j = 0; j < 11; j++) {
+                if (j !== 3 && j !== 7) {
                     row[j] = {
                         id: c,
                         number: String.fromCharCode("A".charCodeAt(0) + j),
                         isSelected: false,
                         isReserved: this.props.reservedSeats.includes(`${String.fromCharCode("A".charCodeAt(0) + j)}${rowNum}`)
                     }
+                    // console.log(`${row[j].number}${i / 9 + 1}`)
+                    if (this.props.editableSeats.includes(`${row[j].number}${i / 9 + 1}`)) {
+
+
+
+                        row[j] = {
+                            id: c,
+                            number: String.fromCharCode("A".charCodeAt(0) + j),
+                            isSelected: true,
+                            isReserved: false
+                        }
+
+                        //row[j].isSelected = true;
+                        //row[j].isReserved = false;
+                        console.log(row[j]);
+                    }
                     c++;
                     if (c > this.props.availableSeats)
                         break;
-                }else {
+                } else {
                     row[j] = null;
                 }
             }
             rowNum++;
             this.state.rows.push(row);
         }
+
+        // this.state.rows.forEach(
+        //     (row, index) => {
+        //         row.forEach(
+        //             (seat) => {
+        //                 if (seat) {
+        //                     //
+        //                     if (this.props.editableSeats.includes(`${seat.number}${index + 1}`)) {
+        //                         // console.log(seat);
+        //                         seat.isSelected = true;
+        //                         seat.isReserved = false;
+        //                     }
+        //                 }
+        //             }
+        //         )
+        //     }
+        // );
+        // this.state.rows[0][0].isSelected = true;
+        // console.log(this.state.rows[0]);
     }
 
     // state = {
@@ -90,31 +126,37 @@ export default class Seats extends Component {
             addCb(row, number, id, null)
             this.setState({loading: false})
             this.state.chosenSeats.push(`${number}${row}`)
-            this.props.chosenSeatsCallback((prevState => {
-                return {
-                    ...prevState,
-                    [this.props.flightType]: this.state.chosenSeats
-                }
-            }))
+            if (this.state.flightType) {
+                this.props.chosenSeatsCallback((prevState => {
+                    return {
+                        ...prevState,
+                        [this.props.flightType]: this.state.chosenSeats
+                    }
+                }))
+            } else {
+                this.props.chosenSeatsCallback((prevState => {
+                    return this.state.chosenSeats
+                }))
+            }
         })
     }
 
-    addSeatCallbackContinousCase = ({row, number, id}, addCb, params, removeCb) => {
-        this.setState({
-            loading: true
-        }, async () => {
-            if (removeCb) {
-                await new Promise(resolve => setTimeout(resolve, 750))
-                console.log(`Removed seat ${params.number}, row ${params.row}, id ${params.id}`)
-                removeCb(params.row, params.number)
-            }
-            await new Promise(resolve => setTimeout(resolve, 750))
-            console.log(`Added seat ${number}, row ${row}, id ${id}`)
-            const newTooltip = `tooltip for id-${id} added by callback`
-            addCb(row, number, id, null)
-            this.setState({loading: false})
-        })
-    }
+    // addSeatCallbackContinousCase = ({row, number, id}, addCb, params, removeCb) => {
+    //     this.setState({
+    //         loading: true
+    //     }, async () => {
+    //         if (removeCb) {
+    //             await new Promise(resolve => setTimeout(resolve, 750))
+    //             console.log(`Removed seat ${params.number}, row ${params.row}, id ${params.id}`)
+    //             removeCb(params.row, params.number)
+    //         }
+    //         await new Promise(resolve => setTimeout(resolve, 750))
+    //         console.log(`Added seat ${number}, row ${row}, id ${id}`)
+    //         const newTooltip = `tooltip for id-${id} added by callback`
+    //         addCb(row, number, id, null)
+    //         this.setState({loading: false})
+    //     })
+    // }
 
     removeSeatCallback = ({row, number, id}, removeCb) => {
         this.setState({
@@ -127,12 +169,24 @@ export default class Seats extends Component {
             removeCb(row, number, null)
             this.setState({loading: false})
             this.state.chosenSeats = this.state.chosenSeats.filter((element) => element !== `${number}${row}`);
-            this.props.chosenSeatsCallback((prevState => {
-                return {
-                    ...prevState,
-                    [this.props.flightType]: this.state.chosenSeats
-                }
-            }))
+            // this.props.chosenSeatsCallback((prevState => {
+            //     return {
+            //         ...prevState,
+            //         [this.props.flightType]: this.state.chosenSeats
+            //     }
+            // }))
+            if (this.state.flightType) {
+                this.props.chosenSeatsCallback((prevState => {
+                    return {
+                        ...prevState,
+                        [this.props.flightType]: this.state.chosenSeats
+                    }
+                }))
+            } else {
+                this.props.chosenSeatsCallback((prevState => {
+                    return this.state.chosenSeats
+                }))
+            }
         })
     }
 
@@ -141,6 +195,9 @@ export default class Seats extends Component {
         return (
             <div>
                 <div>
+                    {
+                        console.log(this.state.rows)
+                    }
                     <SeatPicker
                         addSeatCallback={this.addSeatCallback}
                         removeSeatCallback={this.removeSeatCallback}
