@@ -35,10 +35,7 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
     });
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
         <Container component="main" maxWidth="sm">
-
             <Paper variant="outlined">
                 <Box
                     sx={{
@@ -144,7 +141,6 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
                 </Box>
             </Paper>
         </Container>
-        </ThemeProvider>
 
     )
 }

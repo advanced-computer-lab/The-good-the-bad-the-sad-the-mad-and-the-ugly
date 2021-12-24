@@ -387,26 +387,26 @@ function DashboardContent(props) {
             <Box>
                 <CssBaseline/>
                 <div>
-                    <Box sx={{flexGrow: 1}}>
-                        <AppBar position={"static"} sx={{flexGrow: 1}}>
-                            <Toolbar>
-                                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                                <a style={{textDecoration: "none", color: "white"}} href={'/userShowFlights'}>Airline System</a>
-                                </Typography>
+                    {/*<Box sx={{flexGrow: 1}}>*/}
+                    {/*    <AppBar position={"static"} sx={{flexGrow: 1}}>*/}
+                    {/*        <Toolbar>*/}
+                    {/*            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>*/}
+                    {/*            <a style={{textDecoration: "none", color: "white"}} href={'/userShowFlights'}>Airline System</a>*/}
+                    {/*            </Typography>*/}
 
-                                {loggedIn ? null :
-                                    <Button
-                                        href={'/login'}
-                                        color={"inherit"}
-                                    >
-                                        Login
-                                    </Button>}
-                                {loggedIn ? <Typography>
-                                    <a style={{textDecoration: "none", color: "white"}} href={'/showUserReservations'}>Hello, {userFirstName}!</a>
-                                </Typography> : null}
-                            </Toolbar>
-                        </AppBar>
-                    </Box>
+                    {/*            {loggedIn ? null :*/}
+                    {/*                <Button*/}
+                    {/*                    href={'/login'}*/}
+                    {/*                    color={"inherit"}*/}
+                    {/*                >*/}
+                    {/*                    Login*/}
+                    {/*                </Button>}*/}
+                    {/*            {loggedIn ? <Typography>*/}
+                    {/*                <a style={{textDecoration: "none", color: "white"}} href={'/showUserReservations'}>Hello, {userFirstName}!</a>*/}
+                    {/*            </Typography> : null}*/}
+                    {/*        </Toolbar>*/}
+                    {/*    </AppBar>*/}
+                    {/*</Box>*/}
 
                     <Box
                         component="main"

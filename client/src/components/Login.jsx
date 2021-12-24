@@ -55,7 +55,7 @@ export default function SignInSide() {
                     setValidUser(false);
                 } else {
                     setValidUser(true);
-                    navigate('/userShowFlights');
+                    navigate('/home');
                 }
             }).catch(res => {
             console.log(res)

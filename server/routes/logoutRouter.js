@@ -7,7 +7,7 @@ logoutRouter.use(express.urlencoded({extended: true}));
 
 logoutRouter.post('/', (req, res) => {
     req.logout();
-    return res.json({msg: "logged out successfully!"});
+    return res.json({msg: "logged out successfully!", success: true});
 });
 
 module.exports = logoutRouter;

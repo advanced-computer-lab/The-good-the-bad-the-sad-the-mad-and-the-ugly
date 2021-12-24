@@ -19,7 +19,7 @@ export default function CustomizedTabs() {
     };
 //k
     return (
-        <Container component="main" maxWidth="sm" sx={{mb: 6, xs: 6, md: 4}}>
+        <Container component="main" maxWidth="sm" sx={{mb: 6, xs: 6, md: 4, mt:10}}>
             <Grid container spacing={2} >
                 <Grid item xs={5}></Grid>
                 <Grid item xs={2}>
@@ -31,7 +31,7 @@ export default function CustomizedTabs() {
             </Grid>
 
             <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
-                <Box sx={{bgcolor: '#fff'}}>
+                <Box>
                     <Tabs value={value} onChange={handleChange} aria-label="ant example">
                         <Tab label="Profile" value={0}/>
                         <Tab label="Update Password" value={1}/>

@@ -18,9 +18,19 @@ import {ThemeProvider, createTheme, keyframes} from '@mui/material/styles';
 import {green, purple} from "@material-ui/core/colors";
 import Button from "@mui/material/Button";
 import "./styles.css";
-
+import Link from "@mui/material/Link";
+import {useNavigate} from "react-router-dom";
+import {Container, CssBaseline} from "@material-ui/core";
 
 export default function MenuAppBar() {
+
+    // let navigate = useNavigate();
+    //
+    // async function handleSubmit() {
+    //     navigate("/home");
+    // }
+
+    // const navigate = useNavigate();
 
     const rotating = {
         marginRight: '10px',
@@ -56,10 +66,12 @@ export default function MenuAppBar() {
 
     // const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [userType, setUserType] = useState('guest');
+    const [userType, setUserType] = useState(null);
     const[style, setStyle] = useState({
         marginRight: '10px'
     });
+    const [hasIncompleteReservation, setHasIncompleteReservation] = useState(false);
+    const [reservationId, setReservationId] = useState(null);
 
     const[enterStyle, setEntering] = useState("fade");
 
@@ -89,11 +101,22 @@ export default function MenuAppBar() {
                         setUserType('admin');
                     else setUserType('user');
                 } else setUserType('guest');
+
+                axios.get('http://localhost:8000/reservation/getReservationBySessionId')
+                    .then(
+                        res1 => {
+                            if (res1.data.length > 0) {
+                                setHasIncompleteReservation(true);
+                                setReservationId(res1.data);
+                            }
+                        }
+                    )
+
             });
             // console.log(userType);
             // let right = setRight();
             // setRightComponent(right);
-    }, []);
+    });
 
 
 
@@ -107,6 +130,12 @@ export default function MenuAppBar() {
         setAnchorEl(event.currentTarget);
     };
 
+    const logOut = async () => {
+        await axios.post('http://localhost:8000/logout')
+            .then(res => {
+                console.log(res.data);
+            });
+    }
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -119,6 +148,14 @@ export default function MenuAppBar() {
         <Button href="/signup" color="inherit">Sign Up</Button>
     </div>);
     const user = (<div>
+            {hasIncompleteReservation ?
+                <Button
+                    color="secondary"
+                    href={`/selectSeats/${reservationId}`}
+                >
+                    Complete your booking
+                </Button> : null
+            }
         <IconButton
             size="large"
             aria-label="account of current user"
@@ -144,8 +181,23 @@ export default function MenuAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem>
+                <a href="/profile" variant="text">
+                    Profile
+                </a>
+
+            </MenuItem>
+            <MenuItem>
+                <a href="/showUserReservations" variant="text">
+                    My Reservations
+                </a>
+
+            </MenuItem>
+            <MenuItem onClick={logOut}>
+                <a href="/home" variant="text">
+                    Log Out
+                </a>
+            </MenuItem>
         </Menu>
     </div>);
 
@@ -182,9 +234,12 @@ export default function MenuAppBar() {
 
 
     return (
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
         <Box sx={{ flexGrow: 1, mb: 5}}>
 
-            <ThemeProvider theme={darkTheme}>
+
+
 
             <AppBar>
                 <Toolbar>
@@ -207,12 +262,13 @@ export default function MenuAppBar() {
                         Airline System
                     </Typography>
                     {(
-                        userType ==='user'?user:userType==='admin'?admin:guest
+                        userType ==='user'?user:userType==='admin'?admin:userType === 'guest'?guest:""
                     )}
                 </Toolbar>
             </AppBar>
-            </ThemeProvider>
+
 
         </Box>
+        </ThemeProvider>
     );
 }

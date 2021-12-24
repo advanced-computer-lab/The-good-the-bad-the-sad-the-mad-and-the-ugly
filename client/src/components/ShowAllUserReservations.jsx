@@ -100,26 +100,26 @@ class ShowAllUserReservations extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                        mb: 3
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>
-                        </Typography>
-                        <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
-                        </Typography>
+                {/*<AppBar*/}
+                {/*    position="absolute"*/}
+                {/*    color="default"*/}
+                {/*    elevation={0}*/}
+                {/*    sx={{*/}
+                {/*        position: 'relative',*/}
+                {/*        borderBottom: (t) => `1px solid ${t.palette.divider}`,*/}
+                {/*        mb: 3*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <Toolbar>*/}
+                {/*        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>*/}
+                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>*/}
+                {/*        </Typography>*/}
+                {/*        <Typography>*/}
+                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>*/}
+                {/*        </Typography>*/}
 
-                    </Toolbar>
-                </AppBar>
+                {/*    </Toolbar>*/}
+                {/*</AppBar>*/}
                 <div style={{width: '100%'}}>
                     <Box
                         sx={{

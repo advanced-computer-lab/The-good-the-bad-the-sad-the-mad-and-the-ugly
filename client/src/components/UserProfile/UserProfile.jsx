@@ -19,7 +19,12 @@ import {useNavigate} from "react-router-dom";
 
 
 const theme = createTheme({
-
+    palette: {
+        mode: 'dark',
+        primary: {
+            main: '#121212',
+        },
+    },
 });
 
 export default function UserProfile() {
@@ -93,8 +98,6 @@ export default function UserProfile() {
 
     return (
         <div>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline/>
 
                     <Container component="main" maxWidth="sm" sx={{mb: 4}}>
 
@@ -208,7 +211,6 @@ export default function UserProfile() {
                             </React.Fragment>
 
                     </Container>
-                </ThemeProvider>
         </div>
     );
 }

@@ -32,8 +32,8 @@ const darkTheme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-      <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
+      {/*<ThemeProvider theme={darkTheme}>*/}
+      {/*    <CssBaseline />*/}
           <MenuAppBar />
       <Router>
           <Routes>
@@ -48,15 +48,14 @@ ReactDOM.render(
                   <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
-                  <Route path='userprofile' element={<UserProfile/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
-                  <Route path='tab' element={<CustomizedTabs/>}/>
+                  <Route path='profile' element={<CustomizedTabs/>}/>
                   <Route path='bar' element={<AppBar/>}/>
               </Route>
 
           </Routes>
       </Router>
-      </ThemeProvider>
+      {/*</ThemeProvider>*/}
   </React.StrictMode>,
   document.getElementById('root')
 );

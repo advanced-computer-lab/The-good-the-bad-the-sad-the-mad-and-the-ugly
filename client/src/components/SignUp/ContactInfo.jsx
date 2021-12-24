@@ -45,11 +45,9 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
     }
 
     return (
-        <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
+
 
             <Container component="main" maxWidth="xs">
-            <CssBaseline/>
             <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                 <Box
                     sx={{
@@ -143,7 +141,7 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
 
             </Paper>
         </Container>
-        </ThemeProvider>
+
     )
 }
 
