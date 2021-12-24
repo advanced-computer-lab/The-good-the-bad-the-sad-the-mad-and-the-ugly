@@ -26,6 +26,7 @@
     "react-select-country-list": "^2.2.3",
     "react-tooltip": "^4.2.21",
     "recharts": "^2.1.6",
+    "stripe": "^8.195.0",
     "typescript": "^4.5.2",
     "web-vitals": "^1.1.2"
   },
@@ -58,6 +59,7 @@
     "@mui/lab": "^5.0.0-alpha.53",
     "axios": "^0.24.0",
     "prop-types": "^15.7.2",
-    "react-router-dom": "^6.0.0"
+    "react-router-dom": "^6.0.0",
+    "react-stripe-checkout": "^2.6.3"
   }
 }

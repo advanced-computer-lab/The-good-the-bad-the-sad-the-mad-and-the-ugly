@@ -294,7 +294,9 @@ function DashboardContent(props) {
                         reservation.userId = res.data.userId;
                         if (params.reservationId) {
                             // reservation.userId = res.data.userId;
+
                             console.log(reservation);
+
                             axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
                                 .then(res => {
                                     // console.log(res.data);
@@ -526,7 +528,7 @@ function DashboardContent(props) {
                                 <Grid item xs={12}>
                                     <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
                                         {isFlightsLoading.dep || isFlightsLoading.return ? null :
-                                            <Orders successfulSubmit={successfulSubmit} missingSeats={missingSeats}
+                                            <Orders isLoggedIn={loggedIn} successfulSubmit={successfulSubmit} missingSeats={missingSeats}
                                                     handleSubmit={handleSubmit} totalPrice={
                                                 parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
                                                 + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)

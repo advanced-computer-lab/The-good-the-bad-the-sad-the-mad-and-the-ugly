@@ -8,10 +8,27 @@ import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import {Box, Button, Grid} from "@mui/material";
 import {Alert} from "@mui/lab";
-
+import StripeBtn from '../stripeBtn'
+import axios from "axios";
 
 export default function Orders(props) {
-
+    const publishableKey = "pk_test_51K9yp2DM9EPbGwDz1PBNixOdUT1f83oz9OIqNW7bO67GecVkfoAvmD8uUGsn6sn4ECYZxyZOsbkiGVoRz4UQAFgW00GrXFFdfN";
+    const onToken = token => {
+        const body = {
+            amount: 999,
+            token: token
+        };
+        axios
+            .post("http://localhost:8000/payment", body)
+            .then(response => {
+                console.log(response);
+                props.onClick();
+            })
+            .catch(error => {
+                console.log("Payment Error: ", error);
+                alert("Payment Error");
+            });
+    };
     return (
         <React.Fragment>
             <Title>Summary</Title>
@@ -34,14 +51,14 @@ export default function Orders(props) {
                         <Box
                             sx={{ textAlign: "end" }}
                         mr={7}>
-                        <Button
+                            {props.isLoggedIn?<StripeBtn onClick={props.handleSubmit}/>:<Button
                             type="submit"
                             variant="contained"
                             onClick={props.handleSubmit}
                             disabled={props.successfulSubmit}
                         >
                             Confirm
-                        </Button>
+                        </Button>}
                         </Box>
                     </Grid>
                 </Grid>

@@ -13,7 +13,7 @@ import Seats from "./components/Seats/Dashboard.js";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
-
+import Payment from "./components/payment"
 axios.defaults.withCredentials = true;
 
 
@@ -22,6 +22,7 @@ ReactDOM.render(
       <Router>
           <Routes>
               <Route path='/' element={<App/>}>
+                  <Route path='payment' element={<Payment/>}></Route>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='' element={<ShowAllFlights/>}/>
