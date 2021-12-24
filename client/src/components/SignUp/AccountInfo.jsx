@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
     Container,
     Typography,
@@ -6,11 +6,13 @@ import {
     TextField,
     Button,
     CssBaseline,
-    Paper
+    Paper, useMediaQuery, MuiThemeProvider
 } from '@material-ui/core'
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import {Alert} from "@mui/material";
+import {createTheme} from "@mui/material/styles";
+import {ThemeProvider} from "@emotion/react";
 
 
 const AccountInfo = ({nextStep, handleChange, values}) => {
@@ -23,28 +25,41 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
             nextStep();
     }
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#1976d2',
+            },
+        },
+    });
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline/>
-            <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+        <Container component="main" maxWidth="sm">
+
+            <Paper variant="outlined">
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 5,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
 
-                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                    <Avatar sx={{m: 1}}>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Account Info
                     </Typography>
 
                     <form onSubmit={Next}>
-                        <Box sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
+
+                        <Box sx={{my: {xs: 12, md: 6}, p: {xs: 12, md: 3}}} maxWidth="lg">
+
+
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -102,7 +117,7 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
 
                                 <Grid item xs={12}>
                                     {!values.isMatch && (<Alert severity={'error'} variant={"outlined"}>
-                                        <strong>Password is Mismatch!</strong>
+                                        <strong style={{color: 'red'}}>Password is Mismatch!</strong>
                                     </Alert>)}
                                 </Grid>
                                 <Grid item xs={12}>
@@ -117,7 +132,6 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
                                     <Button
                                         type="submit"
                                         fullWidth
-                                        color="primary"
                                         variant={"outlined"}
                                     >
                                         Next
@@ -125,10 +139,13 @@ const AccountInfo = ({nextStep, handleChange, values}) => {
                                 </Grid>
                             </Grid>
                         </Box>
+
                     </form>
                 </Box>
             </Paper>
         </Container>
+        </ThemeProvider>
+
     )
 }
 

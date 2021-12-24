@@ -7,12 +7,14 @@ import {
     Button,
     CssBaseline,
     FormControlLabel,
-    Checkbox, Paper, makeStyles, Card
+    Checkbox, Paper, makeStyles, Card, MuiThemeProvider
 } from '@material-ui/core'
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import {Autocomplete} from "@mui/material";
 import countryList from 'react-select-country-list'
+import {createTheme} from "@mui/material/styles";
+import {ThemeProvider} from "@emotion/react";
 
 
 const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
@@ -35,7 +37,18 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
         values.country = v;
     }
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#121212',
+            },
+        },
+    });
+
     return (
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
         <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
@@ -137,6 +150,7 @@ const BasicInfo = ({nextStep, handleChange, values, prevStep}) => {
                 </Box>
             </Paper>
         </Container>
+        </ThemeProvider>
     )
 }
 

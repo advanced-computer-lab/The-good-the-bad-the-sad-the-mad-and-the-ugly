@@ -7,12 +7,13 @@ import {
     Button,
     CssBaseline,
     FormControlLabel,
-    Checkbox, Paper, makeStyles, Card
+    Checkbox, Paper, makeStyles, Card, CircularProgress
 } from '@material-ui/core'
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import {Autocomplete} from "@mui/material";
+import {Autocomplete, ThemeProvider} from "@mui/material";
 import countryList from 'react-select-country-list'
+import {createTheme} from "@mui/material/styles";
 
 
 const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
@@ -26,8 +27,28 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
         prevStep();
     }
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#121212',
+            },
+        },
+    });
+
+    const loading = () => {
+        if (values.buffering) {
+            setTimeout(() => {
+                console.log('Hello, World!');
+            }, 3000);
+        }
+    }
+
     return (
-        <Container component="main" maxWidth="xs">
+        <ThemeProvider theme={darkTheme}>
+            <CssBaseline />
+
+            <Container component="main" maxWidth="xs">
             <CssBaseline/>
             <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                 <Box
@@ -44,6 +65,15 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
                     <Typography component="h1" variant="h5">
                         Contact Info
                     </Typography>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={4}></Grid>
+
+                    <Grid item xs={8} sm={8}>
+                        {values.buffering && < CircularProgress/>}
+                        {
+                            loading()
+                        }
+                    </Grid>
                     <React.Fragment>
                         <form onSubmit={onSubmit}>
                             <Box sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}} maxWidth="sm">
@@ -82,6 +112,7 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
                                     <Grid item xs={12}>
 
                                     </Grid>
+
                                     <Grid item xs={12} sm={6}>
                                         <Button
                                             onClick={prevStep}
@@ -94,24 +125,25 @@ const ContactInfo = ({handleChange, values, prevStep, onSubmit}) => {
                                         </Button>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            color="primary"
+                                        >
+                                            Create Account
+                                        </Button>
                                     </Grid>
                                 </Grid>
                             </Box>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                            >
-                                Create Account
-                            </Button>
+
                         </form>
                     </React.Fragment>
                 </Box>
 
             </Paper>
         </Container>
+        </ThemeProvider>
     )
 }
 

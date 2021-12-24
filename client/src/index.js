@@ -15,15 +15,30 @@ import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
 import CustomizedTabs from "./components/UserProfile/Tab";
 import AppBar from "./components/AppBar/appBar";
+import MenuAppBar from "./components/AppBar/appBar";
+import {createTheme} from "@mui/material/styles";
+import {ThemeProvider} from "@emotion/react";
+import {CssBaseline} from "@material-ui/core";
+import Index from "./components/Home/Home"
 
 axios.defaults.withCredentials = true;
 
+const darkTheme = createTheme({
+    palette: {
+        mode: 'dark',
+
+    },
+});
 
 ReactDOM.render(
   <React.StrictMode>
+      <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <MenuAppBar />
       <Router>
           <Routes>
               <Route path='/' element={<App/>}>
+                  <Route path='home' element={<Index />}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='' element={<ShowAllFlights/>}/>
@@ -41,6 +56,7 @@ ReactDOM.render(
 
           </Routes>
       </Router>
+      </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

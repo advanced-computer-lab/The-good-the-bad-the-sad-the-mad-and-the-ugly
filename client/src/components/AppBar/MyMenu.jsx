@@ -6,10 +6,10 @@ import Typography from "@mui/material/Typography";
 export default function MyMenu(props) {
 
     const options = props.options;
-  //  const setAnchorElUser = props.setAnchorElUser;
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+   const setAnchorElUser = props.setAnchorElUser;
+  //   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    // const anchorElUser = props.anchorElUser;
+    const anchorElUser = props.anchorElUser;
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
