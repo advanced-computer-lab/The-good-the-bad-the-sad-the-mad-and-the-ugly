@@ -115,7 +115,7 @@ export default function UserProfile() {
                     >
                         <Toolbar>
                             <Typography variant="h6" color="inherit" noWrap>
-                                Airline System
+                                <a style={{textDecoration: "none", color: "white"}} href={'/userShowFlights'}>Airline System</a>
                             </Typography>
                         </Toolbar>
                     </AppBar>

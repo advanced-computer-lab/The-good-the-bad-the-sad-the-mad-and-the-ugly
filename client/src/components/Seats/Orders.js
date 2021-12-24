@@ -51,7 +51,7 @@ export default function Orders(props) {
                         <Box
                             sx={{ textAlign: "end" }}
                         mr={7}>
-                            {props.isLoggedIn?<StripeBtn onClick={props.handleSubmit}/>:<Button
+                            {props.isLoggedIn?<StripeBtn onClick={props.handleSubmit} validate={props.validate} price={props.totalPrice}/>:<Button
                             type="submit"
                             variant="contained"
                             onClick={props.handleSubmit}

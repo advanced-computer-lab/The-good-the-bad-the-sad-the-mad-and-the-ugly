@@ -115,7 +115,7 @@ class ShowAllUserReservations extends Component {
                             <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>
                         </Typography>
                         <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
+                            <a style={{textDecoration: "none", color: "black"}} href={'/userprofile'}>Hello, {this.state.userFirstName}!</a>
                         </Typography>
 
                     </Toolbar>
