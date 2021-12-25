@@ -88,13 +88,14 @@ class ShowAllUserReservations extends Component {
             reservationList = "there is no flight record!";
         } else {
             reservationList = reservations.map((reservation) =>
-                <Card sx={{p: 4, m: 2, textAlign: "center"}}>
-                    <Grid item xs={2} sm={4} md={4} key={reservation._id}>
+                // <Card sx={{p: 4, m: 2, textAlign: "center"}}>
+                    <Grid item xs={12} sm={12} md={12} key={reservation._id}>
                         <Reservation reservation={reservation} key={reservation._id}
                                      deleteFunction={this.deleteReservation}
                         />
                     </Grid>
-                </Card>)
+                // </Card>
+        )
         }
 
         return (

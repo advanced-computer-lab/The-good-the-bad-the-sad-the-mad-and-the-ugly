@@ -95,7 +95,7 @@ export default function MenuAppBar() {
     useEffect(async () => {
         await axios.get('http://localhost:8000/login/authorize')
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 if (res.data.success) {
                     if (res.data.isAdmin)
                         setUserType('admin');
