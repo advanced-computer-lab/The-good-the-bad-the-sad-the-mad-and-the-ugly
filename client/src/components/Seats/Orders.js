@@ -21,14 +21,22 @@ export default function Orders(props) {
                 {props.successfulSubmit? <Alert severity={"success"} sx={{mb: 3}}>Reservation submitted successfully. Your Booking ID: {props.reservationId}</Alert> : null}
                 <Grid container>
                     <Grid item xs={6}>
-                        <Grid container>
+                        {props.totalPrice && <Grid container>
                             <Grid item xs={5}>
                                 <h4>Total Price: </h4>
                             </Grid>
                             <Grid item xs={7}>
                                 <p>{props.totalPrice} EGP</p>
                             </Grid>
-                        </Grid>
+                        </Grid>}
+                        {props.newSeats && <Grid container>
+                            <Grid item xs={5}>
+                                <h4>New Seats: </h4>
+                            </Grid>
+                            <Grid item xs={7}>
+                                <p>{props.newSeats}</p>
+                            </Grid>
+                        </Grid>}
                     </Grid>
                     <Grid item xs={6} alignContent={"flex-end"}>
                         <Box

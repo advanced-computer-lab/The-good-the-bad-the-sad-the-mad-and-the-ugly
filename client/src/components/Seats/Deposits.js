@@ -20,6 +20,7 @@ export default function Deposits(props) {
           flightType={props.flightType}
           chosenSeatsCallback={props.chosenSeatsCallback}
           loading={props.visible}
+          editableSeats={props.editableSeats}
       />
     </React.Fragment>
   );

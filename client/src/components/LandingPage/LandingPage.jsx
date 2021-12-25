@@ -1,6 +1,6 @@
 import React from 'react';
-import sample from '../../Img/Airplane-1.m4v'
-import background from "../../Img/Flight4.jpeg";
+// import sample from '../../Img/Airplane-1.m4v'
+import background from "../../Img/Flight3.jpeg";
 
 
 export default function LandingPage() {
@@ -24,7 +24,7 @@ export default function LandingPage() {
                 {/*        src={sample} type='video/mp4'/>*/}
                 {/*</video>*/}
                 <div  style={{
-                    backgroundImage: `url(${require('../../Img/Flight4.jpeg')})`,
+                    backgroundImage: `url(${require('../../Img/Flight3.jpeg')})`,
                     backgroundRepeat: 'no-repeat',
                     backgroundColor: (t) =>
                         t.palette.grey[900],

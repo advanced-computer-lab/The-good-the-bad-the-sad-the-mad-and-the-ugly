@@ -10,6 +10,7 @@ import LoginSide from "./components/Login";
 import SignUp from "./components/SignUp/SignUp";
 import UserProfile from "./components/UserProfile/UserProfile";
 import Seats from "./components/Seats/Dashboard.js";
+import ChangeReservationSeats from "./components/ChangeReservationSeat";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
@@ -52,6 +53,7 @@ ReactDOM.render(
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
                   <Route path='profile' element={<CustomizedTabs/>}/>
                   <Route path='bar' element={<AppBar/>}/>
+                  <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
               </Route>
           </Routes>
       </Router>
