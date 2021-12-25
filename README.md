@@ -39,7 +39,7 @@ This project is fully implemented using the **MERN Stack**. *MERN* stands for *M
 - *NodeJS* is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.
 
 ## Coding Style
-This project is divided into two main parts, frontend and backend. Our backend 
+This project is divided into two main parts, frontend and backend. Our backend is divide into routes that act as a middle point between the client and the database. 
 
 ## Features
 Mainly this website provides an easy way to book flights between any two cities. Also, allows admins to perform CRUD operations on a flight in a flexible way. Moreover, our website allows user to pay in order to complete their reservation.
