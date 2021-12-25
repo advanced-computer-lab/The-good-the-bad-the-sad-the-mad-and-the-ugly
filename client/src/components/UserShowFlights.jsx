@@ -215,6 +215,7 @@ class UserShowFlights extends Component {
                                           adults={this.adults}
                                           children={this.children}
                                           title="Select Departure Flight"
+                                          oldPrice={0}
             />);
 
 
@@ -238,6 +239,7 @@ class UserShowFlights extends Component {
                                            adults={this.adults}
                                            children={this.children}
                                            title="Select Arrival Flight"
+                                           oldPrice={0}
             />);
         }
         const theme = createTheme();

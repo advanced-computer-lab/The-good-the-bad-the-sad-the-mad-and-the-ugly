@@ -96,9 +96,10 @@ const Cell = props => {
     const diffHours = Math.ceil(diff/60);
     const diffMinutes = diff%60;
     const key = flight._id;
-    const selected = key
+    const selected = key;
+    const oldPrice = props.oldPrice;
     const price = parseInt(props.adults) * parseInt(flight.price[props.seatClass]["adult"]) + parseInt(props.children) * parseInt(flight.price[props.seatClass]["child"]);
-
+    const priceDiff = price - oldPrice;
 
 
     function handleClick() {
@@ -263,7 +264,7 @@ const Cell = props => {
                         React.createElement("div", { id: "secondTop" }), /*#__PURE__*/
                         React.createElement("div", { id: "secondBehind" }, /*#__PURE__*/
                             React.createElement("div", { id: "secondBehindDisplay" }, /*#__PURE__*/
-                                React.createElement("div", { id: "price" }, `${parseInt(price)} EGP`, /*#__PURE__*/
+                                React.createElement("div", { id: "price" }, `${parseInt(oldPrice) === 0 ? "Price: " + parseInt(price) + "EGP" : priceDiff >= 0 ? "Amount To Pay: "+ parseInt(priceDiff)+ "EGP" : "Amount To Refund: "+ (parseInt(priceDiff)*-1)+ "EGP"}`, /*#__PURE__*/
 
                                     React.createElement("div", { id: "priceLabel" }, "Price")), /*#__PURE__*/
 
@@ -502,6 +503,7 @@ function Ticket(props){
                     children: props.children,
                     onBookingDepartureFunction: props.onBookingDepartureFunction,
                     onBookingReturningFunction: props.onBookingReturningFunction,
+                    oldPrice: props.oldPrice
                 }))));
 
 

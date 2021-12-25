@@ -25,6 +25,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import TabList from '@mui/lab/TabList';
+import Ticket from "./Ticket/Ticket";
 
 
 
@@ -201,19 +202,31 @@ class UserEditFlight extends Component {
         let flightList = [];
         let tabLabel = this.state.isDeparture ? "Departure Flights" : "Returning Flights";
         if (flights[0] !== undefined && flights[0].length > 0) {
-            flightList = flights[0].map((flight) =>
-                <Grid item xs={2} sm={4} md={4} key={flight._id}>
-                    <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-                        onBookingReturningFunction={this.onBookingReturning}
-                        departure={true}
-                        selected={flight._id === this.state.selectedDeparture}
-                        seatClass={this.state.seatClass}
-                        adults={this.props.adultSeats}
-                        children={this.props.childrenSeats}
-                        oldPrice={this.props.price}
-                    />
-                </Grid>
-            );
+
+            flightList = (<Ticket flights={flights[0]} onBookingDepartureFunction={this.onBookingDeparture}
+                    onBookingReturningFunction={this.onBookingReturning}
+                    departure={true}
+                    selectedId={this.state.selectedDeparture}
+                    seatClass={this.state.seatClass}
+                    adults={this.props.adultSeats}
+                    children={this.props.childrenSeats}
+                    title="Select Flight"
+                    oldPrice={this.props.price}
+            />);
+
+            // flightList = flights[0].map((flight) =>
+            //     <Grid item xs={2} sm={4} md={4} key={flight._id}>
+            //         <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
+            //             onBookingReturningFunction={this.onBookingReturning}
+            //             departure={true}
+            //             selected={flight._id === this.state.selectedDeparture}
+            //             seatClass={this.state.seatClass}
+            //             adults={this.props.adultSeats}
+            //             children={this.props.childrenSeats}
+            //             oldPrice={this.props.price}
+            //         />
+            //     </Grid>
+            // );
 
         }
         console.log(flightList.length);
