@@ -18,6 +18,7 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
   * [Reseravtion](#reservation)
   * [User Profile](#user-profile)
   * [Email](#email)
+  * [Log Out](#log-out)
 
   
 
@@ -635,4 +636,15 @@ or
    }
 ```
 
+### Log Out
+ 1- ***Log Out***
+   - Route `/logout`
+   - Request Type `POST`
+   - Response Body
+```
+{
+   success: true,
+   msg: "logged out successfully!" 
+}
+```
 
