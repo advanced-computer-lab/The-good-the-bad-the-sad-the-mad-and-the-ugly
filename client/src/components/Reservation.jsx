@@ -23,6 +23,7 @@ import UserFlightCard from "./UserFlightCard";
 import Grid from "@mui/material/Grid";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import moment from "moment";
+import {useNavigate} from "react-router-dom";
 
 
 const bull = (
@@ -48,6 +49,7 @@ function Reservation(props) {
     //     };
     // };
 
+    const navigate = useNavigate();
     const [state, setState] = useState(
         {
             depFlight: [],
@@ -293,7 +295,7 @@ function Reservation(props) {
                                                     'aria-labelledby': 'basic-button',
                                                 }}
                                             >
-                                                <MenuItem onClick={handleDepClose}>Change Seats</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/departureSeats`)}}>Change Seats</MenuItem>
                                                 <MenuItem onClick={handleDepClose}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
@@ -370,7 +372,7 @@ function Reservation(props) {
                                                     'aria-labelledby': 'basic-button',
                                                 }}
                                             >
-                                                <MenuItem onClick={handleRetClose}>Change Seats</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/returnSeats`)}}>Change Seats</MenuItem>
                                                 <MenuItem onClick={handleRetClose}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
