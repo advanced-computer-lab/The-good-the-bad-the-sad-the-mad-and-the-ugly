@@ -138,6 +138,19 @@ function Reservation(props) {
             }
         )
     };
+    const sendDetails=()=>{
+        let emailData = {
+            mailSubject: 'New Booking Notification',
+            mailContent: `Your  reservation details (Booking ID: ${props.reservation._id})\n ${JSON.stringify(props.reservation)}\n \nSincerely,\nAir GUC`,
+            userEmail: props.email
+        }
+        axios.post('http://localhost:8000/email/sendEmail', emailData)
+            .then(
+            ).catch(err1 => {
+            console.log(err1);
+        })
+        alert("An Email containing the required information has been sent");
+    }
     const handleClose = () => {
         setState(prevState => {
                 return {
@@ -173,6 +186,7 @@ function Reservation(props) {
     //     },
     // }));
     return (
+
         //     <Box sx={{ minWidth: 200 }}>
         //         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         //             <strong>Adults:</strong> {this.props.reservation.noOfAdults}
@@ -300,7 +314,8 @@ function Reservation(props) {
                                                 }}
                                             >
                                                 <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/departureSeats`)}}>Change Seats</MenuItem>
-                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.depFlight.from}/${state.depFlight.to}/${state.retFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${props.reservation.totalPrice}/true/${props.reservation._id}`)}}>Change Flight</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.depFlight.from}/${state.depFlight.to}/${state.retFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${state.depFlight.price[props.reservation.cabinClass.dep]['adult']*props.reservation.noOfAdults
+                                                +state.depFlight.price[props.reservation.cabinClass.dep]['child']*props.reservation.noOfChildren}/true/${props.reservation._id}`)}}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
                                     </Box>
@@ -382,7 +397,8 @@ function Reservation(props) {
                                                 }}
                                             >
                                                 <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/returnSeats`)}}>Change Seats</MenuItem>
-                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.retFlight.from}/${state.retFlight.to}/${state.depFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${props.reservation.totalPrice}/false/${props.reservation._id}`)}}>Change Flight</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.retFlight.from}/${state.retFlight.to}/${state.depFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${state.retFlight.price[props.reservation.cabinClass.ret]['adult']*props.reservation.noOfAdults
+                                                +state.retFlight.price[props.reservation.cabinClass.ret]['child']*props.reservation.noOfChildren}/false/${props.reservation._id}`)}}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
 
@@ -402,6 +418,7 @@ function Reservation(props) {
                             <Button color={"error"} onClick={handleOpen}>Cancel Reservation</Button>
                                 <DeleteModal2 ReservationId={props.reservation._id} deleteFunc={props.deleteFunction} modalOpen={state.modalOpen} handleClose={handleClose}/>
                             </div>
+                            <Button onClick={sendDetails}> Email details</Button>
                         </Box>
                     </Grid>
                 </Grid>

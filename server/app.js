@@ -15,6 +15,8 @@ const loginRouter = require('./routes/loginRouter');
 const reservationRouter = require('./routes/reservationRouter');
 const emailRouter = require('./routes/emailRouter');
 const userProfile = require('./routes/UserProfileRouter');
+const paymentRouter = require("./routes/paymentsRouter");
+const nodemailer = require("nodemailer");
 const logoutRouter = require("./routes/logoutRouter");
 
 app.use(bodyParser.json());
@@ -56,7 +58,10 @@ app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 app.use("/profile", userProfile);
 app.use("/email", emailRouter);
+app.use("/payment",paymentRouter)
 app.use("/logout", logoutRouter)
 
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+module.exports = app;

@@ -272,6 +272,53 @@ function DashboardContent(props) {
             });
     }
 
+    function validate() {
+        let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
+        if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats) {
+            //setMissingSeats(true);
+            return false;
+        }
+        setMissingSeats(false);
+        let reservation = {
+            departureFlightId: params.departureFlightId,
+            returnFlightId: params.returnFlightId,
+            noOfAdults: params.noOfAdults,
+            noOfChildren: params.noOfChildren,
+            cabinClass: params.cabinClass,
+            departureSeats: chosenSeats.dep,
+            returnSeats: chosenSeats.return,
+            timestamp: Date.now(),
+            totalPrice: parseInt(flightsData.return.flightPrice[params.cabinClass.ret]['adult']) * parseInt(params.noOfAdults)
+                + parseInt(flightsData.return.flightPrice[params.cabinClass.ret]['child']) * parseInt(params.noOfChildren)
+                + parseInt(flightsData.dep.flightPrice[params.cabinClass.dep]['adult']) * parseInt(params.noOfAdults)
+                + parseInt(flightsData.dep.flightPrice[params.cabinClass.dep]['child']) * parseInt(params.noOfChildren)
+        }
+        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.departureFlightId}/${reservation.cabinClass}`)
+            .then(
+                res => {
+                    reservation.departureSeats = reservation.departureSeats.filter((element) => !res.data.includes(element));
+                    if (reservation.departureSeats.length < requiredSeats) {
+                        //setSeatsNotAvailable(true);
+                        return false;
+                    } else {
+                        axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.returnFlightId}/${reservation.cabinClass}`)
+                            .then(
+                                res1 => {
+                                    reservation.returnSeats = reservation.returnSeats.filter((element) => !res1.data.includes(element));
+                                    if (reservation.returnSeats.length < requiredSeats) {
+                                        //setSeatsNotAvailable(true);
+                                        return false;
+                                    } else {
+
+                                    }
+                                }
+                            )
+                    }
+                }
+            )
+        return true;
+    }
+
     function handleSubmit() {
         let requiredSeats = parseInt(params.noOfAdults) + parseInt(params.noOfChildren);
         if (chosenSeats.dep.length < requiredSeats || chosenSeats.return.length < requiredSeats) {
@@ -293,17 +340,32 @@ function DashboardContent(props) {
                     + parseInt(flightsData.dep.flightPrice[params.cabinClass.dep]['child']) * parseInt(params.noOfChildren)
             }
             axios.get('http://localhost:8000/login/authorize')
-                .then(res => {
-                    if (res.data.success) {
+                .then(user => {
+                    if (user.data.success) {
                         reservation.confirmed = true;
-                        reservation.userId = res.data.userId;
+                        reservation.userId = user.data.userId;
                         if (params.reservationId) {
                             // reservation.userId = res.data.userId;
+
                             console.log(reservation);
+
                             axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
                                 .then(res => {
                                     // console.log(res.data);
                                     setReservationId(params.reservationId);
+                                    let emailData = {
+                                        mailSubject: 'New Booking Notification',
+                                        mailContent: `Hi ${user.data.firstName},\nYour new reservation has been booked (Booking ID: ${res.data._id})\n ${JSON.stringify(reservation)}\n \nSincerely,\nAir GUC`,
+                                        userEmail: user.data.email
+                                    }
+                                    axios.post('http://localhost:8000/email/sendEmail', emailData)
+                                        .then(
+                                            res1 => {
+                                                console.log(res1.data);
+                                            }
+                                        ).catch(err1 => {
+                                        console.log(err1);
+                                    })
                                     setSuccessfulSubmit((prevState => {
                                         setSeatsVisible(true);
                                         return true;
@@ -328,6 +390,16 @@ function DashboardContent(props) {
                                                                 .then(res => {
                                                                     console.log('Reservation successful');
                                                                     setReservationId(res.data.reservationId);
+                                                                    let emailData = {
+                                                                        mailSubject: 'New Booking Notification',
+                                                                        mailContent: `Hi ${user.data.firstName},\nYour new reservation has been booked (Booking ID: ${res.data._id})\n ${JSON.stringify(reservation)}\n \nSincerely,\nAir GUC`,
+                                                                        userEmail: user.data.email
+                                                                    }
+                                                                    axios.post('http://localhost:8000/email/sendEmail', emailData)
+                                                                        .then(
+                                                                        ).catch(err1 => {
+                                                                        console.log(err1);
+                                                                    })
                                                                     setSuccessfulSubmit((prevState => {
                                                                         setSeatsVisible(true);
                                                                         return true;
@@ -530,7 +602,7 @@ function DashboardContent(props) {
                                 <Grid item xs={12}>
                                     <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
                                         {isFlightsLoading.dep || isFlightsLoading.return ? null :
-                                            <Orders successfulSubmit={successfulSubmit} missingSeats={missingSeats}
+                                            <Orders isLoggedIn={loggedIn} validate={validate} successfulSubmit={successfulSubmit} missingSeats={missingSeats}
                                                     handleSubmit={handleSubmit} totalPrice={
                                                 parseInt(flightsData.return.flightPrice[params.cabinClass.ret]['adult']) * parseInt(params.noOfAdults)
                                                 + parseInt(flightsData.return.flightPrice[params.cabinClass.ret]['child']) * parseInt(params.noOfChildren)

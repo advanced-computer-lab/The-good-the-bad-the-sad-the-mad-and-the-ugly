@@ -14,6 +14,7 @@ import ChangeReservationSeats from "./components/ChangeReservationSeat";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
+import Payment from "./components/payment"
 import CustomizedTabs from "./components/UserProfile/Tab";
 import AppBar from "./components/AppBar/appBar";
 import MenuAppBar from "./components/AppBar/appBar";
@@ -34,6 +35,7 @@ ReactDOM.render(
           <Routes>
               <Route path='/' element={<App/>}>
                   <Route path='' element={< Index/>}/>
+                  <Route path='payment' element={<Payment/>}></Route>
                   <Route path='home' element={< Index/>}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
@@ -50,7 +52,7 @@ ReactDOM.render(
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightId/:isDeparture/:cabinClass' element={<ChangeReservationSeats/>}/>
                   <Route path='userEditFlight/:from/:to/:flightDate/:adultSeats/:childrenSeats/:price/:isDeparture/:reservationId' element={<Helper/>}/>
-              </Route>
+                  </Route>
           </Routes>
       </div>
   </Router>,

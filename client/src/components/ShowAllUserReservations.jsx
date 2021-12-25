@@ -84,7 +84,6 @@ class ShowAllUserReservations extends Component {
         const theme = createTheme();
         const reservations = this.state.reservations;
         let reservationList;
-
         if (!reservations) {
             reservationList = "there is no flight record!";
         } else {
@@ -92,7 +91,7 @@ class ShowAllUserReservations extends Component {
                 // <Card sx={{p: 4, m: 2, textAlign: "center"}}>
                     <Grid item xs={12} sm={12} md={12} key={reservation._id}>
                         <Reservation reservation={reservation} key={reservation._id}
-                                     deleteFunction={this.deleteReservation}
+                                     deleteFunction={this.deleteReservation} email={this.state.userEmail}
                         />
                     </Grid>
                 // </Card>

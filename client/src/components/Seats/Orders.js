@@ -8,10 +8,10 @@ import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 import {Box, Button, Grid} from "@mui/material";
 import {Alert} from "@mui/lab";
-
+import StripeBtn from '../stripeBtn'
+import axios from "axios";
 
 export default function Orders(props) {
-
     return (
         <React.Fragment>
             <Title>Summary</Title>
@@ -42,14 +42,14 @@ export default function Orders(props) {
                         <Box
                             sx={{ textAlign: "end" }}
                         mr={7}>
-                        <Button
+                            {props.isLoggedIn?<StripeBtn onClick={props.handleSubmit} validate={props.validate} price={props.totalPrice}/>:<Button
                             type="submit"
                             variant="contained"
                             onClick={props.handleSubmit}
                             disabled={props.successfulSubmit}
                         >
                             Confirm
-                        </Button>
+                        </Button>}
                         </Box>
                     </Grid>
                 </Grid>
