@@ -240,7 +240,11 @@ flightRouter.put('/updateFlight/:id', (req, res) => {
 flightRouter.post('/', (req, res) => {
     Flight.create(req.body)
         .then(flight => res.json({ msg: 'Flight added successfully' }))
-        .catch(err => res.status(400).json({ error: 'Unable to add this flight' }));
+        .catch(err => {
+            console.log(err)
+            res.status(400).json({error: 'Unable to add this flight'})
+
+        });
 });
 
 

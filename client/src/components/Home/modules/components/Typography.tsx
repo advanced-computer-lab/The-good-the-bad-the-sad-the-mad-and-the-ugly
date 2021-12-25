@@ -90,7 +90,7 @@ function Typography<C extends React.ElementType>(
   }
 
   return (
-    <MuiTypography variantMapping={variantMapping} variant={variant} {...other}>
+    <MuiTypography variantMapping={variantMapping} variant={variant} {...other} style={{fontFamily:'Montserrat'}}>
       {children}
       {markedClassName ? <span className={markedClassName} /> : null}
     </MuiTypography>

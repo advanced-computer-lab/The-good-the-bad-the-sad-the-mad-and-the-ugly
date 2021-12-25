@@ -14,6 +14,7 @@ import "../../styles.css"
 import {createTheme} from "@mui/material/styles";
 import {MuiThemeProvider} from "@material-ui/core";
 
+
 function Index() {
 
     const darkTheme = createTheme({

@@ -39,7 +39,7 @@ ReactDOM.render(
       <Router>
           <Routes>
               <Route path='/' element={<App/>}>
-                  <Route path='home' element={<LandingPage />}/>
+                  <Route path='home' element={< Index/>}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='' element={<ShowAllFlights/>}/>
