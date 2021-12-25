@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Theme } from '@mui/material/styles';
-import { withStyles, WithStyles } from '@mui/styles';
+// import { withStyles, WithStyles } from '@mui/styles';
 import MuiTypography, { TypographyProps } from '@mui/material/Typography';
 
 const markStyleMapping: {
@@ -79,22 +79,22 @@ const variantMapping = {
 
 function Typography<C extends React.ElementType>(
   props: TypographyProps<C, { component?: C }> &
-    WithStyles<typeof styles> &
+
     ExtraTypographyProps,
 ) {
   const { children, variant, classes, marked = 'none', ...other } = props;
 
   let markedClassName = '';
   if (variant && variant in markStyleMapping[marked]) {
-    markedClassName = classes[markStyleMapping[marked][variant]];
+    // markedClassName = classes[markStyleMapping[marked][variant]];
   }
 
   return (
-    <MuiTypography variantMapping={variantMapping} variant={variant} {...other}>
+    <MuiTypography variantMapping={variantMapping} variant={variant} {...other} style={{fontFamily:'Montserrat'}}>
       {children}
       {markedClassName ? <span className={markedClassName} /> : null}
     </MuiTypography>
   );
 }
 
-export default withStyles(styles)(Typography);
+export default (Typography);

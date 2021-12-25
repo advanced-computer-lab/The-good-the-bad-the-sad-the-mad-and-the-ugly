@@ -21,6 +21,7 @@ import {createTheme} from "@mui/material/styles";
 import {ThemeProvider} from "@emotion/react";
 import {CssBaseline} from "@material-ui/core";
 import Index from "./components/Home/Home"
+import LandingPage from "./components/LandingPage/LandingPage";
 
 axios.defaults.withCredentials = true;
 
@@ -39,7 +40,7 @@ ReactDOM.render(
       <Router>
           <Routes>
               <Route path='/' element={<App/>}>
-                  <Route path='home' element={<Index />}/>
+                  <Route path='home' element={< Index/>}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='' element={<ShowAllFlights/>}/>
@@ -54,7 +55,6 @@ ReactDOM.render(
                   <Route path='bar' element={<AppBar/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
               </Route>
-
           </Routes>
       </Router>
       {/*</ThemeProvider>*/}

@@ -46,19 +46,19 @@ export default function MenuAppBar() {
 
     const enter = keyframes`
     0% { 
-    transform: translate(0px, 0),
+    transform: translate(0px, 0);
     opacity: 0%
     }
-    100% { transform: translate(50px, 0),
+    100% { transform: translate(50px, 0);
     opacity: 100% }
     `;
 
     const exit = keyframes`
     0% { 
-    transform: translate(0, 0),
+    transform: translate(0, 0);
     opacity: 100%
     }
-    100% { transform: translate(-50px, 0),
+    100% { transform: translate(-50px, 0);
     opacity: 0% }
     `;
 
