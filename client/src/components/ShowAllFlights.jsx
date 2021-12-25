@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import FlightHeading from './FlightHeading'
 import Flight from './Flight'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Paper, Table, TableBody, TableContainer, Toolbar, Typography } from "@mui/material";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {Paper, Table, TableBody, TableContainer, Toolbar, Typography} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { palette } from '@mui/system';
+import FlightDetails from "./Flights/FlightDetails";
+import {palette} from '@mui/system';
+import Container from "@mui/material/Container";
 
 
 class ShowAllFlights extends Component {
@@ -71,13 +73,16 @@ class ShowAllFlights extends Component {
         const flights = this.state.flights;
         let flightList;
 
+        console.log(flights[1])
+
         if (!flights) {
             flightList = "there is no flight record!";
         } else {
             flightList = flights.map((flight, k) =>
-                <Flight flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight} />
+                <FlightDetails flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight}/>
             );
         }
+        console.log(flightList)
 
         return (
 
@@ -158,15 +163,9 @@ class ShowAllFlights extends Component {
 
             <div>
 
-
-                <TableContainer component={Paper} sx={{mt:8}}>
-                    <Table sx={{ minWidth: 650 }} className="table table-hover">
-                        <FlightHeading />
-                        <TableBody>
-                            {flightList}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <Container component="main" maxWidth="md" sx={{mb: 4}}>
+                    {flightList}
+                </Container>
             </div>
         );
     }
