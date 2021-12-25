@@ -55,7 +55,7 @@ class UserShowFlights extends Component {
             hasIncompleteReservation: false,
             userFirstName: '',
             reservationId: '',
-            submitted:false
+            submitted: false
         };
     }
 
@@ -98,7 +98,7 @@ class UserShowFlights extends Component {
             });
             return;
         }
-        if(parseInt(this.state.childrenSeats) < 0){
+        if (parseInt(this.state.childrenSeats) < 0) {
             this.setState({
                 arrivalErr: "There cannot be negative number of passengers!"
             });
@@ -131,7 +131,7 @@ class UserShowFlights extends Component {
                     // adultSeats: '',
                     // childrenSeats: '',
                     selectionErr: '',
-                    submitted:true,
+                    submitted: true,
                     flights: res.data
                 })
                 this.scrollDown();
@@ -192,92 +192,36 @@ class UserShowFlights extends Component {
         let flights = this.state.flights;
         let departureFlightList = null;
         let returningFlightList = null;
-        //console.log(flights);
         if (flights[0] !== undefined && flights[1] !== undefined && flights[0].length > 0 && flights[1].length > 0) {
-            // departureFlightList = flights[0].map((flight) =>
-            //     <Grid item xs={2} sm={4} md={4} key={flight._id}>
-            //         <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-            //                     onBookingReturningFunction={this.onBookingReturning}
-            //                     departure={true}
-            //                     selected={flight._id === this.state.selectedDeparture}
-            //                     seatClass={this.state.seatClass}
-            //                     adults={this.adults}
-            //                     children={this.children}
-            //         />
-            //     </Grid>
-            // );
 
-            departureFlightList = (<Ticket flights={this.state.flights[0]} onBookingDepartureFunction={this.onBookingDeparture}
-                                          onBookingReturningFunction={this.onBookingReturning}
-                                          departure={true}
-                                          selectedId={this.state.selectedDeparture}
-                                          seatClass={this.state.seatClass}
-                                          adults={this.adults}
-                                          children={this.children}
-                                          title="Select Departure Flight"
-                                          oldPrice={0}
-            />);
-
-
-            // returningFlightList = flights[1].map((flight) =>
-            //     <Grid item xs={2} sm={4} md={4} key={flight._id}>
-            //         <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-            //                     onBookingReturningFunction={this.onBookingReturning}
-            //                     departure={false}
-            //                     selected={flight._id === this.state.selectedReturning}
-            //                     seatClass={this.state.seatClass}
-            //                     adults={this.adults}
-            //                     children={this.children}/>
-            //     </Grid>
-            // );
-
-            returningFlightList = (<Ticket flights={this.state.flights[1]} onBookingDepartureFunction={this.onBookingDeparture}
-                                           onBookingReturningFunction={this.onBookingReturning}
-                                           departure={false}
-                                           selectedId={this.state.selectedReturning}
-                                           seatClass={this.state.seatClass}
-                                           adults={this.adults}
-                                           children={this.children}
-                                           title="Select Arrival Flight"
-                                           oldPrice={0}
-            />);
+            departureFlightList = (
+                <Ticket flights={this.state.flights[0]} onBookingDepartureFunction={this.onBookingDeparture}
+                        onBookingReturningFunction={this.onBookingReturning}
+                        departure={true}
+                        selectedId={this.state.selectedDeparture}
+                        seatClass={this.state.seatClass}
+                        adults={this.adults}
+                        children={this.children}
+                        title="Select Departure Flight"
+                        oldPrice={0}
+                />);
+            returningFlightList = (
+                <Ticket flights={this.state.flights[1]} onBookingDepartureFunction={this.onBookingDeparture}
+                        onBookingReturningFunction={this.onBookingReturning}
+                        departure={false}
+                        selectedId={this.state.selectedReturning}
+                        seatClass={this.state.seatClass}
+                        adults={this.adults}
+                        children={this.children}
+                        title="Select Arrival Flight"
+                        oldPrice={0}
+                />);
         }
         const theme = createTheme();
 
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                {/*<AppBar*/}
-                {/*    position="absolute"*/}
-                {/*    color="default"*/}
-                {/*    elevation={0}*/}
-                {/*    sx={{*/}
-                {/*        position: 'relative',*/}
-                {/*        borderBottom: (t) => `1px solid ${t.palette.divider}`,*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <Toolbar>*/}
-                {/*        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>*/}
-                {/*            Airline System*/}
-                {/*        </Typography>*/}
-                {/*        {this.state.loggedIn ? null :*/}
-                {/*            <Button*/}
-                {/*                href={'/login'}*/}
-                {/*            >*/}
-                {/*                Login*/}
-                {/*            </Button>}*/}
-                {/*        {this.state.loggedIn ? <Typography>*/}
-                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>*/}
-                {/*        </Typography> : null}*/}
-                {/*        {this.state.hasIncompleteReservation ?*/}
-                {/*            <Button*/}
-                {/*                href={`/selectSeats/${this.state.reservationId}`}*/}
-                {/*            >*/}
-                {/*                Complete your booking*/}
-                {/*            </Button> : null*/}
-                {/*        }*/}
-                {/*    </Toolbar>*/}
-                {/*</AppBar>*/}
                 <Container component="main" maxWidth="md" sx={{mb: 4}}>
                     <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                         <Typography component="h1" variant="h4" align="center">
@@ -321,9 +265,9 @@ class UserShowFlights extends Component {
                                                 renderInput={(props) =>
                                                     <TextField
                                                         disabled
-                                                               name="departure"
-                                                               variant="standard"
-                                                               sx={{width: 350}} {...props}
+                                                        name="departure"
+                                                        variant="standard"
+                                                        sx={{width: 350}} {...props}
                                                     />}
                                                 label="Departure Date"
                                                 variant="standard"
@@ -344,10 +288,10 @@ class UserShowFlights extends Component {
                                                 }
                                                 renderInput={(props) =>
                                                     <TextField
-                                                            disabled
-                                                               name="returning"
-                                                               variant="standard"
-                                                               sx={{width: 350}} {...props}
+                                                        disabled
+                                                        name="returning"
+                                                        variant="standard"
+                                                        sx={{width: 350}} {...props}
                                                     />}
                                                 label="Returning Date"
                                                 variant="standard"
@@ -397,7 +341,8 @@ class UserShowFlights extends Component {
                                         </Grid>
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
-                                        {this.state.arrivalErr.length > 0 && <Alert severity={"error"}> {this.state.arrivalErr}</Alert>}
+                                        {this.state.arrivalErr.length > 0 &&
+                                        <Alert severity={"error"}> {this.state.arrivalErr}</Alert>}
                                     </Grid>
                                 </LocalizationProvider>
                                 <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
@@ -417,54 +362,48 @@ class UserShowFlights extends Component {
 
 
                 <Container maxWidth="md" sx={{mb: 4}}>
-                {this.state.submitted?  <div>
-                    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    {this.state.submitted ? <div>
+                        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
 
-                        {/*<Button*/}
-                        {/*    onClick={this.handleClick}*/}
-                        {/*    type="submit"*/}
-                        {/*    variant="contained"*/}
-                        {/*    sx={{mt: 3, ml: 3}}*/}
-                        {/*>*/}
-                        {/*    Next*/}
-                        {/*</Button>*/}
-                        <Grid item xs={12} sm={12}>
-                            {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
-                        </Grid>
-                    </Box>
 
-                    <Grid container>
-                        <Grid item xs={4}>
-                            {departureFlightList === null? "No Departure flights are available":departureFlightList}
-                        </Grid>
-                        <Grid item xs={2}>
+                            <Grid item xs={12} sm={12}>
+                                {this.state.selectionErr.length > 0 &&
+                                <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
+                            </Grid>
+                        </Box>
 
-                        </Grid>
-                        <Grid item xs={4}>
-                            {returningFlightList === null? "No Returning flights are available":returningFlightList}
-                        </Grid>
+                        <Grid container>
+                            <Grid item xs={4}>
+                                {departureFlightList === null ? "No Departure flights are available" : departureFlightList}
+                            </Grid>
+                            <Grid item xs={2}>
 
-                    </Grid>
-
-                    <Grid container>
-                        <Grid item xs={9}>
+                            </Grid>
+                            <Grid item xs={4}>
+                                {returningFlightList === null ? "No Returning flights are available" : returningFlightList}
+                            </Grid>
 
                         </Grid>
-                        <Grid item xs={3}>
-                            <Button
-                                onClick={this.handleClick}
-                                type="submit"
-                                variant="contained"
-                                sx={{mt: 3, ml: 3}}
-                                color="success"
-                            >
-                                Complete Booking
-                            </Button>
+
+                        <Grid container>
+                            <Grid item xs={9}>
+
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    onClick={this.handleClick}
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{mt: 3, ml: 3}}
+                                    color="success"
+                                >
+                                    Complete Booking
+                                </Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
 
 
-                </div>:<div></div>}
+                    </div> : <div></div>}
                 </Container>
 
             </ThemeProvider>

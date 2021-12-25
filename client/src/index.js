@@ -25,23 +25,16 @@ import "./styles.css"
 import Helper from "./components/Helper";
 axios.defaults.withCredentials = true;
 
-const darkTheme = createTheme({
-    palette: {
-        mode: 'dark',
 
-    },
-});
 
 ReactDOM.render(
   <Router>
-      {/*<ThemeProvider theme={darkTheme}>*/}
-      {/*    <CssBaseline />*/}
           <MenuAppBar />
       <div>
           <Routes>
               <Route path='/' element={<App/>}>
+                  <Route path='' element={< Index/>}/>
                   <Route path='home' element={< Index/>}/>
-                  <Route path='ticket' element={< Ticket/>}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
                   <Route path='showAllFlights' element={<ShowAllFlights/>}/>
@@ -60,7 +53,6 @@ ReactDOM.render(
               </Route>
           </Routes>
       </div>
-      {/*</ThemeProvider>*/}
   </Router>,
   document.getElementById('root')
 );

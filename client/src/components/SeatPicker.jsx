@@ -40,6 +40,8 @@ export default class Seats extends Component {
                         //row[j].isReserved = false;
                         // console.log(row[j]);
                     }
+
+
                     c++;
                     if (c > this.props.availableSeats)
                         break;

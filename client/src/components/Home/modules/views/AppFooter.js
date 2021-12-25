@@ -20,7 +20,7 @@ function Copyright() {
 
       <Link style={{
         color: 'white'
-      }} href="https://mui.com/">
+      }} href="/home">
         Contributers
       </Link>{' '}
       {new Date().getFullYear()}

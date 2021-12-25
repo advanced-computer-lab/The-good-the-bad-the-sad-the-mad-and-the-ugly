@@ -258,7 +258,7 @@ export default function MenuAppBar() {
                             />
                         </a>
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}} className={enterStyle}>
-                            Airline System
+                            GUC Airways
                         </Typography>
                         {(
                             userType === 'user' ? user : userType === 'admin' ? admin : userType === 'guest' ? guest : ""

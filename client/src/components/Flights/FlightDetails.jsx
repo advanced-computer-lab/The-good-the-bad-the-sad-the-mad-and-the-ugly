@@ -23,7 +23,7 @@ export default function FlightDetails(props) {
     const data = props.flight;
 
     return (
-        <Card sx={{maxWidth: 900, mb: 3}}>
+        <Card style={{marginBottom: "20px"}}>
             <CardContent>
                 <Typography mb={2} variant={"h5"} align={"left"}>
                     <strong>{data.flightNumber}</strong>
@@ -64,7 +64,7 @@ export default function FlightDetails(props) {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>
+                            <Typography color="primary">
                                 <strong>Flight Details</strong>
                             </Typography>
                         </AccordionSummary>
@@ -163,18 +163,30 @@ export default function FlightDetails(props) {
                                     </Typography>
                                 </Grid>
 
-                                <Grid item md={8}></Grid>
+
                                 <Grid item md={2}>
+
+                                        <Button style={{marginTop: "25px"}} variant="outlined" onClick={handleOpen} color={'error'} startIcon={<DeleteIcon/>}>
+                                            Delete
+                                        </Button>
+
                                 </Grid>
-                                <Grid item md={2}>
-                                    <Button sx={{mr: 2}} variant="contained"
-                                            href={`/updateFlight/${data._id}`}> EDIT</Button>
-                                    <Button variant="outlined" onClick={handleOpen} color={'error'} startIcon={<DeleteIcon/>}>
-                                        Delete
-                                    </Button>
+                                <Grid item md={8}>
+                                </Grid>
+                                <Grid item md={2} sx={{display: "flex", justifyContent: "center"}}>
+                                    {/*<Button sx={{mr: 2}} variant="contained"*/}
+                                    {/*        href={`/updateFlight/${data._id}`}> EDIT</Button>*/}
+                                    {/*<Button variant="outlined" onClick={handleOpen} color={'error'} startIcon={<DeleteIcon/>}>*/}
+                                    {/*    Delete*/}
+                                    {/*</Button>*/}
+                                        <Button variant="contained"
+                                                sx={{mt: 3, ml: 1}}
+                                                href={`/updateFlight/${data._id}`}>
+                                            Edit</Button>
 
                                 </Grid>
                             </Grid>
+
                             <DeleteModal flightId={data._id} deleteFunc={props.deleteFunction}
                                          flightNumber={data.flightNumber} modalOpen={modalOpen}
                                          handleClose={handleClose}/>

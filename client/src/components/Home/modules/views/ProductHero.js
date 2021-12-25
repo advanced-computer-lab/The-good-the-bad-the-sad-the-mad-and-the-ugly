@@ -20,7 +20,7 @@ export default function ProductHero() {
     <ProductHeroLayout>
 
       <Typography sx={{mt: 30}} color="primary" align="center" variant="h2" marked="center" style={style}>
-        Welcome to Shetewy Airways
+        Welcome to GUC Airways
       </Typography>
       <Typography color="primary" sx={{mt: 2}} style={style}>
         Enjoy secret offers up to -70% off the best journeys to all beautiful cities.

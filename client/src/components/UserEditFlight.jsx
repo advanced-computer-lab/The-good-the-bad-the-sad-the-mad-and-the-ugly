@@ -235,37 +235,6 @@ class UserEditFlight extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline />
-                {/* <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }} noWrap>
-                            Airline System
-                        </Typography>
-                        {this.state.loggedIn ? null :
-                            <Button
-                                href={'/login'}
-                            >
-                                Login
-                            </Button>}
-                        {this.state.loggedIn ? <Typography>
-                            <a style={{ textDecoration: "none", color: "black" }} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
-                        </Typography> : null}
-                        {this.state.hasIncompleteReservation ?
-                            <Button
-                                href={`/selectSeats/${this.state.reservationId}`}
-                            >
-                                Complete your booking
-                            </Button> : null
-                        }
-                    </Toolbar>
-                </AppBar> */}
                 <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                     <Paper variant="outlined" sx={{ my: { xs: 6, md: 12 }, p: { xs: 2, md: 3 } }}>
                         <Typography component="h1" variant="h4" align="center">
@@ -343,26 +312,8 @@ class UserEditFlight extends Component {
                 </Container>
 
                 {this.state.submitted ? <div>
-                    {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>*/}
 
-                    {/*    <Button*/}
-                    {/*        onClick={this.handleClick}*/}
-                    {/*        type="submit"*/}
-                    {/*        variant="contained"*/}
-                    {/*        sx={{ mt: 3, ml: 3 }}*/}
-                    {/*    >*/}
-                    {/*        Next*/}
-                    {/*    </Button>*/}
-                    {/*    <Grid item xs={12} sm={12}>*/}
-                    {/*        {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}*/}
-                    {/*    </Grid>*/}
-                    {/*</Box>*/}
                     <Container maxWidth="md" sx={{mb: 4}}>
-                        {/*<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>*/}
-                        {/*    <TabList onChange={handleChange} aria-label="lab API tabs example">*/}
-                        {/*        <Tab label={tabLabel} value="1" />*/}
-                        {/*    </TabList>*/}
-                        {/*</Box>*/}
                         <Container maxWidth="md" sx={{mb: 4}}>
 
                         <Grid container>
@@ -393,12 +344,6 @@ class UserEditFlight extends Component {
                                 </Button>
                             </Grid>
                         </Grid>
-
-                        {/*<TabPanel value="1">*/}
-                        {/*    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>*/}
-                        {/*        {flightList === null? "No flights are available" : flightList}*/}
-                        {/*    </Grid>*/}
-                        {/*</TabPanel>*/}
                     </Container>
                 </div> : <div></div>}
 
@@ -408,4 +353,5 @@ class UserEditFlight extends Component {
 
     }
 }
+
 export default UserEditFlight;

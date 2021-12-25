@@ -102,26 +102,6 @@ class ShowAllUserReservations extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                {/*<AppBar*/}
-                {/*    position="absolute"*/}
-                {/*    color="default"*/}
-                {/*    elevation={0}*/}
-                {/*    sx={{*/}
-                {/*        position: 'relative',*/}
-                {/*        borderBottom: (t) => `1px solid ${t.palette.divider}`,*/}
-                {/*        mb: 3*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <Toolbar>*/}
-                {/*        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>*/}
-                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>*/}
-                {/*        </Typography>*/}
-                {/*        <Typography>*/}
-                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>*/}
-                {/*        </Typography>*/}
-
-                {/*    </Toolbar>*/}
-                {/*</AppBar>*/}
                 <Container maxWidth="lg" sx={{mb: 4}}>
                     <Box
                         sx={{
@@ -184,21 +164,6 @@ class ShowAllUserReservations extends Component {
                     </Box>
 
                 </Container>
-                {/*<div style={{width: '100%'}}>*/}
-                {/*    <Box*/}
-                {/*        sx={{*/}
-                {/*            display: 'flex',*/}
-                {/*            justifyContent: 'center',*/}
-                {/*            p: 1,*/}
-                {/*            m: 1,*/}
-                {/*            bgcolor: 'background.paper',*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        <Grid sx={{p: 4}} container spacing={1} columns={{xs: 4, sm: 8, md: 12}}>*/}
-                {/*            {reservationList}*/}
-                {/*        </Grid>*/}
-                {/*    </Box>*/}
-                {/*</div>*/}
             </ThemeProvider>
         )
     }
