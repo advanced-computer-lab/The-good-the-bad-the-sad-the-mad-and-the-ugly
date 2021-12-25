@@ -13,6 +13,7 @@ import Seats from "./components/Seats/Dashboard.js";
 import UserShowFlights from "./components/UserShowFlights";
 import axios from "axios";
 import ShowAllUserReservations from "./components/ShowAllUserReservations";
+import Helper from "./components/Helper";
 
 axios.defaults.withCredentials = true;
 
@@ -30,6 +31,7 @@ ReactDOM.render(
                   <Route path='signup' element={<SignUp/>}/>
                   <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
+                  <Route path='userEditFlight/:from/:to/:adultSeats/:childrenSeats/:price/:isDeparture' element={<Helper/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='userprofile' element={<UserProfile/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
