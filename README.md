@@ -10,6 +10,7 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
 - [Motivation](#motivation)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Coding Style](#coding-style)
+- [Screeshots](#screenshots)
 - [Installation](#installation)
 - [Features](#features)
 - [API References](#api-references)
@@ -41,6 +42,12 @@ This project is fully implemented using the **MERN Stack**. *MERN* stands for *M
 
 ## Coding Style
 This project is divided into two main parts, frontend and backend. Our backend is divide into routes that act as a middle point between the client and the database. 
+
+## Screenshots
+
+![search](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/change%20flight.png)
+![search](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/create%20flight.png)
+![seats](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/pick%20seats.png)
 
 ## Installation
 In order to run our project, you should have the following installed in your machine:
