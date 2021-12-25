@@ -22,6 +22,7 @@ import Index from "./components/Home/Home"
 import Ticket from "./components/Ticket/Ticket"
 import LandingPage from "./components/LandingPage/LandingPage";
 import "./styles.css"
+import FlightDetails from "./components/Flights/FlightDetails";
 axios.defaults.withCredentials = true;
 
 const darkTheme = createTheme({
@@ -54,6 +55,7 @@ ReactDOM.render(
                   <Route path='profile' element={<CustomizedTabs/>}/>
                   <Route path='bar' element={<AppBar/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
+                  <Route path='flight' element={<FlightDetails/>}/>
               </Route>
           </Routes>
       </div>
