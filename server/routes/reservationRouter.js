@@ -15,11 +15,11 @@ reservationRouter.post('/createReservation', (req, res) => {
         .then(reservation => {
             // console.log(reservation);
             Flight.findByIdAndUpdate(req.body.departureFlightId,
-                {$inc: {[`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) * -1}})
+                {$inc: {[`availableSeats.${reservation.cabinClass.dep}`]: (reservation.noOfAdults + reservation.noOfChildren) * -1}})
                 .then(res1 => {
                     console.log('successful departure flight update');
                 })
-            Flight.findByIdAndUpdate(req.body.returnFlightId, {$inc: {[`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) * -1}})
+            Flight.findByIdAndUpdate(req.body.returnFlightId, {$inc: {[`availableSeats.${reservation.cabinClass.ret}`]: (reservation.noOfAdults + reservation.noOfChildren) * -1}})
                 .then(res1 => {
                     console.log('successful departure flight update');
                 })
@@ -76,12 +76,15 @@ reservationRouter.get('/getReservationBySessionId', (req, res) => {
 });
 
 reservationRouter.get('/getReservedSeatsInFlight/:flightId/:cabinClass', (req, res) => {
-
+    // Reservation.find({departureFlightId: req.params.flightId})
+    //     .then((res) => {
+    //         console.log(res);
+    //     });
     Reservation.aggregate([
         {
             $match: {
                 departureFlightId: mongoose.Types.ObjectId(req.params.flightId),
-                cabinClass: req.params.cabinClass
+                ['cabinClass.dep']: req.params.cabinClass
             }
         },
         {$project: {departureSeats: 1, _id: 0}},
@@ -92,14 +95,14 @@ reservationRouter.get('/getReservedSeatsInFlight/:flightId/:cabinClass', (req, r
                     {
                         $match: {
                             returnFlightId: mongoose.Types.ObjectId(req.params.flightId),
-                            cabinClass: req.params.cabinClass
+                            ['cabinClass.ret']: req.params.cabinClass
                         }
                     },
                     {$project: {returnSeats: 1, _id: 0}}]
             }
         }
     ]).then(seats => {
-        console.log(seats);
+        // console.log(seats);
         res.json(_.flatten(
         seats.map(seat => seat['departureSeats'] != null ? seat['departureSeats'] : seat['returnSeats']
         )
@@ -132,11 +135,11 @@ reservationRouter.put('/updateReservation/:id', (req, res) => {
 reservationRouter.delete('/delete/:id', (req, res) => {
     Reservation.findByIdAndRemove(req.params.id)
         .then(deletedReservation => {
-            Flight.findByIdAndUpdate(deletedReservation.departureFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
+            Flight.findByIdAndUpdate(deletedReservation.departureFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass.dep}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
                 .then(res1 => {
                     console.log('successful departure flight update');
                 })
-            Flight.findByIdAndUpdate(deletedReservation.returnFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
+            Flight.findByIdAndUpdate(deletedReservation.returnFlightId, {$inc: {[`availableSeats.${deletedReservation.cabinClass.ret}`]: (deletedReservation.noOfAdults + deletedReservation.noOfChildren)}})
                 .then(res1 => {
                     console.log('successful return flight update');
                 })

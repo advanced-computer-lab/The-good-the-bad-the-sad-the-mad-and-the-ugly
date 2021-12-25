@@ -54,6 +54,7 @@ ReactDOM.render(
                   <Route path='profile' element={<CustomizedTabs/>}/>
                   <Route path='bar' element={<AppBar/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
+                  <Route path='changeReservationSeats/:reservationId/:flightId/:isDeparture/:cabinClass' element={<ChangeReservationSeats/>}/>
               </Route>
           </Routes>
       </div>
