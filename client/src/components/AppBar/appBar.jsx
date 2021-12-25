@@ -24,11 +24,12 @@ import {Container, CssBaseline} from "@material-ui/core";
 
 export default function MenuAppBar() {
 
-    // let navigate = useNavigate();
-    //
-    // async function handleSubmit() {
-    //     navigate("/home");
-    // }
+    const navigate = useNavigate();
+
+    async function handleSubmit(link) {
+        handleClose();
+        navigate(link);
+    }
 
     // const navigate = useNavigate();
 
@@ -45,39 +46,39 @@ export default function MenuAppBar() {
     };
 
     const enter = keyframes`
-    0% { 
-    transform: translate(0px, 0);
-    opacity: 0%
-    }
-    100% { transform: translate(50px, 0);
-    opacity: 100% }
+      0% {
+        transform: translate(0px, 0);
+        opacity: 0%
+      }
+      100% {
+        transform: translate(50px, 0);
+        opacity: 100%
+      }
     `;
 
     const exit = keyframes`
-    0% { 
-    transform: translate(0, 0);
-    opacity: 100%
-    }
-    100% { transform: translate(-50px, 0);
-    opacity: 0% }
+      0% {
+        transform: translate(0, 0);
+        opacity: 100%
+      }
+      100% {
+        transform: translate(-50px, 0);
+        opacity: 0%
+      }
     `;
-
 
 
     // const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [userType, setUserType] = useState(null);
-    const[style, setStyle] = useState({
+    const [style, setStyle] = useState({
         marginRight: '10px'
     });
     const [hasIncompleteReservation, setHasIncompleteReservation] = useState(false);
     const [reservationId, setReservationId] = useState(null);
 
-    const[enterStyle, setEntering] = useState("fade");
-
-
-
-
+    const [enterStyle, setEntering] = useState("fade");
+    const [clicked, setClicked] = useState(1);
 
 
     const darkTheme = createTheme({
@@ -90,12 +91,9 @@ export default function MenuAppBar() {
     });
 
 
-
-
     useEffect(async () => {
         await axios.get('http://localhost:8000/login/authorize')
             .then(res => {
-                // console.log(res.data);
                 if (res.data.success) {
                     if (res.data.isAdmin)
                         setUserType('admin');
@@ -113,13 +111,8 @@ export default function MenuAppBar() {
                     )
 
             });
-            // console.log(userType);
-            // let right = setRight();
-            // setRightComponent(right);
-    });
 
-
-
+    }, [clicked]);
 
 
     // const handleChange = (event) => {
@@ -131,9 +124,12 @@ export default function MenuAppBar() {
     };
 
     const logOut = async () => {
+        handleClose();
+        setClicked(clicked + 1);
         await axios.post('http://localhost:8000/logout')
             .then(res => {
                 console.log(res.data);
+                navigate('/home');
             });
     }
     const handleClose = () => {
@@ -141,21 +137,21 @@ export default function MenuAppBar() {
     };
 
 
-
-
     const guest = (<div>
-        <Button href="/login" color="inherit">Log In</Button>
-        <Button href="/signup" color="inherit">Sign Up</Button>
+        <Button onClick={()=> handleSubmit('/login')} color="inherit">Log In</Button>
+        <Button onClick={()=> handleSubmit('/signup')} color="inherit">Sign Up</Button>
     </div>);
+
+
     const user = (<div>
-            {hasIncompleteReservation ?
-                <Button
-                    color="secondary"
-                    href={`/selectSeats/${reservationId}`}
-                >
-                    Complete your booking
-                </Button> : null
-            }
+        {hasIncompleteReservation ?
+            <Button
+                color="secondary"
+                href={`/selectSeats/${reservationId}`}
+            >
+                Complete your booking
+            </Button> : null
+        }
         <IconButton
             size="large"
             aria-label="account of current user"
@@ -164,7 +160,7 @@ export default function MenuAppBar() {
             onClick={handleMenu}
             color="inherit"
         >
-            <AccountCircle />
+            <AccountCircle/>
         </IconButton>
         <Menu
             id="menu-appbar"
@@ -181,22 +177,14 @@ export default function MenuAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <MenuItem>
-                <a href="/profile" variant="text">
-                    Profile
-                </a>
-
+            <MenuItem onClick={() => handleSubmit('/profile')}>
+                Profile
             </MenuItem>
-            <MenuItem>
-                <a href="/showUserReservations" variant="text">
-                    My Reservations
-                </a>
-
+            <MenuItem onClick={() => handleSubmit("/showUserReservations")}>
+                My Reservations
             </MenuItem>
             <MenuItem onClick={logOut}>
-                <a href="/home" variant="text">
-                    Log Out
-                </a>
+                Log Out
             </MenuItem>
         </Menu>
     </div>);
@@ -210,7 +198,7 @@ export default function MenuAppBar() {
             onClick={handleMenu}
             color="inherit"
         >
-            <AccountCircle />
+            <AccountCircle/>
         </IconButton>
         <Menu
             id="menu-appbar"
@@ -227,48 +215,59 @@ export default function MenuAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
         >
-            <MenuItem onClick={handleClose}>Admin Menu</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={() => handleSubmit('/profile')}>
+                Profile
+            </MenuItem>
+            <MenuItem onClick={() => handleSubmit("/createFlight")}>
+                Create Flight
+            </MenuItem>
+            <MenuItem onClick={() => handleSubmit("/showFlights")}>
+                Search Flights
+            </MenuItem>
+            <MenuItem onClick={() => handleSubmit("showAllFlight")}>
+                Show All Flights
+            </MenuItem>
+            <MenuItem onClick={logOut}>
+                Log Out
+            </MenuItem>
         </Menu>
     </div>);
 
 
     return (
         <ThemeProvider theme={darkTheme}>
-            <CssBaseline />
-        <Box sx={{ flexGrow: 1, mb: 5}}>
+            <CssBaseline/>
+            <Box sx={{flexGrow: 1, mb: 5}}>
 
 
-
-
-            <AppBar>
-                <Toolbar>
+                <AppBar>
+                    <Toolbar>
                         <a href='/home' variant="text" color="primary">
 
 
-                        <FlightIcon
-                            onMouseEnter={() => {
-                                setStyle(rotating);
-                                setEntering("fadeIn");
-                            }}
-                            onMouseLeave={() => {
-                                setStyle(nonRotating);
-                                setEntering("fadeOut");
-                            }}
-                            style={style}
-                        />
+                            <FlightIcon
+                                onMouseEnter={() => {
+                                    setStyle(rotating);
+                                    setEntering("fadeIn");
+                                }}
+                                onMouseLeave={() => {
+                                    setStyle(nonRotating);
+                                    setEntering("fadeOut");
+                                }}
+                                style={style}
+                            />
                         </a>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} className={enterStyle}>
-                        Airline System
-                    </Typography>
-                    {(
-                        userType ==='user'?user:userType==='admin'?admin:userType === 'guest'?guest:""
-                    )}
-                </Toolbar>
-            </AppBar>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}} className={enterStyle}>
+                            Airline System
+                        </Typography>
+                        {(
+                            userType === 'user' ? user : userType === 'admin' ? admin : userType === 'guest' ? guest : ""
+                        )}
+                    </Toolbar>
+                </AppBar>
 
 
-        </Box>
+            </Box>
         </ThemeProvider>
     );
 }

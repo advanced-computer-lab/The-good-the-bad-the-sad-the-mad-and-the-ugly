@@ -121,22 +121,7 @@ class ShowFlights extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" noWrap>
-                            Airline System
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Container component="main" maxWidth="md" sx={{mb: 4}}>
+                <Container component="main" maxWidth="md" sx={{mb: 4, mt:10}}>
                     <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                         <Typography component="h1" variant="h4" align="center">
                             Search Flights

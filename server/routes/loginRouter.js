@@ -8,25 +8,6 @@ const passport = require('passport');
 loginRouter.use(express.json());
 loginRouter.use(express.urlencoded({extended: true}));
 
-//
-// loginRouter.post('/', (req, res,next) => {
-//     passport.authenticate('local', {session: true},(err, user, info) => {
-//         if (err) {
-//             return next(err);
-//         }
-//         if (!user) {
-//             return res.json({success:false});
-//         }
-//         // console.log(req.user);
-//         if(user.isAdmin)
-//         {
-//             return res.json({success:true, redirect:'/adminHomePage'});
-//         }
-//         else{
-//             return res.json({success:true, redirect:'/homePage'});
-//         }
-//     })(req, res, next);
-// });
 
 loginRouter.post('/', passport.authenticate('local', {failureRedirect: '/login/loginFailure' }),  function(req, res) {
     res.json({success: true, isAdmin: req.user.isAdmin});
