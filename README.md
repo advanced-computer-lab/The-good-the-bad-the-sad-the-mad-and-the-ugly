@@ -337,24 +337,43 @@ or
 - Request Type `POST`
 - Request Body
  ```
- {
-    {
-            flightNumber: 'A53',
-            departureAirport: 'CAI',
-            arrivalAirport: 'POI',
-            from: "Egypt",
-            to: "Italy",
-            departure1: //Departure date 1 ,
-            departure2: //Departure date 2,
-            arrival1: // Arrival Date 1 ,
-            arrival2: // Arrival Date 2,
-            availableSeats: {
-                economy: #of seats,
-                business: #of seats ,
-                first: #of seats,
-            }
-     }
- }
+{
+    "flightNumber": "1234",
+    "departureAirport": "Cairo",
+    "arrivalAirport": "DMT",
+    "from": "Cairo",
+    "to": "Rome",
+    "availableSeats": {
+        "economy": 45,
+        "business": 29,
+        "first": 29
+    },
+    "maxSeats": {
+        "economy": 45,
+        "business": 29,
+        "first": 29
+    },
+    "price": {
+        "economy": {
+            "adult": 500,
+            "child": 2700
+        },
+        "business": {
+            "adult": 5000,
+            "child": 4500
+        },
+        "first": {
+            "adult": 7000,
+            "child": 6000
+        }
+    },
+    "departure": "2021-11-16T10:00:46.000Z",
+    "arrival": "2021-11-17T10:00:52.000Z",
+    "__v": 0,
+    "arrivalTerminal": 9,
+    "baggageAllowance": 30,
+    "departureTerminal": 8
+}
  // Note: All the fields are required.
  ```
 - Response Body
@@ -368,7 +387,7 @@ or
 }
 ```
 7- ***Get flight by id***
-- Route `/getFlightById/:id`
+- Route `flight/getFlightById/:id`
 - Request Type `GET`
 - Parameters: `id`, Id of a specific flight
 - Response Body
@@ -380,6 +399,66 @@ or
    error: 'Unable to get flight data'
     
  }
+```
+8- ***User Edit Flight***
+- Route `flight/userEditFlight`
+- Request Type `POST`
+- Request Body
+```
+{
+        from: 'Cairo',
+        to: 'Rome',
+        flightDate: // Date of the flight,
+        seatClass: // economy, business or firstClass,
+        adultSeats: // # of adult seats,
+        childrenSeats: // # of children Seats,
+        isDeparture: // true or false
+}
+
+```
+ - Response Body
+```
+  [
+
+        {
+          "flightNumber": "1234",
+          "departureAirport": "Cairo",
+          "arrivalAirport": "DMT",
+          "from": "Cairo",
+          "to": "Rome",
+          "availableSeats": {
+              "economy": 45,
+              "business": 29,
+              "first": 29
+          },
+          "maxSeats": {
+              "economy": 45,
+              "business": 29,
+              "first": 29
+          },
+          "price": {
+              "economy": {
+                  "adult": 500,
+                  "child": 2700
+              },
+              "business": {
+                  "adult": 5000,
+                  "child": 4500
+              },
+              "first": {
+                  "adult": 7000,
+                  "child": 6000
+              }
+          },
+          "departure": "2021-11-16T10:00:46.000Z",
+          "arrival": "2021-11-17T10:00:52.000Z",
+          "__v": 0,
+          "arrivalTerminal": 9,
+          "baggageAllowance": 30,
+          "departureTerminal": 8
+      }
+   // List of Flights
+  ]
 ```
 ### Reservation
 1- ***Create Reservation***
