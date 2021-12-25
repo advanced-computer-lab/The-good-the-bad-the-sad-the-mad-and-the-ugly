@@ -8,7 +8,6 @@ import ShowAllFlights from "./components/ShowAllFlights";
 import ShowFlights from "./components/ShowFlights";
 import LoginSide from "./components/Login";
 import SignUp from "./components/SignUp/SignUp";
-import UserProfile from "./components/UserProfile/UserProfile";
 import Seats from "./components/Seats/Dashboard.js";
 import ChangeReservationSeats from "./components/ChangeReservationSeat";
 import UserShowFlights from "./components/UserShowFlights";
@@ -18,11 +17,7 @@ import CustomizedTabs from "./components/UserProfile/Tab";
 import AppBar from "./components/AppBar/appBar";
 import MenuAppBar from "./components/AppBar/appBar";
 import {createTheme} from "@mui/material/styles";
-import {ThemeProvider} from "@emotion/react";
-import {CssBaseline} from "@material-ui/core";
 import Index from "./components/Home/Home"
-import LandingPage from "./components/LandingPage/LandingPage";
-import Helper from "./components/Helper";
 
 axios.defaults.withCredentials = true;
 
@@ -50,7 +45,6 @@ ReactDOM.render(
                   <Route path='signup' element={<SignUp/>}/>
                   <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
-                  <Route path='userEditFlight/:from/:to/:flightDate/:adultSeats/:childrenSeats/:price/:isDeparture/:reservationId' element={<Helper/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
                   <Route path='profile' element={<CustomizedTabs/>}/>
