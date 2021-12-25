@@ -10,6 +10,7 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
 - [Motivation](#motivation)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Coding Style](#coding-style)
+- [Installation](#installation)
 - [Features](#features)
 - [API References](#api-references)
   * [Register](#register)
@@ -41,8 +42,21 @@ This project is fully implemented using the **MERN Stack**. *MERN* stands for *M
 ## Coding Style
 This project is divided into two main parts, frontend and backend. Our backend is divide into routes that act as a middle point between the client and the database. 
 
+## Installation
+In order to run our project, you should have the following installed in your machine:
+ - [Node JS](https://nodejs.org/en/)
+ - [NPM](https://www.npmjs.com/)
+ - [React JS](https://react-cn.github.io/react/downloads.html) or you can use `NPM`
+ - And you can choose any text editor.
+ - [MongoDB](https://docs.mongodb.com/manual/installation/) either locally or on a cloud.
+You have to create `.env` with the dbconnectionString.
+
+
+
 ## Features
 Mainly this website provides an easy way to book flights between any two cities. Also, allows admins to perform CRUD operations on a flight in a flexible way. Moreover, our website allows user to pay in order to complete their reservation.
+
+
 
 ## API References
 Our backend is divided into the following routes, each route has a set of *APIs* with different functionalities.
