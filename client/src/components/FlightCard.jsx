@@ -34,7 +34,9 @@ function FlightCard(props) {
                 props.onBookingReturningFunction(flight._id);
             }
         }
+
     }
+
     const card = (
         <React.Fragment>
             <CardContent>

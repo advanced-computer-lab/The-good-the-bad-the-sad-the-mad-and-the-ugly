@@ -25,6 +25,8 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import TabList from '@mui/lab/TabList';
+import {animateScroll as scroll} from "react-scroll";
+import Ticket from "./Ticket/Ticket";
 
 
 class UserShowFlights extends Component {
@@ -57,6 +59,9 @@ class UserShowFlights extends Component {
         };
     }
 
+    scrollDown = () => {
+        scroll.scrollTo(1800);
+    }
 
     onChange = e => {
         this.setState({[e.target.name]: e.target.value});
@@ -118,18 +123,18 @@ class UserShowFlights extends Component {
                 this.adults = parseInt(this.state.adultSeats);
                 this.children = parseInt(this.state.childrenSeats);
                 this.setState({
-                    from: '',
-                    to: '',
-                    departure: formatISO(new Date()),
-                    returning: formatISO(new Date()),
+                    // from: '',
+                    // to: '',
+                    // departure: formatISO(new Date()),
+                    // returning: formatISO(new Date()),
                     arrivalErr: '',
-                    adultSeats: '',
-                    childrenSeats: '',
+                    // adultSeats: '',
+                    // childrenSeats: '',
                     selectionErr: '',
                     submitted:true,
                     flights: res.data
                 })
-
+                this.scrollDown();
             })
             .catch(err => {
                 console.log("Error in Show Flights POST \n", err);
@@ -189,30 +194,51 @@ class UserShowFlights extends Component {
         let returningFlightList = [];
         //console.log(flights);
         if (flights[0] !== undefined && flights[1] !== undefined && flights[0].length > 0 && flights[1].length > 0) {
-            departureFlightList = flights[0].map((flight) =>
-                <Grid item xs={2} sm={4} md={4} key={flight._id}>
-                    <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-                                onBookingReturningFunction={this.onBookingReturning}
-                                departure={true}
-                                selected={flight._id === this.state.selectedDeparture}
-                                seatClass={this.state.seatClass}
-                                adults={this.adults}
-                                children={this.children}
-                    />
-                </Grid>
-            );
+            // departureFlightList = flights[0].map((flight) =>
+            //     <Grid item xs={2} sm={4} md={4} key={flight._id}>
+            //         <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
+            //                     onBookingReturningFunction={this.onBookingReturning}
+            //                     departure={true}
+            //                     selected={flight._id === this.state.selectedDeparture}
+            //                     seatClass={this.state.seatClass}
+            //                     adults={this.adults}
+            //                     children={this.children}
+            //         />
+            //     </Grid>
+            // );
 
-            returningFlightList = flights[1].map((flight) =>
-                <Grid item xs={2} sm={4} md={4} key={flight._id}>
-                    <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-                                onBookingReturningFunction={this.onBookingReturning}
-                                departure={false}
-                                selected={flight._id === this.state.selectedReturning}
-                                seatClass={this.state.seatClass}
-                                adults={this.adults}
-                                children={this.children}/>
-                </Grid>
-            );
+            departureFlightList = (<Ticket flights={this.state.flights[0]} onBookingDepartureFunction={this.onBookingDeparture}
+                                          onBookingReturningFunction={this.onBookingReturning}
+                                          departure={true}
+                                          selectedId={this.state.selectedDeparture}
+                                          seatClass={this.state.seatClass}
+                                          adults={this.adults}
+                                          children={this.children}
+                                          title="Select Departure Flight"
+            />);
+
+
+            // returningFlightList = flights[1].map((flight) =>
+            //     <Grid item xs={2} sm={4} md={4} key={flight._id}>
+            //         <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
+            //                     onBookingReturningFunction={this.onBookingReturning}
+            //                     departure={false}
+            //                     selected={flight._id === this.state.selectedReturning}
+            //                     seatClass={this.state.seatClass}
+            //                     adults={this.adults}
+            //                     children={this.children}/>
+            //     </Grid>
+            // );
+
+            returningFlightList = (<Ticket flights={this.state.flights[1]} onBookingDepartureFunction={this.onBookingDeparture}
+                                           onBookingReturningFunction={this.onBookingReturning}
+                                           departure={false}
+                                           selectedId={this.state.selectedReturning}
+                                           seatClass={this.state.seatClass}
+                                           adults={this.adults}
+                                           children={this.children}
+                                           title="Select Arrival Flight"
+            />);
         }
         const theme = createTheme();
 
@@ -387,42 +413,75 @@ class UserShowFlights extends Component {
                     </Paper>
                 </Container>
 
+
+                <Container maxWidth="md" sx={{mb: 4}}>
                 {this.state.submitted?  <div>
                     <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
 
-                        <Button
-                            onClick={this.handleClick}
-                            type="submit"
-                            variant="contained"
-                            sx={{mt: 3, ml: 3}}
-                        >
-                            Next
-                        </Button>
+                        {/*<Button*/}
+                        {/*    onClick={this.handleClick}*/}
+                        {/*    type="submit"*/}
+                        {/*    variant="contained"*/}
+                        {/*    sx={{mt: 3, ml: 3}}*/}
+                        {/*>*/}
+                        {/*    Next*/}
+                        {/*</Button>*/}
                         <Grid item xs={12} sm={12}>
                             {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
                         </Grid>
                     </Box>
-                    <TabContext value={this.state.value}>
-                        <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                <Tab label="Departure Flights" value="1"/>
-                                <Tab label="Returning Flights" value="2"/>
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1">
-                            <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                                {departureFlightList}
-                            </Grid>
-                        </TabPanel>
-                        <TabPanel value="2">
-                            <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                                {returningFlightList}
-                            </Grid>
+                    {/*<TabContext value={this.state.value}>*/}
+                    {/*    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>*/}
+                    {/*        <TabList onChange={handleChange} aria-label="lab API tabs example">*/}
+                    {/*            <Tab label="Departure Flights" value="1"/>*/}
+                    {/*            <Tab label="Returning Flights" value="2"/>*/}
+                    {/*        </TabList>*/}
+                    {/*    </Box>*/}
+                    {/*    <TabPanel value="1">*/}
+                    {/*        <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>*/}
+                    {/*            {departureFlightList}*/}
+                    {/*        </Grid>*/}
+                    {/*    </TabPanel>*/}
+                    {/*    <TabPanel value="2">*/}
+                    {/*        <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>*/}
+                    {/*            {returningFlightList}*/}
+                    {/*        </Grid>*/}
 
-                        </TabPanel>
-                    </TabContext>
+                    {/*    </TabPanel>*/}
+                    {/*</TabContext>*/}
+                    <Grid container>
+                        <Grid item xs={4}>
+                            {departureFlightList}
+                        </Grid>
+                        <Grid item xs={2}>
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            {returningFlightList}
+                        </Grid>
+
+                    </Grid>
+
+                    <Grid container>
+                        <Grid item xs={9}>
+
+                        </Grid>
+                        <Grid item xs={3}>
+                            <Button
+                                onClick={this.handleClick}
+                                type="submit"
+                                variant="contained"
+                                sx={{mt: 3, ml: 3}}
+                                color="success"
+                            >
+                                Complete Booking
+                            </Button>
+                        </Grid>
+                    </Grid>
+
+
                 </div>:<div></div>}
-
+                </Container>
 
             </ThemeProvider>
         );

@@ -17,7 +17,7 @@ function ProductValues() {
   return (
     <Box
       component="section"
-      sx={{ display: 'flex', overflow: 'hidden', bgcolor: 'secondary.light' }}
+      sx={{ overflow: 'hidden', bgcolor: 'secondary.light' }}
       id="secondSection"
     >
 
