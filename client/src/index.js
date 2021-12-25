@@ -33,17 +33,17 @@ const darkTheme = createTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Router>
       {/*<ThemeProvider theme={darkTheme}>*/}
       {/*    <CssBaseline />*/}
           <MenuAppBar />
-      <Router>
+      <div>
           <Routes>
               <Route path='/' element={<App/>}>
                   <Route path='home' element={< Index/>}/>
                   <Route path='createFlight' element={<CreateFlight/>}/>
                   <Route path='updateFlight/:id' element={<UpdateFlight/>}/>
-                  <Route path='' element={<ShowAllFlights/>}/>
+                  <Route path='showAllFlights' element={<ShowAllFlights/>}/>
                   <Route path='showFlights' element={<ShowFlights/>}/>
                   <Route path='login' element={<LoginSide/>}/>
                   <Route path='signup' element={<SignUp/>}/>
@@ -56,9 +56,9 @@ ReactDOM.render(
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
               </Route>
           </Routes>
-      </Router>
+      </div>
       {/*</ThemeProvider>*/}
-  </React.StrictMode>,
+  </Router>,
   document.getElementById('root')
 );
 

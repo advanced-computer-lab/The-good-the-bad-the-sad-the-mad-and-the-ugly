@@ -65,19 +65,8 @@ class ShowAllFlights extends Component {
         return (
             <div>
 
-                <Box sx={{ flexGrow: 1}}>
-                    <AppBar position="static" sx={{ flexGrow: 1, bgcolor: 'text.secondary' }}>
-                        <Toolbar>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Airline System
-                            </Typography>
-                            <Button href="/showFlights" color="inherit">Search</Button>
-                            <Button href="/createFlight" color="inherit">Create Flight</Button>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
 
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} sx={{mt:8}}>
                     <Table sx={{ minWidth: 650 }} className="table table-hover">
                         <FlightHeading />
                         <TableBody>
