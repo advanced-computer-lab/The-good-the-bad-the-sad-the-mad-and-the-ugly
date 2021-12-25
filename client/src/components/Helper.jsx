@@ -8,7 +8,7 @@ function Helper() {
 
     return (
         <div>
-            <UserEditFlight from={params.from} to={params.to} adultSeats={params.adultSeats} childrenSeats={params.childrenSeats} price={params.price} isDeparture={params.isDeparture} />
+            <UserEditFlight from={params.from} to={params.to} adultSeats={params.adultSeats} childrenSeats={params.childrenSeats} price={params.price} isDeparture={params.isDeparture} reservationId={params.reservationId} flightDate = {params.flightDate} />
         </div>
     );
 }

@@ -50,7 +50,7 @@ ReactDOM.render(
                   <Route path='signup' element={<SignUp/>}/>
                   <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
-                  <Route path='userEditFlight/:from/:to/:adultSeats/:childrenSeats/:price/:isDeparture' element={<Helper/>}/>
+                  <Route path='userEditFlight/:from/:to/:flightDate/:adultSeats/:childrenSeats/:price/:isDeparture/:reservationId' element={<Helper/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
                   <Route path='profile' element={<CustomizedTabs/>}/>

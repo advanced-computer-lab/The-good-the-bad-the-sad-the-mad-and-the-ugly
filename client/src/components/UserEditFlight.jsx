@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import Flight from './Flight'
 import FlightHeading from './FlightHeading';
 import FlightCard from './FlightCard';
-import {Container, Grid, Paper, Table, TableBody, TableContainer, TextField, ThemeProvider} from "@mui/material";
-import {createTheme} from "@mui/material/styles";
+import { Container, Grid, Paper, Table, TableBody, TableContainer, TextField, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import parseISO from "date-fns/parseISO";
 import formatISO from "date-fns/formatISO";
-import {LocalizationProvider, DatePicker, Alert} from "@mui/lab";
+import { LocalizationProvider, DatePicker, Alert } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -43,7 +43,8 @@ class UserEditFlight extends Component {
             selectionErr: '',
             adultSeats: '',
             childrenSeats: '',
-            isDeparture:false,
+            limitDate: '',
+            isDeparture: false,
             flights: [],
             value: '1',
             selectedDeparture: null,
@@ -51,13 +52,13 @@ class UserEditFlight extends Component {
             hasIncompleteReservation: false,
             userFirstName: '',
             reservationId: '',
-            submitted:false
+            submitted: false
         };
     }
 
 
     onChange = e => {
-        this.setState({[e.target.name]: e.target.value});
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     onBookingDeparture = id => {
@@ -85,10 +86,10 @@ class UserEditFlight extends Component {
             seatClass: this.state.seatClass,
             adultSeats: this.props.adultSeats,
             childrenSeats: this.props.childrenSeats,
-            isDeparture:this.props.isDeparture==='true'
+            isDeparture: this.props.isDeparture === 'true'
         };
 
-        
+
 
         axios
             .post('http://localhost:8000/flight/userEditFlight', data)
@@ -101,8 +102,8 @@ class UserEditFlight extends Component {
                     selectionErr: '',
                     adultSeats: '',
                     childrenSeats: '',
-                    isDeparture:this.props.isDeparture==='true',
-                    submitted:true,
+                    isDeparture: this.props.isDeparture === 'true',
+                    submitted: true,
                     flights: res.data
                 })
             })
@@ -127,29 +128,66 @@ class UserEditFlight extends Component {
     };
 
     componentDidMount() {
+
+
+
         axios.get('http://localhost:8000/login/authorize')
-            .then(res => {
-                if (res.data.success) {
-                    this.setState({
-                        ...this.state,
-                        userFirstName: res.data.firstName,
-                        loggedIn: true,
-                    })
-                    // this.state.loggedIn = true;
+            .then(
+                res1 => {
+                    if (res1.data.success) {
+                        this.setState({
+                            ...this.state,
+                            userFirstName: res1.data.firstName,
+                            loggedIn: true,
+                        })
+                        axios.get(`http://localhost:8000/reservation/getReservationById/${this.props.reservationId}`)
+                            .then(
+                                res2 => {
+                                    if (res2.data.userId && res2.data.userId === res1.data.userId) {
+                                        this.setState({
+                                            limitDate: this.props.flightDate,
+                                            isDeparture: this.props.isDeparture === 'true'
+                                        })
+                                    } else {
+                                        // console.log(res1);
+                                        window.location.href = '/userProfile';
+                                    }
+                                }
+                            )
+                    } else {
+                        window.location.href = '/login';
+                    }
                 }
-                axios.get('http://localhost:8000/reservation/getReservationBySessionId')
-                    .then(
-                        res => {
-                            if (res.data.length > 0) {
-                                this.setState({
-                                    ...this.state,
-                                    hasIncompleteReservation: true,
-                                    reservationId: res.data
-                                })
-                            }
-                        }
-                    )
-            })
+            )
+            .catch(
+                err => {
+                    console.log(err);
+                }
+            )
+
+        // axios.get('http://localhost:8000/login/authorize')
+        //     .then(res => {
+        //         if (res.data.success) {
+        //             this.setState({
+        //                 ...this.state,
+        //                 userFirstName: res.data.firstName,
+        //                 loggedIn: true,
+        //             })
+        //             // this.state.loggedIn = true;
+        //         }
+        //         axios.get('http://localhost:8000/reservation/getReservationBySessionId')
+        //             .then(
+        //                 res => {
+        //                     if (res.data.length > 0) {
+        //                         this.setState({
+        //                             ...this.state,
+        //                             hasIncompleteReservation: true,
+        //                             reservationId: res.data
+        //                         })
+        //                     }
+        //                 }
+        //             )
+        //     })
     }
 
     render() {
@@ -161,30 +199,30 @@ class UserEditFlight extends Component {
         };
         let flights = this.state.flights;
         let flightList = [];
-        let tabLabel = this.state.isDeparture? "Departure Flights":"Returning Flights";
+        let tabLabel = this.state.isDeparture ? "Departure Flights" : "Returning Flights";
         if (flights[0] !== undefined && flights[0].length > 0) {
             flightList = flights[0].map((flight) =>
                 <Grid item xs={2} sm={4} md={4} key={flight._id}>
                     <FlightCard flight={flight} key={flight._id} onBookingDepartureFunction={this.onBookingDeparture}
-                                onBookingReturningFunction={this.onBookingReturning}
-                                departure={true}
-                                selected={flight._id === this.state.selectedDeparture}
-                                seatClass={this.state.seatClass}
-                                adults={this.props.adultSeats}
-                                children={this.props.childrenSeats}
-                                oldPrice={this.props.price}
+                        onBookingReturningFunction={this.onBookingReturning}
+                        departure={true}
+                        selected={flight._id === this.state.selectedDeparture}
+                        seatClass={this.state.seatClass}
+                        adults={this.props.adultSeats}
+                        children={this.props.childrenSeats}
+                        oldPrice={this.props.price}
                     />
                 </Grid>
             );
 
         }
-         console.log(flightList.length);
+        console.log(flightList.length);
         const theme = createTheme();
 
         return (
             <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                <AppBar
+                <CssBaseline />
+                {/* <AppBar
                     position="absolute"
                     color="default"
                     elevation={0}
@@ -194,7 +232,7 @@ class UserEditFlight extends Component {
                     }}
                 >
                     <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
+                        <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }} noWrap>
                             Airline System
                         </Typography>
                         {this.state.loggedIn ? null :
@@ -204,7 +242,7 @@ class UserEditFlight extends Component {
                                 Login
                             </Button>}
                         {this.state.loggedIn ? <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
+                            <a style={{ textDecoration: "none", color: "black" }} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
                         </Typography> : null}
                         {this.state.hasIncompleteReservation ?
                             <Button
@@ -214,22 +252,24 @@ class UserEditFlight extends Component {
                             </Button> : null
                         }
                     </Toolbar>
-                </AppBar>
-                <Container component="main" maxWidth="md" sx={{mb: 4}}>
-                    <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
+                </AppBar> */}
+                <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+                    <Paper variant="outlined" sx={{ my: { xs: 6, md: 12 }, p: { xs: 2, md: 3 } }}>
                         <Typography component="h1" variant="h4" align="center">
                             Search Flights
                         </Typography>
                         <React.Fragment>
                             <form onSubmit={this.onSubmit}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <Grid container spacing={3}>                                       
+                                    <Grid container spacing={3}>
                                         <Grid item xs={12} sm={6}>
                                             <DatePicker
                                                 type='Date'
                                                 placeholder='Flight Date'
                                                 name='flightDate'
                                                 className='form-control'
+                                                minDate={!this.state.isDeparture ? parseISO(this.state.limitDate) : null}
+                                                maxDate={this.state.isDeparture ? parseISO(this.state.limitDate) : null}
                                                 value={parseISO(this.state.flightDate)}
                                                 onChange={date => {
                                                     this.setState({
@@ -240,15 +280,15 @@ class UserEditFlight extends Component {
                                                 renderInput={(props) =>
                                                     <TextField
                                                         disabled
-                                                               name="flightDate"
-                                                               variant="standard"
-                                                               sx={{width: 350}} {...props}
+                                                        name="flightDate"
+                                                        variant="standard"
+                                                        sx={{ width: 350 }} {...props}
                                                     />}
                                                 label="Flight Date"
                                                 variant="standard"
                                             />
                                         </Grid>
-                                        
+
                                         <Grid item xs={12} sm={6}>
                                             <FormControl component="fieldset" xs={12} sm={4}>
                                                 <FormLabel component="legend">Class of seat</FormLabel>
@@ -259,27 +299,27 @@ class UserEditFlight extends Component {
                                                     value={this.state.seatClass}
                                                     onChange={this.onChange}
                                                 >
-                                                    <FormControlLabel value="economy" control={<Radio/>}
-                                                                      label="Economy"/>
-                                                    <FormControlLabel value="business" control={<Radio/>}
-                                                                      label="Business"/>
-                                                    <FormControlLabel value="first" control={<Radio/>}
-                                                                      label="First Class"/>
+                                                    <FormControlLabel value="economy" control={<Radio />}
+                                                        label="Economy" />
+                                                    <FormControlLabel value="business" control={<Radio />}
+                                                        label="Business" />
+                                                    <FormControlLabel value="first" control={<Radio />}
+                                                        label="First Class" />
                                                 </RadioGroup>
                                             </FormControl>
                                         </Grid>
-                                        
+
                                     </Grid>
                                     <Grid item xs={12} sm={12}>
                                         {this.state.arrivalErr.length > 0 && <Alert severity={"error"}> {this.state.arrivalErr}</Alert>}
                                     </Grid>
                                 </LocalizationProvider>
-                                <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                                     <Button
                                         type="submit"
                                         variant="contained"
-                                        sx={{mt: 3, ml: 1}}
+                                        sx={{ mt: 3, ml: 1 }}
                                     >
                                         Search
                                     </Button>
@@ -289,14 +329,14 @@ class UserEditFlight extends Component {
                     </Paper>
                 </Container>
 
-                {this.state.submitted?  <div>
-                    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                {this.state.submitted ? <div>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
 
                         <Button
                             onClick={this.handleClick}
                             type="submit"
                             variant="contained"
-                            sx={{mt: 3, ml: 3}}
+                            sx={{ mt: 3, ml: 3 }}
                         >
                             Next
                         </Button>
@@ -305,18 +345,18 @@ class UserEditFlight extends Component {
                         </Grid>
                     </Box>
                     <TabContext value={this.state.value}>
-                        <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                <Tab label={tabLabel} value="1"/>
+                                <Tab label={tabLabel} value="1" />
                             </TabList>
                         </Box>
                         <TabPanel value="1">
-                            <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                                {flightList.length===0?"No flights are available" : flightList}
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                {flightList.length === 0 ? "No flights are available" : flightList}
                             </Grid>
                         </TabPanel>
                     </TabContext>
-                </div>:<div></div>}
+                </div> : <div></div>}
 
 
             </ThemeProvider>
@@ -324,4 +364,4 @@ class UserEditFlight extends Component {
 
     }
 }
- export default UserEditFlight;
+export default UserEditFlight;

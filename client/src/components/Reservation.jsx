@@ -83,7 +83,6 @@ function Reservation(props) {
     };
 
     const open2 = Boolean(anchorEl2);
-
     useEffect(() => {
         axios
             .get('http://localhost:8000/flight/getFlightById/' + props.reservation.returnFlightId)
@@ -296,7 +295,7 @@ function Reservation(props) {
                                                 }}
                                             >
                                                 <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/departureSeats`)}}>Change Seats</MenuItem>
-                                                <MenuItem onClick={handleDepClose}>Change Flight</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.depFlight.from}/${state.depFlight.to}/${state.retFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${props.reservation.totalPrice}/true/${props.reservation._id}`)}}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
                                     </Box>
@@ -373,7 +372,7 @@ function Reservation(props) {
                                                 }}
                                             >
                                                 <MenuItem onClick={() => {navigate(`/changeReservationSeats/${props.reservation._id}/returnSeats`)}}>Change Seats</MenuItem>
-                                                <MenuItem onClick={handleRetClose}>Change Flight</MenuItem>
+                                                <MenuItem onClick={() => {navigate(`/userEditFlight/${state.retFlight.from}/${state.retFlight.to}/${state.depFlight.departure}/${props.reservation.noOfAdults}/${props.reservation.noOfChildren}/${props.reservation.totalPrice}/false/${props.reservation._id}`)}}>Change Flight</MenuItem>
                                             </Menu>
                                         </div>
 
