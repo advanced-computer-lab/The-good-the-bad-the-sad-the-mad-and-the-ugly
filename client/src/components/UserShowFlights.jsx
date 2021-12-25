@@ -190,8 +190,8 @@ class UserShowFlights extends Component {
             });
         };
         let flights = this.state.flights;
-        let departureFlightList = [];
-        let returningFlightList = [];
+        let departureFlightList = null;
+        let returningFlightList = null;
         //console.log(flights);
         if (flights[0] !== undefined && flights[1] !== undefined && flights[0].length > 0 && flights[1].length > 0) {
             // departureFlightList = flights[0].map((flight) =>
@@ -432,34 +432,16 @@ class UserShowFlights extends Component {
                             {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
                         </Grid>
                     </Box>
-                    {/*<TabContext value={this.state.value}>*/}
-                    {/*    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>*/}
-                    {/*        <TabList onChange={handleChange} aria-label="lab API tabs example">*/}
-                    {/*            <Tab label="Departure Flights" value="1"/>*/}
-                    {/*            <Tab label="Returning Flights" value="2"/>*/}
-                    {/*        </TabList>*/}
-                    {/*    </Box>*/}
-                    {/*    <TabPanel value="1">*/}
-                    {/*        <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>*/}
-                    {/*            {departureFlightList}*/}
-                    {/*        </Grid>*/}
-                    {/*    </TabPanel>*/}
-                    {/*    <TabPanel value="2">*/}
-                    {/*        <Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>*/}
-                    {/*            {returningFlightList}*/}
-                    {/*        </Grid>*/}
 
-                    {/*    </TabPanel>*/}
-                    {/*</TabContext>*/}
                     <Grid container>
                         <Grid item xs={4}>
-                            {departureFlightList}
+                            {departureFlightList === null? "No Departure flights are available":departureFlightList}
                         </Grid>
                         <Grid item xs={2}>
 
                         </Grid>
                         <Grid item xs={4}>
-                            {returningFlightList}
+                            {returningFlightList === null? "No Returning flights are available":returningFlightList}
                         </Grid>
 
                     </Grid>

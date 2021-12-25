@@ -22,6 +22,7 @@ import Index from "./components/Home/Home"
 import Ticket from "./components/Ticket/Ticket"
 import LandingPage from "./components/LandingPage/LandingPage";
 import "./styles.css"
+import Helper from "./components/Helper";
 axios.defaults.withCredentials = true;
 
 const darkTheme = createTheme({
@@ -55,6 +56,7 @@ ReactDOM.render(
                   <Route path='bar' element={<AppBar/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightType' element={<ChangeReservationSeats/>}/>
                   <Route path='changeReservationSeats/:reservationId/:flightId/:isDeparture/:cabinClass' element={<ChangeReservationSeats/>}/>
+                  <Route path='userEditFlight/:from/:to/:flightDate/:adultSeats/:childrenSeats/:price/:isDeparture/:reservationId' element={<Helper/>}/>
               </Route>
           </Routes>
       </div>

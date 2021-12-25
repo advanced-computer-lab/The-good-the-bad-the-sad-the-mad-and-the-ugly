@@ -199,7 +199,7 @@ class UserEditFlight extends Component {
             });
         };
         let flights = this.state.flights;
-        let flightList = [];
+        let flightList = null;
         let tabLabel = this.state.isDeparture ? "Departure Flights" : "Returning Flights";
         if (flights[0] !== undefined && flights[0].length > 0) {
 
@@ -229,7 +229,7 @@ class UserEditFlight extends Component {
             // );
 
         }
-        console.log(flightList.length);
+        console.log(flightList);
         const theme = createTheme();
 
         return (
@@ -343,32 +343,63 @@ class UserEditFlight extends Component {
                 </Container>
 
                 {this.state.submitted ? <div>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    {/*<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>*/}
 
-                        <Button
-                            onClick={this.handleClick}
-                            type="submit"
-                            variant="contained"
-                            sx={{ mt: 3, ml: 3 }}
-                        >
-                            Next
-                        </Button>
-                        <Grid item xs={12} sm={12}>
-                            {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}
-                        </Grid>
-                    </Box>
-                    <TabContext value={this.state.value}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example">
-                                <Tab label={tabLabel} value="1" />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1">
-                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                {flightList.length === 0 ? "No flights are available" : flightList}
+                    {/*    <Button*/}
+                    {/*        onClick={this.handleClick}*/}
+                    {/*        type="submit"*/}
+                    {/*        variant="contained"*/}
+                    {/*        sx={{ mt: 3, ml: 3 }}*/}
+                    {/*    >*/}
+                    {/*        Next*/}
+                    {/*    </Button>*/}
+                    {/*    <Grid item xs={12} sm={12}>*/}
+                    {/*        {this.state.selectionErr.length > 0 && <Alert severity={"error"}>{this.state.selectionErr}</Alert>}*/}
+                    {/*    </Grid>*/}
+                    {/*</Box>*/}
+                    <Container maxWidth="md" sx={{mb: 4}}>
+                        {/*<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>*/}
+                        {/*    <TabList onChange={handleChange} aria-label="lab API tabs example">*/}
+                        {/*        <Tab label={tabLabel} value="1" />*/}
+                        {/*    </TabList>*/}
+                        {/*</Box>*/}
+                        <Container maxWidth="md" sx={{mb: 4}}>
+
+                        <Grid container>
+                            <Grid item xs={3}>
                             </Grid>
-                        </TabPanel>
-                    </TabContext>
+                            <Grid item xs={6}>
+                                {flightList === null? "No flights are available" : flightList}
+                            </Grid>
+                            <Grid item xs={3}>
+                            </Grid>
+
+                        </Grid>
+                        </Container>
+
+                        <Grid container>
+                            <Grid item xs={9}>
+
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button
+                                    onClick={this.handleClick}
+                                    type="submit"
+                                    variant="contained"
+
+                                    color="success"
+                                >
+                                    Complete Booking
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        {/*<TabPanel value="1">*/}
+                        {/*    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>*/}
+                        {/*        {flightList === null? "No flights are available" : flightList}*/}
+                        {/*    </Grid>*/}
+                        {/*</TabPanel>*/}
+                    </Container>
                 </div> : <div></div>}
 
 
