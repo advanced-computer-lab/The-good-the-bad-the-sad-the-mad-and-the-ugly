@@ -30,7 +30,7 @@ function Flight(props) {
 
 
     return (
-               <StyledTableRow>
+               <StyledTableRow >
                    {/* <td scope="row">{flight.idx}</td> */}
                    <StyledTableCell>{flight.flightNumber}</StyledTableCell>
                    <StyledTableCell>{flight.departureAirport}</StyledTableCell>

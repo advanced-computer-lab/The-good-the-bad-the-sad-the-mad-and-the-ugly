@@ -12,10 +12,11 @@ function FlightCard(props) {
     const arrivalDate = new Date(flight.arrival);
     const duration = Math.abs(arrivalDate - departureDate);
     const diff = Math.ceil(duration / (1000 * 60));
-    const diffHours = Math.ceil(diff/60);
-    const diffMinutes = diff%60;
-
+    const diffHours = Math.ceil(diff / 60);
+    const diffMinutes = diff % 60;
+    const oldPrice = props.oldPrice;
     const price = parseInt(props.adults) * parseInt(flight.price[props.seatClass]["adult"]) + parseInt(props.children) * parseInt(flight.price[props.seatClass]["child"]);
+    const priceDiff = parseInt(price) - parseInt(oldPrice);
 
     function handleClick() {
         if (props.departure) {
@@ -34,7 +35,9 @@ function FlightCard(props) {
                 props.onBookingReturningFunction(flight._id);
             }
         }
+
     }
+
     const card = (
         <React.Fragment>
             <CardContent>
@@ -61,14 +64,16 @@ function FlightCard(props) {
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     Flight Duration: {(diffHours <= 9 ? "0" + diffHours : diffHours) + ':' + (diffMinutes <= 9 ? "0" + diffMinutes : diffMinutes)}
                     <br />
-                    Price: {parseInt(price)} EGP
+                    {parseInt(oldPrice) === 0 ? "Price:" + parseInt(price) + "EGP" : priceDiff >= 0 ? "Amount To Pay:"+ parseInt(priceDiff)+ "EGP" : "Price To Refund:"+ (parseInt(priceDiff)*-1)+ "EGP"}
+                    <br />
+                    Cabin Class: {props.seatClass === "first" ? "First Class" : props.seatClass === 'economy' ? "Economy" : "Business"}
                     <br />
                     Baggage Allowance: {flight.baggageAllowance} Kg
                 </Typography>
             </CardContent>
 
             <CardActions>
-                <Button variant="contained" color={props.selected ?"success":"primary"} onClick={handleClick} size="large"> {props.selected ? "Booked!" : "Book Now"} </Button>
+                <Button variant="contained" color={props.selected ? "success" : "primary"} onClick={handleClick} size="large"> {props.selected ? "Booked!" : "Book Now"} </Button>
             </CardActions>
         </React.Fragment>
     );

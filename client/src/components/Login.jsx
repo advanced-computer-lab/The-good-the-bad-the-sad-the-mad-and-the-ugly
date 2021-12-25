@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import background from '../Img/Flight2.jpg'
+import background from '../Img/Flight3.jpeg'
 import {useEffect, useState} from "react";
 import {Alert} from "@mui/material";
 import axios from "axios";
@@ -23,6 +23,16 @@ const theme = createTheme();
 export default function SignInSide() {
     const navigate = useNavigate();
     const [isValidUser, setValidUser] = useState(true);
+
+
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {
+                main: '#121212',
+            },
+        },
+    });
 
     useEffect(() => {
         axios.get('http://localhost:8000/login/authorize')
@@ -45,8 +55,8 @@ export default function SignInSide() {
                     setValidUser(false);
                 } else {
                     setValidUser(true);
+                    navigate('/home');
                 }
-                navigate('/userShowFlights');
             }).catch(res => {
             console.log(res)
             });
@@ -54,7 +64,7 @@ export default function SignInSide() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={darkTheme}>
             <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline/>
                 <Grid
@@ -66,7 +76,7 @@ export default function SignInSide() {
                         backgroundImage: `url(${background})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
-                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
@@ -81,7 +91,7 @@ export default function SignInSide() {
                             alignItems: 'center',
                         }}
                     >
-                        <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <Avatar sx={{m: 1}}>
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
@@ -109,7 +119,7 @@ export default function SignInSide() {
                                 autoComplete="current-password"
                             />
                             <FormControlLabel
-                                control={<Checkbox value="remember" color="primary"/>}
+                                control={<Checkbox value="remember"/>}
                                 label="Remember me"
                             />
                             {(!isValidUser) && <Alert severity="error"> Invalid Email or Password </Alert>}
@@ -122,11 +132,7 @@ export default function SignInSide() {
                                 login
                             </Button>
                             <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
+
                                 <Grid item>
                                     <Link href="http://localhost:3000/signup" variant="body2">
                                         {"Don't have an account? Sign Up"}
