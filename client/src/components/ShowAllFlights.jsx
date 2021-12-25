@@ -1,21 +1,24 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import FlightHeading from './FlightHeading'
 import Flight from './Flight'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Paper, Table, TableBody, TableContainer, Toolbar, Typography } from "@mui/material";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import {Paper, Table, TableBody, TableContainer, Toolbar, Typography} from "@mui/material";
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { palette } from '@mui/system';
+import FlightDetails from "./Flights/FlightDetails";
+import {palette} from '@mui/system';
+import Container from "@mui/material/Container";
 
 
 class ShowAllFlights extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            flights: []
+            flights: [],
+            // expanded: false
         };
         this.deleteFlight = this.deleteFlight.bind(this)
     }
@@ -49,43 +52,31 @@ class ShowAllFlights extends Component {
             })
     }
 
+
+
+
     render() {
         const theme = createTheme();
         const flights = this.state.flights;
         let flightList;
 
+        console.log(flights[1])
+
         if (!flights) {
             flightList = "there is no flight record!";
         } else {
             flightList = flights.map((flight, k) =>
-                <Flight flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight} />
+                <FlightDetails flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight}/>
             );
         }
+        console.log(flightList)
 
         return (
-            <div>
 
-                <Box sx={{ flexGrow: 1}}>
-                    <AppBar position="static" sx={{ flexGrow: 1, bgcolor: 'text.secondary' }}>
-                        <Toolbar>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Airline System
-                            </Typography>
-                            <Button href="/showFlights" color="inherit">Search</Button>
-                            <Button href="/createFlight" color="inherit">Create Flight</Button>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
+                <Container component="main" maxWidth="md" sx={{mt: 10}}>
+                    {flightList}
+                </Container>
 
-                <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 650 }} className="table table-hover">
-                        <FlightHeading />
-                        <TableBody>
-                            {flightList}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
         );
     }
 }

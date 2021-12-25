@@ -15,6 +15,9 @@ const loginRouter = require('./routes/loginRouter');
 const reservationRouter = require('./routes/reservationRouter');
 const emailRouter = require('./routes/emailRouter');
 const userProfile = require('./routes/UserProfileRouter');
+const paymentRouter = require("./routes/paymentsRouter");
+const nodemailer = require("nodemailer");
+const logoutRouter = require("./routes/logoutRouter");
 
 app.use(bodyParser.json());
 
@@ -55,28 +58,10 @@ app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 app.use("/profile", userProfile);
 app.use("/email", emailRouter);
+app.use("/payment",paymentRouter)
+app.use("/logout", logoutRouter)
 
-// var transporter = nodemailer.createTransport({
-//     service: 'gmail',
-//     auth: {
-//         user: 'airguc@gmail.com',
-//         pass: '46-airguc'
-//     }
-// });
-//
-// var mailOptions = {
-//     from: 'airguc@gmail.com',
-//     to: 'mabubeih@gmail.com',
-//     subject: 'Sending Email using Node.js',
-//     text: 'That was easy!'
-// };
-//
-// transporter.sendMail(mailOptions, function(error, info){
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         console.log('Email sent: ' + info.response);
-//     }
-// });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+module.exports = app;

@@ -23,7 +23,7 @@ userProfileRouter.post('/editProfile', async (req, res) => {
 
     Object.keys(req.body).forEach(key => {
         // if (userDocument[key] && key !== 'isAdmin') {
-            userDocument[key] = req.body[key];
+        userDocument[key] = req.body[key];
         // }
 
     });
@@ -49,4 +49,21 @@ userProfileRouter.get('/', (req, res) => {
     }
 });
 
+
+userProfileRouter.post('/updatePassword', (req, res) => {
+    const username = req.user.username;
+    User.findOne({username:username})
+        .then(user => {
+            const oldPassword = req.body.oldPassword;
+            const newPassword = req.body.newPassword;
+            user.changePassword(oldPassword, newPassword)
+                .then(() => {
+                    return res.json({success: true, msg: "Password is Updated"})
+                })
+                .catch((err)=>{
+                    return res.json({success: false, msg: "Old Password is incorrect"});
+                })
+        });
+
+});
 module.exports = userProfileRouter;

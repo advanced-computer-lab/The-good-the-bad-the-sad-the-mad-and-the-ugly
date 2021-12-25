@@ -14,6 +14,7 @@ import {LocalizationProvider, MobileDateTimePicker} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import FlightDetails from "./Flights/FlightDetails";
 
 class ShowFlights extends Component {
 
@@ -112,7 +113,7 @@ class ShowFlights extends Component {
             flightList = "there is no flight record!";
         } else {
             flightList = flights.map((flight, k) =>
-                <Flight flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight}/>
+                <FlightDetails flight={flight} idx={k} key={k} deleteFunction={this.deleteFlight}/>
             );
         }
         const theme = createTheme();
@@ -121,22 +122,7 @@ class ShowFlights extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" noWrap>
-                            Airline System
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Container component="main" maxWidth="md" sx={{mb: 4}}>
+                <Container component="main" maxWidth="md" sx={{mb: 4, mt:10}}>
                     <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                         <Typography component="h1" variant="h4" align="center">
                             Search Flights
@@ -327,17 +313,21 @@ class ShowFlights extends Component {
                         </React.Fragment>
                     </Paper>
                 </Container>
-                <TableContainer component={Paper} sx={{mt: 3, mx: 1}}>
-                    <Table>
-                        <FlightHeading/>
+                {/*<TableContainer component={Paper} sx={{mt: 3, mx: 1}}>*/}
+                {/*    <Table>*/}
+                {/*        <FlightHeading/>*/}
 
-                        <TableBody>
-                        {flightList}
-                        </TableBody>
-                        
-                    </Table>
+                {/*        <TableBody>*/}
+                {/*        {flightList}*/}
+                {/*        </TableBody>*/}
+                {/*        */}
+                {/*    </Table>*/}
 
-                </TableContainer>
+                {/*</TableContainer>*/}
+
+                <Container component="main" maxWidth="md" sx={{mt: 10}}>
+                    {flightList}
+                </Container>
 
             </ThemeProvider>
         );

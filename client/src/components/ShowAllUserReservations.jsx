@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import {Box, Card, Paper} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 
 
 class ShowAllUserReservations extends Component {
@@ -83,44 +84,24 @@ class ShowAllUserReservations extends Component {
         const theme = createTheme();
         const reservations = this.state.reservations;
         let reservationList;
-
         if (!reservations) {
             reservationList = "there is no flight record!";
         } else {
             reservationList = reservations.map((reservation) =>
-                <Card sx={{p: 4, m: 2, textAlign: "center"}}>
-                    <Grid item xs={2} sm={4} md={4} key={reservation._id}>
+                // <Card sx={{p: 4, m: 2, textAlign: "center"}}>
+                    <Grid item xs={12} sm={12} md={12} key={reservation._id}>
                         <Reservation reservation={reservation} key={reservation._id}
-                                     deleteFunction={this.deleteReservation}
+                                     deleteFunction={this.deleteReservation} email={this.state.userEmail}
                         />
                     </Grid>
-                </Card>)
+                // </Card>
+        )
         }
 
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                        mb: 3
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>
-                        </Typography>
-                        <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
-                        </Typography>
-
-                    </Toolbar>
-                </AppBar>
-                <div style={{width: '100%'}}>
+                <Container maxWidth="lg" sx={{mb: 4}}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -130,7 +111,7 @@ class ShowAllUserReservations extends Component {
                             bgcolor: 'background.paper',
                         }}
                     >
-                        <Card sx={{maxWidth: 700, mb: 3, mt: 3, p: 3}}>
+                        <Card sx={{maxWidth: 900, mb: 3, mt: 3, p: 3}}>
                             <Grid container>
                                 <Grid item xs={6}>
                                     <Grid container>
@@ -175,22 +156,13 @@ class ShowAllUserReservations extends Component {
                             </Grid>
                         </Card>
                     </Box>
-                </div>
-                <div style={{width: '100%'}}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            p: 1,
-                            m: 1,
-                            bgcolor: 'background.paper',
-                        }}
-                    >
-                        <Grid sx={{p: 4}} container spacing={1} columns={{xs: 4, sm: 8, md: 12}}>
-                            {reservationList}
-                        </Grid>
+                </Container>
+                <Container maxWidth="md" sx={{mb: 4}}>
+                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                        {reservationList}
                     </Box>
-                </div>
+
+                </Container>
             </ThemeProvider>
         )
     }

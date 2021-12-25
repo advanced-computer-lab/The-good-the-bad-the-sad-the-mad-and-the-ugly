@@ -1,0 +1,40 @@
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.fade{
+    transform: translateX(0px);
+    opacity: 0%;
+}
+
+.fadeIn {
+    animation: fadeInAnimation 0.3s linear;
+}
+
+.fadeOut {
+    animation: fadeOutAnimation 0.3s linear;
+    opacity: 0;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOutAnimation {
+    0% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+}

@@ -31,8 +31,14 @@ const ReservationSchema = new mongoose.Schema({
     },
 
     cabinClass: {
-        type: String,
-        required: true
+        dep: {
+            type: String,
+            required: true
+        },
+        ret: {
+            type: String,
+            required: true
+        }
     },
 
     departureSeats: {
