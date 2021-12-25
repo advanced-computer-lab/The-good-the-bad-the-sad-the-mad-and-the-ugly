@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import {Box, Card, Paper} from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
 
 
 class ShowAllUserReservations extends Component {
@@ -121,7 +122,7 @@ class ShowAllUserReservations extends Component {
 
                 {/*    </Toolbar>*/}
                 {/*</AppBar>*/}
-                <div style={{width: '100%'}}>
+                <Container maxWidth="lg" sx={{mb: 4}}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -131,7 +132,7 @@ class ShowAllUserReservations extends Component {
                             bgcolor: 'background.paper',
                         }}
                     >
-                        <Card sx={{maxWidth: 700, mb: 3, mt: 3, p: 3}}>
+                        <Card sx={{maxWidth: 900, mb: 3, mt: 3, p: 3}}>
                             <Grid container>
                                 <Grid item xs={6}>
                                     <Grid container>
@@ -176,22 +177,28 @@ class ShowAllUserReservations extends Component {
                             </Grid>
                         </Card>
                     </Box>
-                </div>
-                <div style={{width: '100%'}}>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            p: 1,
-                            m: 1,
-                            bgcolor: 'background.paper',
-                        }}
-                    >
-                        <Grid sx={{p: 4}} container spacing={1} columns={{xs: 4, sm: 8, md: 12}}>
-                            {reservationList}
-                        </Grid>
+                </Container>
+                <Container maxWidth="md" sx={{mb: 4}}>
+                    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                        {reservationList}
                     </Box>
-                </div>
+
+                </Container>
+                {/*<div style={{width: '100%'}}>*/}
+                {/*    <Box*/}
+                {/*        sx={{*/}
+                {/*            display: 'flex',*/}
+                {/*            justifyContent: 'center',*/}
+                {/*            p: 1,*/}
+                {/*            m: 1,*/}
+                {/*            bgcolor: 'background.paper',*/}
+                {/*        }}*/}
+                {/*    >*/}
+                {/*        <Grid sx={{p: 4}} container spacing={1} columns={{xs: 4, sm: 8, md: 12}}>*/}
+                {/*            {reservationList}*/}
+                {/*        </Grid>*/}
+                {/*    </Box>*/}
+                {/*</div>*/}
             </ThemeProvider>
         )
     }

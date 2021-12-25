@@ -60,7 +60,7 @@ class UserShowFlights extends Component {
     }
 
     scrollDown = () => {
-        scroll.scrollTo(1800);
+        scroll.scrollTo(1750);
     }
 
     onChange = e => {

@@ -7,6 +7,9 @@ import CardActions from "@mui/material/CardActions";
 
 const { useState } = React;
 
+const style = {
+    fontFamily: "Montserrat"
+}
 
 const Flight = [
     {
@@ -193,7 +196,7 @@ const Cell = props => {
                     React.createElement("div", { id: "timecontainer" }, /*#__PURE__*/
                         React.createElement("div", { id: "detailDate" }, flight.from, /*#__PURE__*/
 
-                            React.createElement("div", { id: "detailTime" }, `${(departureDate.getHours() <= 9 ? "0" + departureDate.getHours(): departureDate.getHours())}:${(departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}`), `${departureDate.getFullYear()} - ${departureDate.getMonth() + 1}-${departureDate.getDate()}`), /*#__PURE__*/
+                            React.createElement("div", { id: "detailTime" }, `${(departureDate.getHours() <= 9 ? "0" + departureDate.getHours(): departureDate.getHours())}:${(departureDate.getMinutes() <= 9 ? "0" + departureDate.getMinutes() : departureDate.getMinutes())}`), `${departureDate.getFullYear()}-${departureDate.getMonth() + 1}-${departureDate.getDate()}`), /*#__PURE__*/
 
 
                         React.createElement("img", {
@@ -339,7 +342,7 @@ const Header = (title) => { /*#__PURE__*/
         //             strokeWidth: "48px" } })), /*#__PURE__*/
 
 
-        React.createElement("div", {id: "headerText"}, title), /*#__PURE__*/
+        React.createElement("div", {id: "headerText", style: { fontFamily: "Montserrat"}}, title), /*#__PURE__*/
         // React.createElement("div", { id: "tripDetail" }, "Your Trip", /*#__PURE__*/
         //
         //     React.createElement("div", { id: "tripDest" }, "BLR - DEL", /*#__PURE__*/

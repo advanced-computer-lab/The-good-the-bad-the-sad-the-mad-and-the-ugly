@@ -224,7 +224,7 @@ export default function MenuAppBar() {
             <MenuItem onClick={() => handleSubmit("/showFlights")}>
                 Search Flights
             </MenuItem>
-            <MenuItem onClick={() => handleSubmit("showAllFlight")}>
+            <MenuItem onClick={() => handleSubmit("/showAllFlights")}>
                 Show All Flights
             </MenuItem>
             <MenuItem onClick={logOut}>
