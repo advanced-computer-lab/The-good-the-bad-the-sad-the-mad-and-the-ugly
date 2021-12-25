@@ -3,7 +3,7 @@ const flightRouter = express.Router();
 const Flight = require('../models/Flight');
 const Reservation = require('../models/Reservation');
 flightRouter.use(express.json());
-flightRouter.use(express.urlencoded({ extended: true }));
+flightRouter.use(express.urlencoded({extended: true}));
 
 
 flightRouter.get('/showAllFlights', (req, res) => {
@@ -92,11 +92,12 @@ flightRouter.post('/showFlights', (req, res) => {
 
 
     Flight.find(data)
-        .then(flights => { res.json(flights); })
+        .then(flights => {
+            res.json(flights);
+        })
         .catch(err => console.log(err));
 
 });
-
 
 
 flightRouter.post('/userShowFlights', (req, res) => {
@@ -135,21 +136,20 @@ flightRouter.post('/userShowFlights', (req, res) => {
                             var departure = new Date(req.body.departure);
                             departure.setHours(departure.getHours() + 2);
                             // console.log(departure);
-                            departure.setUTCHours(0,0,0,0);
+                            departure.setUTCHours(0, 0, 0, 0);
                             //departure.setDate(departure.getDate() -1);
                             // departure = new Date(departure.getFullYear(), departure.getMonth(), departure.getDay(), 0, 0, 0, 0);
 
                             var returning = new Date(req.body.returning);
                             returning.setHours(returning.getHours() + 2);
                             // console.log(returning);
-                            returning.setUTCHours(0,0,0, 0);
+                            returning.setUTCHours(0, 0, 0, 0);
                             //returning.setDate(returning.getDate() -1);
                             // returning = new Date(returning.getFullYear(), returning.getMonth(), returning.getDay(), 0, 0, 0, 0);
 
                             //II-class of seat and number of seats
                             var seatClass = req.body.seatClass;
                             var seats = parseInt(req.body.adultSeats) + parseInt(req.body.childrenSeats);
-
 
 
                             //1-Handling Dates of departure and returning
@@ -172,34 +172,40 @@ flightRouter.post('/userShowFlights', (req, res) => {
                             //2-Handling available seats
                             switch (seatClass) {
                                 case 'economy':
-                                    departureData['availableSeats.economy'] = { $gte: seats };
-                                    returningData['availableSeats.economy'] = { $gte: seats };
+                                    departureData['availableSeats.economy'] = {$gte: seats};
+                                    returningData['availableSeats.economy'] = {$gte: seats};
                                     break;
                                 case 'first':
-                                    departureData['availableSeats.first'] = { $gte: seats };
-                                    returningData['availableSeats.first'] = { $gte: seats };
+                                    departureData['availableSeats.first'] = {$gte: seats};
+                                    returningData['availableSeats.first'] = {$gte: seats};
                                     break;
                                 case 'business':
-                                    departureData['availableSeats.business'] = { $gte: seats };
-                                    returningData['availableSeats.business'] = { $gte: seats };
+                                    departureData['availableSeats.business'] = {$gte: seats};
+                                    returningData['availableSeats.business'] = {$gte: seats};
                                     break;
                                 default:
                                     break;
                             }
 
                             const result = [];
+
                             async function find() {
 
                                 await Flight.find(departureData)
-                                    .then(flights => { result.push(flights); })
+                                    .then(flights => {
+                                        result.push(flights);
+                                    })
                                     .catch(err => console.log(err));
 
                                 await Flight.find(returningData)
-                                    .then(flights => { result.push(flights); })
+                                    .then(flights => {
+                                        result.push(flights);
+                                    })
                                     .catch(err => console.log(err));
 
                                 res.json(result);
                             }
+
                             find();
                         }
                     )
@@ -209,12 +215,10 @@ flightRouter.post('/userShowFlights', (req, res) => {
 });
 
 
-
-
 flightRouter.delete('/delete/:id', (req, res) => {
     Flight.findByIdAndRemove(req.params.id)
         .then(flight => res.json(flight))
-        .catch(err => res.status(404).json({ error: 'No such flight' }));
+        .catch(err => res.status(404).json({error: 'No such flight'}));
 });
 
 // get, read, delete and update methods:
@@ -223,13 +227,13 @@ flightRouter.delete('/delete/:id', (req, res) => {
 flightRouter.get('/getFlightById/:id', (req, res) => {
     Flight.findById(req.params.id)
         .then(flight => res.json(flight))
-        .catch(err => res.status(400).json({ error: 'Unable to get flight data' }));
+        .catch(err => res.status(400).json({error: 'Unable to get flight data'}));
 });
 
 flightRouter.put('/updateFlight/:id', (req, res) => {
     Flight.findByIdAndUpdate(req.params.id, req.body)
-        .then(flight => res.json({ msg: 'Updated successfully!' }))
-        .catch(err => res.status(400).json({ error: 'Unable to update the Database' })
+        .then(flight => res.json({success: true, msg: 'Updated successfully!'}))
+        .catch(err => res.status(400).json({success: false, error: 'Unable to update the Database'})
         );
 });
 
@@ -239,14 +243,13 @@ flightRouter.put('/updateFlight/:id', (req, res) => {
 // @access Public
 flightRouter.post('/', (req, res) => {
     Flight.create(req.body)
-        .then(flight => res.json({ msg: 'Flight added successfully' }))
+        .then(flight => res.json({success: true, msg: 'Flight added successfully'}))
         .catch(err => {
             console.log(err)
-            res.status(400).json({error: 'Unable to add this flight'})
+            res.status(400).json({success: false, error: 'Unable to add this flight'})
 
         });
 });
-
 
 
 //

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Grid, CardHeader, Card, TextField, Button} from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {MobileDateTimePicker} from "@mui/lab";
+import {Alert, MobileDateTimePicker} from "@mui/lab";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import parseISO from 'date-fns/parseISO'
@@ -35,6 +35,8 @@ function UpdateFlight() {
         firstPriceChild: '',
         baggageAllowance: ''
     });
+
+    const [isUpdated, setUpdated] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/flight/getFlightById/${params.id}`)
@@ -69,7 +71,8 @@ function UpdateFlight() {
             );
     }, [flightData.id]);
 
-    function updateFlight() {
+    function updateFlight(event) {
+        event.preventDefault();
         const data = {
             flightNumber: flightData.flightNumber,
             departureAirport: flightData.departureAirport,
@@ -84,7 +87,7 @@ function UpdateFlight() {
                 first: flightData.first
             },
             price: {
-                economy:{
+                economy: {
                     adult: flightData.economyPriceAdult,
                     child: flightData.economyPriceChild
                 },
@@ -101,11 +104,16 @@ function UpdateFlight() {
             departureTerminal: flightData.departureTerminal,
             arrivalTerminal: flightData.arrivalTerminal
         };
-        axios.put(`http://localhost:8000/flight/updateFlight/${params.id}`, data);
+        axios.put(`http://localhost:8000/flight/updateFlight/${params.id}`, data).then((res)=>{
+            console.log(res.data)
+            if(res.data.success)
+                setUpdated(true);
+        });
     }
 
     function handleChange(event) {
         const {name, value} = event.target;
+        setUpdated(false);
         console.log(name + " " + value);
         setFlight((prevState => {
             console.log({
@@ -273,7 +281,11 @@ function UpdateFlight() {
                                            name={"baggageAllowance"} onChange={handleChange}
                                            value={flightData.baggageAllowance}/>
                             </Grid>
+                            <Grid item xs={12}>
+                                {isUpdated ? <Alert severity="success">Updated Successfully</Alert> : null}
+                            </Grid>
                         </Grid>
+
                     </Box>
                     <CardHeader sx={{
                         // backgroundColor: 'primary.dark',
