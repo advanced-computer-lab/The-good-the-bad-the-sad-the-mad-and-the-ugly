@@ -22,6 +22,7 @@ import {ThemeProvider} from "@emotion/react";
 import {CssBaseline} from "@material-ui/core";
 import Index from "./components/Home/Home"
 import LandingPage from "./components/LandingPage/LandingPage";
+import Helper from "./components/Helper";
 
 axios.defaults.withCredentials = true;
 
@@ -49,6 +50,7 @@ ReactDOM.render(
                   <Route path='signup' element={<SignUp/>}/>
                   <Route path='selectSeats/:departureFlightId/:returnFlightId/:noOfAdults/:noOfChildren/:cabinClass' element={<Seats/>}/>
                   <Route path='selectSeats/:reservationId' element={<Seats/>}/>
+                  <Route path='userEditFlight/:from/:to/:flightDate/:adultSeats/:childrenSeats/:price/:isDeparture/:reservationId' element={<Helper/>}/>
                   <Route path={'userShowFlights'} element={<UserShowFlights/>}/>
                   <Route path='showUserReservations' element={<ShowAllUserReservations/>}/>
                   <Route path='profile' element={<CustomizedTabs/>}/>
