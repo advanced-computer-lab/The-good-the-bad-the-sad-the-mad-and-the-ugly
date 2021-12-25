@@ -42,6 +42,7 @@ This project is fully implemented using the **MERN Stack**. *MERN* stands for *M
 This project is divided into two main parts, frontend and backend. Our backend 
 
 ## Features
+Mainly this website provides an easy way to book flights between any two cities. Also, allows admins to perform CRUD operations on a flight in a flexible way. Moreover, our website allows user to pay in order to complete their reservation.
 
 ## API References
 Our backend is divided into the following routes, each route has a set of *APIs* with different functionalities.
