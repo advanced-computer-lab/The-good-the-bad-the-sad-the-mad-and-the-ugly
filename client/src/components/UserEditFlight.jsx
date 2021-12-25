@@ -31,13 +31,13 @@ import TabList from '@mui/lab/TabList';
 class UserEditFlight extends Component {
 
 
-    constructor() {
+    constructor(props) {
 
-        super();
+        super(props);
         var adults = 0;
         var children = 0;
         this.state = {
-            flightDate: formatISO(new Date()),
+            flightDate: props.flightDate,
             seatClass: 'economy',
             arrivalErr: '',
             selectionErr: '',
@@ -123,7 +123,7 @@ class UserEditFlight extends Component {
 
         } else {
             console.log(this.state);
-            window.location.href = 'http://localhost:3000';
+            window.location.href = `http://localhost:3000/changeReservationSeats/${this.props.reservationId}/${this.state.isDeparture ? this.state.selectedDeparture : this.state.selectedReturning}/${this.state.isDeparture}/${this.state.seatClass}`;
         }
     };
 
@@ -273,7 +273,7 @@ class UserEditFlight extends Component {
                                                 value={parseISO(this.state.flightDate)}
                                                 onChange={date => {
                                                     this.setState({
-                                                        "flightDate": date !== null ? formatISO(date) : formatISO(Date.now())
+                                                        "flightDate": date !== null ? formatISO(date) : this.props.limitDate
                                                     });
                                                 }
                                                 }

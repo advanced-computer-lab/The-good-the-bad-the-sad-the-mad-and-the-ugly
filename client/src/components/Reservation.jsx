@@ -215,11 +215,11 @@ function Reservation(props) {
                             <strong>Number of children:</strong> {props.reservation.noOfChildren}
                         </Typography>
                     </Grid>
-                    <Grid item xs={2} md={3}>
-                        <Typography variant={"body1"}>
-                            <strong>Cabin class:</strong> {props.reservation.cabinClass}
-                        </Typography>
-                    </Grid>
+                    {/*<Grid item xs={2} md={3}>*/}
+                    {/*    <Typography variant={"body1"}>*/}
+                    {/*        <strong>Cabin class:</strong> {props.reservation.cabinClass}*/}
+                    {/*    </Typography>*/}
+                    {/*</Grid>*/}
                     <Grid item xs={2} md={3}>
                         <Typography variant={"body1"}>
                             <strong>Total price:</strong> {props.reservation.totalPrice} EGP
@@ -254,14 +254,19 @@ function Reservation(props) {
                                         <strong>Flight Number:</strong> {state.depFlight.flightNumber}
                                     </Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
                                     <Typography>
                                         <strong>Departure:</strong> {moment.utc(state.depFlight.departure, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
                                     </Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
                                     <Typography>
                                         <strong>Arrival:</strong> {moment.utc(state.depFlight.arrival, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
+                                    </Typography>
+                                </Grid>
+                                <Grid item md={4}>
+                                    <Typography variant={"body1"}>
+                                        <strong>Cabin class:</strong> {props.reservation.cabinClass.dep}
                                     </Typography>
                                 </Grid>
                                 <Grid item md={6}>
@@ -331,14 +336,19 @@ function Reservation(props) {
                                         <strong>Flight Number:</strong> {state.retFlight.flightNumber}
                                     </Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
                                     <Typography>
                                         <strong>Departure:</strong> {moment.utc(state.retFlight.departure, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
                                     </Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={4}>
                                     <Typography>
                                         <strong>Arrival:</strong> {moment.utc(state.retFlight.arrival, 'YYYY-MM-DD"T"hh:mm:ss.SSSZ').format('hh:mm MMM, Do YYYY')}
+                                    </Typography>
+                                </Grid>
+                                <Grid item md={4}>
+                                    <Typography variant={"body1"}>
+                                        <strong>Cabin class:</strong> {props.reservation.cabinClass.ret}
                                     </Typography>
                                 </Grid>
                                 <Grid item md={6}>

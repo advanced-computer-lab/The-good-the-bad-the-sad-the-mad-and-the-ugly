@@ -79,10 +79,12 @@ function DashboardContent(props) {
                                         params.returnFlightId = res2.data.returnFlightId;
                                         params.noOfAdults = res2.data.noOfAdults;
                                         params.noOfChildren = res2.data.noOfChildren;
-                                        params.cabinClass = res2.data.cabinClass;
+                                        params.cabinClass = params.flightId ? params.cabinClass : params.flightType === 'departureSeats' ? res2.data.cabinClass.dep : res2.data.cabinClass.ret;
                                         params.userId = res1.data.userId;
-                                        setChosenSeats(res2["data"][params.flightType]);
-                                        fetchData(params.flightType === 'departureSeats' ? res2.data.departureFlightId : res2.data.returnFlightId, res2.data.cabinClass, res2.data.noOfAdults, res2.data.noOfChildren);
+                                        if (params.flightType) {
+                                            setChosenSeats(res2["data"][params.flightType]);
+                                        }
+                                        fetchData(params.flightId ? params.flightId : params.flightType === 'departureSeats' ? res2.data.departureFlightId : res2.data.returnFlightId, params.cabinClass, res2.data.noOfAdults, res2.data.noOfChildren);
                                     } else {
                                         // console.log(res1);
                                         navigate('/userProfile');
@@ -242,6 +244,18 @@ function DashboardContent(props) {
                 //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
                 //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
             }
+            if (params.flightId) {
+                reservation['cabinClass'] = {};
+                if (params.isDeparture === 'true') {
+                    reservation.departureFlightId = params.flightId;
+                    reservation['cabinClass']['dep'] = params.cabinClass;
+                    reservation['departureSeats'] = chosenSeats;
+                } else {
+                    reservation.returnFlightId = params.flightId;
+                    reservation['cabinClass']['ret'] = params.cabinClass;
+                    reservation['returnSeats'] = chosenSeats;
+                }
+            }
             // axios.get('http://localhost:8000/login/authorize')
             //     .then(res => {
             //         if (res.data.success) {
@@ -257,15 +271,44 @@ function DashboardContent(props) {
             //             if (params.reservationId) {
             // reservation.userId = res.data.userId;
             // console.log(reservation);
-            axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
-                .then(res => {
-                    // console.log(res.data);
-                    setReservationId(params.reservationId);
-                    setSuccessfulSubmit((prevState => {
-                        setSeatsVisible(true);
-                        return true;
-                    }));
-                })
+            if (params.flightId) {
+                axios.get(`http://localhost:8000/reservation/getReservationById/${params.reservationId}`)
+                    .then(res1 => {
+                        let noOfPassengers = res1.data.noOfAdults + res1.data.noOfChildren;
+                        let flightId = params.isDeparture === 'true' ? res1.data.departureFlightId : res1.data.returnFlightId;
+                        let cabinClass = params.isDeparture === 'true' ? res1.data.cabinClass.dep : res1.data.cabinClass.ret;
+                        axios.put(`http://localhost:8000/flight/updateFlightAvailableSeats/${flightId}/${cabinClass}/${noOfPassengers}`)
+                            .then(
+                                updated1 => {
+                                    axios.put(`http://localhost:8000/flight/updateFlightAvailableSeats/${params.flightId}/${params.cabinClass}/${noOfPassengers * -1}`)
+                                        .then(
+                                            updated2 => {
+                                                axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
+                                                    .then(res => {
+                                                            // console.log(res.data);
+                                                            setReservationId(params.reservationId);
+                                                            setSuccessfulSubmit((prevState => {
+                                                                setSeatsVisible(true);
+                                                                return true;
+                                                            }));
+                                                        }
+                                                    )
+                                            }
+                                        )
+                                }
+                            )
+                    })
+            } else {
+                axios.put(`http://localhost:8000/reservation/updateReservation/${params.reservationId}`, reservation)
+                    .then(res => {
+                        // console.log(res.data);
+                        setReservationId(params.reservationId);
+                        setSuccessfulSubmit((prevState => {
+                            setSeatsVisible(true);
+                            return true;
+                        }));
+                    })
+            }
             // }
             // else {
             //     axios.get(`http://localhost:8000/reservation/getReservedSeatsInFlight/${reservation.departureFlightId}/${reservation.cabinClass}`)
@@ -497,12 +540,12 @@ function DashboardContent(props) {
                                         {isFlightsLoading.dep || isFlightsLoading.return ? null :
                                             <Orders successfulSubmit={successfulSubmit} missingSeats={missingSeats}
                                                     handleSubmit={handleSubmit}
-                                            //         totalPrice={
-                                            //     parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
-                                            //     + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
-                                            //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
-                                            //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
-                                            // }
+                                                //         totalPrice={
+                                                //     parseInt(flightsData.return.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                                //     + parseInt(flightsData.return.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                                                //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['adult']) * parseInt(params.noOfAdults)
+                                                //     + parseInt(flightsData.dep.flightPrice[params.cabinClass]['child']) * parseInt(params.noOfChildren)
+                                                // }
                                                     reservationId={reservationId}
                                                     newSeats={chosenSeats.reduce(((previousValue, currentValue, currentIndex) => {
                                                         return currentIndex !== chosenSeats.length - 1 ? `${previousValue} ${currentValue},` : `${previousValue} ${currentValue}`

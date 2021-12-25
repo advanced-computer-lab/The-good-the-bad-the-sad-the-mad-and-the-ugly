@@ -107,11 +107,11 @@ flightRouter.post('/userShowFlights', (req, res) => {
             reservations => {
                 // console.log(reservations);
                 reservations.forEach((reservation) => {
-                    Flight.findByIdAndUpdate(reservation.departureFlightId, { $inc: { [`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
+                    Flight.findByIdAndUpdate(reservation.departureFlightId, { $inc: { [`availableSeats.${reservation.cabinClass.dep}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
                         .then(res1 => {
                             console.log('successful departure flight update');
                         })
-                    Flight.findByIdAndUpdate(reservation.returnFlightId, { $inc: { [`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
+                    Flight.findByIdAndUpdate(reservation.returnFlightId, { $inc: { [`availableSeats.${reservation.cabinClass.ret}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
                         .then(res1 => {
                             console.log('successful return flight update');
                         })
@@ -222,11 +222,11 @@ flightRouter.post('/userEditFlight', (req, res) => {
             reservations => {
                 // console.log(reservations);
                 reservations.forEach((reservation) => {
-                    Flight.findByIdAndUpdate(reservation.departureFlightId, { $inc: { [`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
+                    Flight.findByIdAndUpdate(reservation.departureFlightId, { $inc: { [`availableSeats.${reservation.cabinClass.dep}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
                         .then(res1 => {
                             console.log('successful departure flight update');
                         })
-                    Flight.findByIdAndUpdate(reservation.returnFlightId, { $inc: { [`availableSeats.${reservation.cabinClass}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
+                    Flight.findByIdAndUpdate(reservation.returnFlightId, { $inc: { [`availableSeats.${reservation.cabinClass.ret}`]: (reservation.noOfAdults + reservation.noOfChildren) } })
                         .then(res1 => {
                             console.log('successful return flight update');
                         })
@@ -374,6 +374,17 @@ flightRouter.put('/updateFlight/:id', (req, res) => {
         .catch(err => res.status(400).json({success: false, error: 'Unable to update the Database'})
         );
 });
+
+flightRouter.put('/updateFlightAvailableSeats/:id/:cabinClass/:increment', (req, res) => {
+    Flight.findByIdAndUpdate(req.params.id, {$inc: {[`availableSeats.${req.params.cabinClass}`]: parseInt(req.params.increment)}})
+        .then(res1 => {
+            res.json("Flight Updated Successfully");
+            // console.log(res1);
+        })
+        .catch(err => {
+            res.json(err);
+        })
+})
 
 
 // @route GET /flight
