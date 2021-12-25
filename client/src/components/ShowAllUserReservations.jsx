@@ -83,43 +83,43 @@ class ShowAllUserReservations extends Component {
         const theme = createTheme();
         const reservations = this.state.reservations;
         let reservationList;
-
         if (!reservations) {
             reservationList = "there is no flight record!";
         } else {
             reservationList = reservations.map((reservation) =>
-                <Card sx={{p: 4, m: 2, textAlign: "center"}}>
-                    <Grid item xs={2} sm={4} md={4} key={reservation._id}>
+                // <Card sx={{p: 4, m: 2, textAlign: "center"}}>
+                    <Grid item xs={12} sm={12} md={12} key={reservation._id}>
                         <Reservation reservation={reservation} key={reservation._id}
-                                     deleteFunction={this.deleteReservation}
+                                     deleteFunction={this.deleteReservation} email={this.state.userEmail}
                         />
                     </Grid>
-                </Card>)
+                // </Card>
+        )
         }
 
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                        mb: 3
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>
-                        </Typography>
-                        <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/userprofile'}>Hello, {this.state.userFirstName}!</a>
-                        </Typography>
+                {/*<AppBar*/}
+                {/*    position="absolute"*/}
+                {/*    color="default"*/}
+                {/*    elevation={0}*/}
+                {/*    sx={{*/}
+                {/*        position: 'relative',*/}
+                {/*        borderBottom: (t) => `1px solid ${t.palette.divider}`,*/}
+                {/*        mb: 3*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <Toolbar>*/}
+                {/*        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>*/}
+                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/userShowFlights'}>Airline System</a>*/}
+                {/*        </Typography>*/}
+                {/*        <Typography>*/}
+                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>*/}
+                {/*        </Typography>*/}
 
-                    </Toolbar>
-                </AppBar>
+                {/*    </Toolbar>*/}
+                {/*</AppBar>*/}
                 <div style={{width: '100%'}}>
                     <Box
                         sx={{

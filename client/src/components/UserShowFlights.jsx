@@ -219,43 +219,37 @@ class UserShowFlights extends Component {
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <AppBar
-                    position="absolute"
-                    color="default"
-                    elevation={0}
-                    sx={{
-                        position: 'relative',
-                        borderBottom: (t) => `1px solid ${t.palette.divider}`,
-                    }}
-                >
-                    <Toolbar>
-                        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>
-                            Airline System
-                        </Typography>
-                        {this.state.loggedIn ? null :
-                            <Button
-                                href={'/login'}
-                            >
-                                Login
-                            </Button>}
-                        {this.state.loggedIn ? null :
-                            <Button
-                                href={'/signUp'}
-                            >
-                                Sign Up
-                            </Button>}
-                        {this.state.loggedIn ? <Typography>
-                            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>
-                        </Typography> : null}
-                        {this.state.hasIncompleteReservation ?
-                            <Button
-                                href={`/selectSeats/${this.state.reservationId}`}
-                            >
-                                Complete your booking
-                            </Button> : null
-                        }
-                    </Toolbar>
-                </AppBar>
+                {/*<AppBar*/}
+                {/*    position="absolute"*/}
+                {/*    color="default"*/}
+                {/*    elevation={0}*/}
+                {/*    sx={{*/}
+                {/*        position: 'relative',*/}
+                {/*        borderBottom: (t) => `1px solid ${t.palette.divider}`,*/}
+                {/*    }}*/}
+                {/*>*/}
+                {/*    <Toolbar>*/}
+                {/*        <Typography variant="h6" color="inherit" sx={{flexGrow: 1}} noWrap>*/}
+                {/*            Airline System*/}
+                {/*        </Typography>*/}
+                {/*        {this.state.loggedIn ? null :*/}
+                {/*            <Button*/}
+                {/*                href={'/login'}*/}
+                {/*            >*/}
+                {/*                Login*/}
+                {/*            </Button>}*/}
+                {/*        {this.state.loggedIn ? <Typography>*/}
+                {/*            <a style={{textDecoration: "none", color: "black"}} href={'/showUserReservations'}>Hello, {this.state.userFirstName}!</a>*/}
+                {/*        </Typography> : null}*/}
+                {/*        {this.state.hasIncompleteReservation ?*/}
+                {/*            <Button*/}
+                {/*                href={`/selectSeats/${this.state.reservationId}`}*/}
+                {/*            >*/}
+                {/*                Complete your booking*/}
+                {/*            </Button> : null*/}
+                {/*        }*/}
+                {/*    </Toolbar>*/}
+                {/*</AppBar>*/}
                 <Container component="main" maxWidth="md" sx={{mb: 4}}>
                     <Paper variant="outlined" sx={{my: {xs: 3, md: 6}, p: {xs: 2, md: 3}}}>
                         <Typography component="h1" variant="h4" align="center">

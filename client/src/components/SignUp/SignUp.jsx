@@ -8,6 +8,11 @@ import AccountInfo from "./AccountInfo";
 import BasicInfo from "./BasicInfo";
 import ContactInfo from "./ContactInfo";
 import axios from "axios";
+import Container from "@mui/material/Container";
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import MenuAppBar from "../AppBar/appBar";
+import {CircularProgress, CssBaseline, Grid, MuiThemeProvider} from "@material-ui/core";
+import {wait} from "@testing-library/react";
 
 const steps = ['Account', 'Personal', 'Contact'];
 
@@ -28,8 +33,10 @@ export default class SignUp extends Component {
         homeAddress: '',
         mobileNumber: '',
         usernameList: [],
-        isUserNameRepeated: false
+        isUserNameRepeated: false,
+        buffering: false
     }
+
 
 
     isActive = (idx) => {
@@ -48,6 +55,7 @@ export default class SignUp extends Component {
     }
 
     handleChange = input => async e => {
+        e.preventDefault();
         await this.setState({[input]: e.target.value});
         if (input === 'confirmPassword' || input === 'password') {
             this.setState({'isMatch': this.state.confirmPassword === this.state.password});
@@ -56,7 +64,15 @@ export default class SignUp extends Component {
             this.setState({isUserNameRepeated: this.state.usernameList.includes(this.state.username)});
     }
 
-    onSubmit = () => {
+    async wait(ms){
+        const start = new Date().getTime();
+        let end = start;
+        while(end < start + ms) {
+            end = new Date().getTime();
+        }
+    }
+
+    onSubmit = async () => {
         const data = {
             email: this.state.email,
             username: this.state.username,
@@ -68,6 +84,7 @@ export default class SignUp extends Component {
             homeAddress: this.state.homeAddress,
             mobileNumber: this.state.mobileNumber
         }
+        this.setState({buffering: true});
 
         axios.post('http://localhost:8000/register', data)
             .then((r) => {
@@ -85,7 +102,9 @@ export default class SignUp extends Component {
                     homeAddress: '',
                     mobileNumber: ''
                 }
-                    // history.push('/login');
+                this.setState({buffering: false});
+
+                // history.push('/login');
             }).catch(err => console.log(err))
     }
 
@@ -128,11 +147,26 @@ export default class SignUp extends Component {
                                       prevStep={this.prevStep}/>);
         const contactInfo = (<ContactInfo values={this.state} handleChange={this.handleChange} prevStep={this.prevStep}
                                           onSubmit={this.onSubmit}/>);
+
+        const darkTheme = createTheme({
+            palette: {
+                mode: 'dark',
+
+            },
+        });
+
         return (
-            <Box sx={{width: '95%', marginTop: 8}}>
-                {stepper}
+
+            <Box sx={{width: '95%', marginTop: 13}}>
+                <Container component="main" maxWidth="md" sx={{mb: 1}}>
+                    {stepper}
+                </Container>
+
+
+
                 {curStep === 0 ? accountInfo : curStep === 1 ? basicInfo : contactInfo}
             </Box>
+
         );
     }
 }

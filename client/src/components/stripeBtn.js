@@ -13,7 +13,6 @@ const stripeBtn = (props) => {
         axios
             .post("http://localhost:8000/payment", body)
             .then(response => {
-                console.log(response);
                 props.onClick();
             })
             .catch(error => {

@@ -30,8 +30,6 @@ registerRouter.post('/', (req, res) => {
                 }
             }
         );
-
-        //console.log(req);
     }
 );
 
@@ -41,7 +39,7 @@ registerRouter.get('/usernames', ((req, res) => {
             res.json(usernames)
         })
         .catch(err => console.log(err));
-}))
+}));
 
 
 module.exports = registerRouter;

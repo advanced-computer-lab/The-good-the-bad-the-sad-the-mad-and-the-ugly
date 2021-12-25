@@ -12,23 +12,6 @@ import StripeBtn from '../stripeBtn'
 import axios from "axios";
 
 export default function Orders(props) {
-    const publishableKey = "pk_test_51K9yp2DM9EPbGwDz1PBNixOdUT1f83oz9OIqNW7bO67GecVkfoAvmD8uUGsn6sn4ECYZxyZOsbkiGVoRz4UQAFgW00GrXFFdfN";
-    const onToken = token => {
-        const body = {
-            amount: 999,
-            token: token
-        };
-        axios
-            .post("http://localhost:8000/payment", body)
-            .then(response => {
-                console.log(response);
-                props.onClick();
-            })
-            .catch(error => {
-                console.log("Payment Error: ", error);
-                alert("Payment Error");
-            });
-    };
     return (
         <React.Fragment>
             <Title>Summary</Title>
@@ -38,14 +21,22 @@ export default function Orders(props) {
                 {props.successfulSubmit? <Alert severity={"success"} sx={{mb: 3}}>Reservation submitted successfully. Your Booking ID: {props.reservationId}</Alert> : null}
                 <Grid container>
                     <Grid item xs={6}>
-                        <Grid container>
+                        {props.totalPrice && <Grid container>
                             <Grid item xs={5}>
                                 <h4>Total Price: </h4>
                             </Grid>
                             <Grid item xs={7}>
                                 <p>{props.totalPrice} EGP</p>
                             </Grid>
-                        </Grid>
+                        </Grid>}
+                        {props.newSeats && <Grid container>
+                            <Grid item xs={5}>
+                                <h4>New Seats: </h4>
+                            </Grid>
+                            <Grid item xs={7}>
+                                <p>{props.newSeats}</p>
+                            </Grid>
+                        </Grid>}
                     </Grid>
                     <Grid item xs={6} alignContent={"flex-end"}>
                         <Box

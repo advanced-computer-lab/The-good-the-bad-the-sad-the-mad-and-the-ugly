@@ -2,11 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {Box, Grid, CardHeader, Card, TextField, Button} from "@mui/material";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {MobileDateTimePicker} from "@mui/lab";
+import {Alert, MobileDateTimePicker} from "@mui/lab";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import parseISO from 'date-fns/parseISO'
 import formatISO from 'date-fns/formatISO'
+import Divider from "@mui/material/Divider";
 
 
 function UpdateFlight() {
@@ -23,8 +24,19 @@ function UpdateFlight() {
         arrival: "",
         economy: "",
         business: "",
-        first: ""
+        first: "",
+        arrivalTerminal: '',
+        departureTerminal: '',
+        economyPriceAdult: '',
+        businessPriceAdult: '',
+        firstPriceAdult: '',
+        economyPriceChild: '',
+        businessPriceChild: '',
+        firstPriceChild: '',
+        baggageAllowance: ''
     });
+
+    const [isUpdated, setUpdated] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8000/flight/getFlightById/${params.id}`)
@@ -40,7 +52,16 @@ function UpdateFlight() {
                     arrival: res.data.arrival,
                     economy: res.data.availableSeats.economy,
                     business: res.data.availableSeats.business,
-                    first: res.data.availableSeats.first
+                    first: res.data.availableSeats.first,
+                    arrivalTerminal: res.data.arrivalTerminal,
+                    departureTerminal: res.data.departureTerminal,
+                    economyPriceAdult: res.data.price.economy.adult,
+                    businessPriceAdult: res.data.price.business.adult,
+                    firstPriceAdult: res.data.price.first.adult,
+                    economyPriceChild: res.data.price.economy.child,
+                    businessPriceChild: res.data.price.business.child,
+                    firstPriceChild: res.data.price.first.child,
+                    baggageAllowance: res.data.baggageAllowance
                 });
             })
             .catch(
@@ -50,7 +71,8 @@ function UpdateFlight() {
             );
     }, [flightData.id]);
 
-    function updateFlight() {
+    function updateFlight(event) {
+        event.preventDefault();
         const data = {
             flightNumber: flightData.flightNumber,
             departureAirport: flightData.departureAirport,
@@ -59,17 +81,39 @@ function UpdateFlight() {
             to: flightData.to,
             departure: flightData.departure,
             arrival: flightData.arrival,
-            availableSeats: {
+            maxSeats: {
                 economy: flightData.economy,
                 business: flightData.business,
                 first: flightData.first
-            }
+            },
+            price: {
+                economy: {
+                    adult: flightData.economyPriceAdult,
+                    child: flightData.economyPriceChild
+                },
+                business: {
+                    adult: flightData.businessPriceAdult,
+                    child: flightData.businessPriceChild
+                },
+                first: {
+                    adult: flightData.firstPriceAdult,
+                    child: flightData.firstPriceChild
+                }
+            },
+            baggageAllowance: flightData.baggageAllowance,
+            departureTerminal: flightData.departureTerminal,
+            arrivalTerminal: flightData.arrivalTerminal
         };
-        axios.put(`http://localhost:8000/flight/updateFlight/${params.id}`, data);
+        axios.put(`http://localhost:8000/flight/updateFlight/${params.id}`, data).then((res)=>{
+            console.log(res.data)
+            if(res.data.success)
+                setUpdated(true);
+        });
     }
 
     function handleChange(event) {
         const {name, value} = event.target;
+        setUpdated(false);
         console.log(name + " " + value);
         setFlight((prevState => {
             console.log({
@@ -87,9 +131,9 @@ function UpdateFlight() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Card sx={{
                 width: 1000,
-                height: 520,
-                backgroundColor: 'primary.light',
-                color: 'primary.main',
+
+                // backgroundColor: 'primary.light',
+                // color: 'primary.main',
                 boxShadow: 7,
                 borderRadius: 3,
                 mx: 'auto',
@@ -99,8 +143,8 @@ function UpdateFlight() {
             }}>
                 <CardHeader sx={
                     {
-                        backgroundColor: 'primary.dark',
-                        color: 'primary.contrastText',
+                        // backgroundColor: 'primary.dark',
+                        // color: 'primary.contrastText',
                         boxShadow: 5,
                         height: "15%",
                     }
@@ -164,6 +208,9 @@ function UpdateFlight() {
                                                                                          sx={{width: 350}} {...props} />}
                                                       label="Arrival Date"/>
                             </Grid>
+                            <Grid item xs={12}>
+                                <Divider>Number of seats</Divider>
+                            </Grid>
                             <Grid item xs={4}>
                                 <TextField type={"number"} sx={{width: 250}} label="Economy"
                                            name={"economy"} onChange={handleChange}
@@ -179,11 +226,70 @@ function UpdateFlight() {
                                            name={"first"} onChange={handleChange}
                                            value={flightData.first}/>
                             </Grid>
+
+
+                            <Grid item xs={12}>
+                                <Divider>Price</Divider>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="Economy Price for Adult"
+                                           name={"economyPriceAdult"} onChange={handleChange}
+                                           value={flightData.economyPriceAdult}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="Business Price for Adult"
+                                           name={"businessPriceAdult"} onChange={handleChange}
+                                           value={flightData.businessPriceAdult}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="First Class Price for Adult"
+                                           name={"firstPriceAdult"} onChange={handleChange}
+                                           value={flightData.firstPriceAdult}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="Economy Price for Child"
+                                           name={"economyPriceChild"} onChange={handleChange}
+                                           value={flightData.economyPriceChild}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="Business Price for Child"
+                                           name={"businessPriceChild"} onChange={handleChange}
+                                           value={flightData.businessPriceChild}/>
+                            </Grid>
+                            <Grid item xs={4}>
+                                <TextField type={"number"} sx={{width: 250}} label="First Class Price for Child"
+                                           name={"firstPriceChild"} onChange={handleChange}
+                                           value={flightData.firstPriceChild}/>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Divider>Other Info</Divider>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField type={"number"} sx={{width: 450}} label="Departure Terminal"
+                                           name={"departureTerminal"} onChange={handleChange}
+                                           value={flightData.departureTerminal}/>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <TextField type={"number"} sx={{width: 450}} label="Arrival Terminal"
+                                           name={"arrivalTerminal"} onChange={handleChange}
+                                           value={flightData.arrivalTerminal}/>
+                            </Grid>
+                            <Grid item xs={4}> </Grid>
+                            <Grid item xs={8}>
+                                <TextField type={"number"} sx={{width: 250}} label="Baggage Allowance"
+                                           name={"baggageAllowance"} onChange={handleChange}
+                                           value={flightData.baggageAllowance}/>
+                            </Grid>
+                            <Grid item xs={12}>
+                                {isUpdated ? <Alert severity="success">Updated Successfully</Alert> : null}
+                            </Grid>
                         </Grid>
+
                     </Box>
                     <CardHeader sx={{
-                        backgroundColor: 'primary.dark',
-                        color: 'primary.contrastText',
+                        // backgroundColor: 'primary.dark',
+                        // color: 'primary.contrastText',
                         boxShadow: 5,
                         height: "15%",
                     }} title={
