@@ -45,7 +45,9 @@ This project is fully implemented using the **MERN Stack**. *MERN* stands for *M
 This project is divided into two main parts, frontend and backend. Our backend is divide into routes that act as a middle point between the client and the database. 
 
 ## Samples
+### Signing Up
 ![signup](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/new-login.gif)
+### Booking
 ![reserve](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/new-reserve.gif)
 
 ## Screenshots
