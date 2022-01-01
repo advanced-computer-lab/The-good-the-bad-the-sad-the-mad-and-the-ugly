@@ -10,6 +10,7 @@ Such websites include EgyptAir.com, Emirates.com, Lufthansa.com and AirCanada.co
 - [Motivation](#motivation)
 - [Tools and Frameworks](#tools-and-frameworks)
 - [Coding Style](#coding-style)
+- [Meet Our Team](#meet-our-team)
 - [Samples](#samples)
 - [Screeshots](#screenshots)
 - [Installation](#installation)
@@ -55,6 +56,9 @@ This project is divided into two main parts, frontend and backend. Our backend i
 ![search](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/change%20flight.png)
 ![search](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/create%20flight.png)
 ![seats](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/pick%20seats.png)
+
+## Meet Our Team
+![team](https://github.com/advanced-computer-lab/The-good-the-bad-the-sad-the-mad-and-the-ugly/blob/main/client/src/Img/team.png)
 
 ## Installation
 In order to run our project, you should have the following installed in your machine:
